@@ -1,0 +1,95 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { getData } from '../utils/api';
+import { log } from 'console';
+
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import dynamic from 'next/dynamic';
+
+const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
+  ssr: false,
+});
+
+interface BannerData {
+  title: string;
+  banner: string;
+  id: string;
+  // Add other fields if needed
+}
+
+type PromotionsProps = {
+  title: string,
+  type:number
+};
+
+const options = {
+  loop: true,
+  margin: 20,
+  autoplay: false,
+  nav: true,
+  dots: false,
+  responsive: {
+    0: {
+      items: 1.1,
+    },
+    480: {
+      items: 1.3,
+    },
+    768: {
+      items: 2,
+    },
+    992: {
+      items: 3,
+    },
+    1000: {
+      items: 3,
+    },
+    1400: {
+      items: 3,
+    },
+  },
+};
+
+export default function Promotions({ title, type }: PromotionsProps) {
+  const [promotions, setData] = useState<BannerData[]>([]);
+  
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const res = await getData('promotions/'+type);
+          setData(res.records);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+  
+      fetchData();
+    }, [type]); 
+    
+  return (
+    <>
+    {(promotions.length > 0) && (
+        <div className="popular-destination py-50 wow fadeInUp">
+          <div className="container">
+            <div className="section-title text-center wow fadeInUp">
+              <h2 className="mb-0">{title}</h2>
+            </div>
+            <div className="promotions-sldier">
+              <OwlCarousel {...options}>
+                {promotions.map((data) => (
+                    <div className="item" key={data.id}>
+                      <a className="promotion-img" href="#">
+                        <img src={data.banner} alt={data.title} title={data.title} />
+                      </a>
+                    </div>
+                  )
+                )}
+              </OwlCarousel>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
