@@ -54,7 +54,7 @@ export default function Hotels({ title, type }: HotelsProps) {
     useEffect(() => {
       async function fetchData() {
         try {
-           const data = sessionStorage.getItem('hotels'+type);
+              const data = sessionStorage.getItem('hotels'+type);
               if (data) {
                 let sliderData = JSON.parse(data);
                 setData(sliderData);

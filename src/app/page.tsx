@@ -6,6 +6,42 @@ import PopularDestinationsOutsideIndia from './homepage-components/PopularDestin
 import Facilities from './homepage-components/Facilities';
 import Hotels from './homepage-components/Hotels';
 import GuestReviews from './homepage-components/GuestReviews';
+import { Metadata } from 'next';
+import { getData } from './utils/api';
+
+// Simulate dynamic data fetch (could be API/db call)
+async function getHotelData() {
+    const res = await getData('get-page-data/1');  
+    return res.record;
+}
+
+// ✅ Dynamic metadata function
+export async function generateMetadata(): Promise<Metadata> {
+  const hotel = await getHotelData();
+
+  return {
+    title: hotel.seo_title,
+    description: hotel.seo_description,
+    keywords: hotel.seo_keyword,
+    // openGraph: {
+    //   title: hotel.name,
+    //   description: hotel.description,
+    //   images: [
+    //     {
+    //       url: hotel.image,
+    //       width: 800,
+    //       height: 600,
+    //     },
+    //   ],
+    // },
+    // twitter: {
+    //   card: 'summary_large_image',
+    //   title: hotel.seo_title,
+    //   description: hotel.seo_description,
+    //   images: [hotel.image],
+    // },
+  };
+}
 
 export default function Home() {
   return (
