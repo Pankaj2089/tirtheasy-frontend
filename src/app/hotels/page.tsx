@@ -1,66 +1,13 @@
 import type { Metadata } from "next";
+import InnerSearch from "../homepage-components/InnerSearch";
 export const metadata: Metadata = {
   title: "Tirtheasy Hotels",
   description: "Introducing India's first Religious travel platform Dedicated to Booking verified Dharmshala, Guest house, and Travel Tickets with Real time availability, and effortless booking, all in one place.",
 };
+
 export default function hotelsPage() {
   return <>
-      <div className="hero-section">
-  <div className="inner-page-banner inner-page-search gray_bg py-4">
-     <div className="container">    
-          
-        <form className="search-box" action="" method="post">
-             <div className="d-flex align-items-center row sticky-view">
-                <div className="col-md-3 pe-md-1 mb-3 mb-md-0">
-                   
-                   <div className="input-group search-main-box">
-                      <input type="search" className="form-control search-box" placeholder="Search" />
-                   </div>
-                </div>
-
-                <div className="col-md-4 pe-md-2 mb-3 mb-md-0">
-
-                  <div className="row">
-                      <div className="col-lg-6 col-6 pe-md-1">
-                          
-                          <div className="input-group calendar-view ">
-                              <input type="text" className="form-control date-picker-input" placeholder="19 May 2025" />                      
-                          </div>
-                      </div>
-
-                       <div className="col-lg-6 col-6 pe-md-2">
-                          
-                          <div className="input-group calendar-view">
-                              <input type="text" className="form-control date-picker-input" placeholder="19 May 2025" />                      
-                          </div>
-                      </div>
-                  </div>
-                   
-                </div>
-
-                <div className="col-md-3 pe-md-1 mb-3 mb-md-0">
-                   
-                   <div className="input-group search-main-box">
-                      <select className="member-select">
-                        <option>2 Adult, 2 Room, 2 Child</option>
-                        <option>2 Adult, 2 Room, 2 Child</option>
-                      </select>                    
-                   </div>
-                </div>
-                <div className="col-md-2">
-                    <div className="input-group">
-                          <button className="btn btn-primary w-100" type="submit">Search</button>                   
-                    </div>
-                </div>
-             </div>
-
-              
-           </form>
-        
-      </div>
-  </div>
-   
-</div>
+      <InnerSearch />
 
 <div className="popular-destination py-50 pt-0 wow fadeInUp" style={{visibility: "visible", animationName: "fadeInUp"}}>
   <div className="container">

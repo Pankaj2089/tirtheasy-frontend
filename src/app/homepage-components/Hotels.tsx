@@ -54,8 +54,15 @@ export default function Hotels({ title, type }: HotelsProps) {
     useEffect(() => {
       async function fetchData() {
         try {
-          const res = await getData('hotels/'+type);
-          setData(res.records);
+           const data = sessionStorage.getItem('hotels'+type);
+              if (data) {
+                let sliderData = JSON.parse(data);
+                setData(sliderData);
+              }else{
+                  const res = await getData('hotels/'+type);        
+                  setData(res.records);
+                  sessionStorage.setItem("hotels"+type, JSON.stringify(res.records));
+              }
         } catch (err) {
           console.error(err);
         }
@@ -80,7 +87,7 @@ export default function Hotels({ title, type }: HotelsProps) {
                       </a>
                       <div className="hotel-description">
                         <h4><a href="#">{data.title}</a></h4>
-                        { title === 'hotel' && 
+                        { type === 'hotel' && 
                           <p className="fs-14">{data.state}</p>
                         }
                       </div>

@@ -57,8 +57,15 @@ export default function Promotions({ title, type }: PromotionsProps) {
     useEffect(() => {
       async function fetchData() {
         try {
-          const res = await getData('promotions/'+type);
-          setData(res.records);
+            const data = sessionStorage.getItem('promotions'+type);
+            if (data) {
+              let sliderData = JSON.parse(data);
+              setData(sliderData);
+            }else{
+                const res = await getData('promotions/'+type);        
+                setData(res.records);
+                sessionStorage.setItem("promotions"+type, JSON.stringify(res.records));
+            }
         } catch (err) {
           console.error(err);
         }

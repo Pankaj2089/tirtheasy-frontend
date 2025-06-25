@@ -34,8 +34,15 @@ export default function Slider() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await getData('sliders');        
-        setData(res.records);
+        const data = sessionStorage.getItem('sliderList');
+        if (data) {
+          let sliderData = JSON.parse(data);
+          setData(sliderData);
+        }else{
+            const res = await getData('sliders');        
+            setData(res.records);
+            sessionStorage.setItem("sliderList", JSON.stringify(res.records));
+        }
       } catch (err) {
         console.error(err);
       }

@@ -57,8 +57,15 @@ export default function ({ title, type }: DestinationsProps) {
       useEffect(() => {
         async function fetchData() {
           try {
-            const res = await getData('popular-destinations/'+type);
-            setData(res.records);
+            const data = sessionStorage.getItem('popularDestinations'+type);
+            if (data) {
+              let sliderData = JSON.parse(data);
+              setData(sliderData);
+            }else{
+                const res = await getData('popular-destinations/'+type);        
+                setData(res.records);
+                sessionStorage.setItem("popularDestinations"+type, JSON.stringify(res.records));
+            }
           } catch (err) {
             console.error(err);
           }

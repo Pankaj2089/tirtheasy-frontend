@@ -3,14 +3,51 @@ import { useEffect, useState, useRef } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays } from 'date-fns';
+import { log } from 'console';
 
 export default function HomeSearch() {
 
 const [startDate, setStartDate] = useState<Date | null>(null);
 const [endDate, setEndDate] = useState<Date | null>(null);
+const [searchData, setSearchState] = useState({
+    keywords: '',
+    start_date: '',
+    end_date: '',
+    persons: 0
+  });
+
+  const handleChange = (name:any,value:any) => {
+    setSearchState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  useEffect(() => {
+    if(searchData.keywords !== '' || searchData.start_date !== '' || searchData.end_date !== ''){
+      localStorage.setItem("searchData", JSON.stringify(searchData));      
+    }
+    
+}, [searchData]);
+
+ // Get array from localStorage
+  const loadFromLocalStorage = () => {
+    const data = localStorage.getItem('searchData');
+    if (data) {
+      let serData = JSON.parse(data);
+      setSearchState(serData);
+      console.log(serData.start_date);
+      
+      setStartDate(serData.start_date);
+      setEndDate(serData.end_date);
+    }
+  };
+
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [])
+
 
 const endDatePickerRef = useRef<DatePicker>(null);;
 const handleStartDateChange = (date:any) => {  
+
     setStartDate(date);
     // Focus the end date input and open calendar
     if (endDatePickerRef.current) {
@@ -22,7 +59,9 @@ const handleStartDateChange = (date:any) => {
       const nextDay = new Date(startDate);
       nextDay.setDate(nextDay.getDate() + 1);
       setEndDate(nextDay); // Pass Date object directly
+      handleChange('end_date',nextDay);
     }
+    handleChange('start_date',startDate)
   }, [startDate]);
 
 const today = new Date();
@@ -37,8 +76,8 @@ const today = new Date();
                     <div className="col-md-5 pe-lg-1">
                       <label className="mb-1">Search</label>
                       <div className="input-group search-main-box mb-3">
-                          <input type="search" className="form-control search-box" placeholder="Search"/>
-                  {/* <button type="submit" className="submit-btn"><img src="img/search-icon.svg"/></button> */}
+                          <input type="search" className="form-control search-box" placeholder="Search" value={searchData.keywords}  onChange={(e) => handleChange('keywords', e.target.value)} />
+                  
                       </div>
                     </div>
 
@@ -79,7 +118,7 @@ const today = new Date();
                                   <DatePicker
                                     className="form-control date-picker-input"
                                     selected={endDate}
-                                    onChange={(date) => setEndDate(date)}
+                                    onChange={(date) => {setEndDate(date); handleChange('end_date',date); }}
                                     selectsEnd
                                     startDate={startDate}
                                     endDate={endDate}
@@ -115,8 +154,7 @@ const today = new Date();
                     <div className="col-md-3 pe-1">
                       <label className="mb-1">Search</label>
                       <div className="input-group search-main-box">
-                          <input type="search" className="form-control search-box" placeholder="Search"/>
-                          {/* <!-- <button type="submit" className="submit-btn"><img src="img/search-icon.svg"/></button> --> */}
+                          <input type="search" className="form-control search-box" placeholder="Search" value={searchData.keywords}  onChange={(e) => handleChange('keywords', e.target.value)} />
                       </div>
                     </div>
 

@@ -11,33 +11,17 @@ $(window).scroll(function(){
       $('.main-search-box').removeClass("sticky");
      
      }
-
+     
+     if ($(this).scrollTop() > 150)
+     {
+      $('.inner-page-search ').addClass("sticky");
+     }
+     else
+     {
+      $('.inner-page-search').removeClass("sticky");
+     
+     }
 });
-
-$(document).ready(function() {
-  
-    setTimeout(() => {
-
-$('.facilites-slider-mob').owlCarousel({
- loop:true,
-  margin:10,
-  autoplay:true,
-  nav:false,
-  items:1.5,
-  dots:false,
-  slideTransition: 'linear',
-  autoplaySpeed: 15000,
-  smartSpeed: 15000,
-})
-  }, 2000);
-  
-
-
-
-  
-});
-
-
 
 
 

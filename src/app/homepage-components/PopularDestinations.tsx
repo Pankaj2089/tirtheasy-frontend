@@ -20,13 +20,19 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
       useEffect(() => {
         async function fetchData() {
           try {
-            const res = await getData('popular-destinations/'+type);
-            setData(res.records);
+            const data = sessionStorage.getItem('popularDestinations'+type);
+            if (data) {
+              let sliderData = JSON.parse(data);
+              setData(sliderData);
+            }else{
+                const res = await getData('popular-destinations/'+type);        
+                setData(res.records);
+                sessionStorage.setItem("popularDestinations"+type, JSON.stringify(res.records));
+            }
           } catch (err) {
             console.error(err);
           }
         }
-    
         fetchData();
       }, [type]); 
 
@@ -43,20 +49,24 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
           <div className="top-destination wow fadeInUp">
             <div className="row">
             {promotions.map((data, index) => (
-              <div className= {`wow fadeInUp mb-4 ${index > 1 ? 'col-4' : 'col-6'}`} >
-                <a href="#" className="destination-box rounded-4" title={data.heading}>
-                  <img src={data.image} alt={data.heading} title={data.heading} />
-                  <span className="overlay-box"></span>
-                  <span className="address-box text-white">
-                    <img src="img/location.svg" className="me-2"/> {data.heading} 
-                  </span>
-                </a>
-              </div>
+              <>
+              { index <= 4 &&
+                  <div className= {`wow fadeInUp mb-4 ${index > 1 ? 'col-4' : 'col-6'}`} >
+                    <a href="#" className="destination-box rounded-4" title={data.heading}>
+                      <img src={data.image} alt={data.heading} title={data.heading} />
+                      <span className="overlay-box"></span>
+                      <span className="address-box text-white">
+                        <img src="img/location.svg" className="me-2"/> {data.heading} 
+                      </span>
+                    </a>
+                  </div>
+              }
+              </>
               )
             )}
             </div>
           </div>
-            {promotions.length > 6 && 
+            {promotions.length > 5 && 
               <div className="d-flex text-center align-items-center justify-content-center wow fadeInUp pt-3 pt-lg-4">
                 <a href="#" className="btn btn-primary">View More</a>
             </div>

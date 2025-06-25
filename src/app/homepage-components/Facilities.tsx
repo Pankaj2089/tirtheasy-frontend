@@ -2,6 +2,28 @@
 import { useEffect, useState } from 'react';
 import { getData } from '../utils/api';
 import { log } from 'console';
+
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import dynamic from 'next/dynamic';
+
+const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
+  ssr: false,
+});
+
+
+const options = {
+  loop:true,
+  margin:10,
+  autoplay:true,
+  nav:false,
+  items:1.5,
+  dots:false,
+  slideTransition: 'linear',
+  autoplaySpeed: 15000,
+  smartSpeed: 15000,
+};
+
 interface FacilitiesData {
   title: string;
   description: string;
@@ -15,13 +37,19 @@ export default function Facilities() {
         useEffect(() => {
           async function fetchData() {
             try {
-              const res = await getData('premium-facilities');
-              setData(res.records);
+              const data = sessionStorage.getItem('premiumFacilities');
+              if (data) {
+                let sliderData = JSON.parse(data);
+                setData(sliderData);
+              }else{
+                  const res = await getData('premium-facilities');        
+                  setData(res.records);
+                  sessionStorage.setItem("premiumFacilities", JSON.stringify(res.records));
+              }
             } catch (err) {
               console.error(err);
             }
           }
-      
           fetchData();
         }, []); 
   return (
@@ -44,24 +72,25 @@ export default function Facilities() {
                   <p>{data.description}</p>
                 </div>
               </div>
-
               )
             )}
             </div>
 
           </div>
 
-          <div className="facilites-slider-mob owl-carousel d-block d-lg-none">
-            {facilities.map((data, index) => (
-              <div className="item">
-                  <div className="facilites-box">
-                    <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
-                    <h5>{data.title}</h5>
-                    <p>{data.description}</p>
-                  </div>
-              </div>
-            )
-            )}
+          <div className="facilites-slider-mob  d-block d-lg-none">
+            <OwlCarousel {...options}>
+              {facilities.map((data, index) => (
+                <div className="item">
+                    <div className="facilites-box">
+                      <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
+                      <h5>{data.title}</h5>
+                      <p>{data.description}</p>
+                    </div>
+                </div>
+              )
+              )}
+            </OwlCarousel>
           </div>
         </div>
       </div>
