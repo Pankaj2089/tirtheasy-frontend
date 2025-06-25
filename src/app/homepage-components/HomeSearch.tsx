@@ -165,7 +165,7 @@ const today = new Date();
                                     monthsShown={2}
                                     ref={endDatePickerRef}
                                     minDate={startDate ? addDays(startDate, 1) : today}
-                                  disabled={!startDate}
+                                    disabled={!startDate}
                                 />                   
                               </div>
                           </div>

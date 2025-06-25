@@ -81,16 +81,16 @@ export default function ({ title, type }: DestinationsProps) {
         <div className="outside-india-sldier ">
           <OwlCarousel {...options}>
             {promotions.map((data, index) => (
-            <div className="item">
-              <a href="#" className="destination-box rounded-4" title={data.heading}>
-                  <img src={data.image} alt={data.heading} title={data.heading} />
-                  <span className="overlay-box"></span>
-                  <span className="address-box text-white">
-                    <img src="img/location.svg" className="me-2"/> {data.heading} 
-                  </span>
-                </a>
-            </div>
-            )
+                <div className="item">
+                  <a href="#" className="destination-box rounded-4" title={data.heading}>
+                      <img src={data.image} alt={data.heading} title={data.heading} />
+                      <span className="overlay-box"></span>
+                      <span className="address-box text-white">
+                        <img src="img/location.svg" className="me-2"/> {data.heading} 
+                      </span>
+                    </a>
+                </div>
+              )
             )}
           </OwlCarousel>
         </div>

@@ -6,7 +6,7 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
 import dynamic from 'next/dynamic';
-import '../page.module.css'
+import '../page.module.css' 
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -21,41 +21,48 @@ const options = {
     autoplayTimeout: 5000,
   };
 
+  interface BannerData {
+    banner: string;
+    title: string;
+    id: number;
+}
+
 export default function Slider() {
 
-  const [banners, setData] = useState([{id:0, title:'',banner:''}]);
+  const [banners, setData] = useState<BannerData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await getData('sliders');
+        const res = await getData('sliders');        
         setData(res.records);
       } catch (err) {
         console.error(err);
       }
-    }
-
-    fetchData();
+    } 
+      fetchData();
   }, []); 
   return (
-    <div className="hero-section">
-      <div className="hero-banner">
-         <OwlCarousel {...options}>
-          {banners.length > 0 && banners.map(data => (
-            <>
-              {(data.id > 0) &&
-              <div className="item" key={data.id}>
-                <div className="overlay-box"></div>
-                  <img src={data.banner} alt={data.title} title={data.title}/>
-              </div>
-            }
-            </>
-          ))}
-        </OwlCarousel>
-        
+    <>
+    {banners.length > 0 && 
+      <div className="hero-section">
+        <div className="hero-banner">
+          <OwlCarousel {...options}>
+            {banners.map(data => (
+              <>
+                {(data.id > 0) &&
+                <div className="item" key={data.id}>
+                  <div className="overlay-box"></div>
+                    <img src={data.banner} alt={data.title} title={data.title}/>
+                </div>
+              }
+              </>
+            ))}
+          </OwlCarousel>
+        </div>
+        <HomeSearch/>
       </div>
-
-      <HomeSearch/>
-    </div>
+      }
+    </>
   );
 }
