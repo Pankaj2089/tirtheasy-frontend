@@ -1,9 +1,46 @@
 // components/Header.js
+"use client";
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname , useRouter } from 'next/navigation';
 export default function Header() {
+
+ const action = usePathname();
+ const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
+
+ 
+  const router = useRouter();
+
+  useEffect(() => {
+      async function fetchData() {
+        try {
+          const data = localStorage.getItem('property_type');
+          if (data) {
+            setPropertyType(localStorage.getItem('property_type'));
+          }else{
+              localStorage.setItem('property_type','dharmshala');
+              setPropertyType('dharmshala');
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      fetchData();
+    }, []); 
+
+    const updatePage = (pageName:any) => {
+      sessionStorage.removeItem('popularDestinations1');
+      sessionStorage.removeItem('popularDestinations2');
+      sessionStorage.removeItem('premiumFacilities');
+      sessionStorage.removeItem('promotions1');
+      sessionStorage.removeItem('promotions2');
+      localStorage.setItem('property_type',pageName);
+      setPropertyType(pageName);
+      window.location.reload()
+    };
+
   return (
     <header>
-    
       <div className="header">
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
@@ -19,7 +56,7 @@ export default function Header() {
                       </div>
                       <div className="d-flex flex-column flex-lg-row align-lg-items-center justify-content-between">
                         <ul className="navbar-nav mx-lg-auto">
-                          <li className="px-3 d-block d-lg-none user-profile">
+                           <li className="px-3 d-block d-lg-none user-profile">
                             <a href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</a>
                             <span className="profile-details d-none">
                               <span className="profile-thumb">
@@ -27,12 +64,12 @@ export default function Header() {
                               </span>
                               <span className="user-details">Shankar Shankar</span>
                             </span>
-                          </li>                            
+                          </li>                           
                             <li className="nav-item">
-                              <Link href="/hotels" className="nav-link">Hotels</Link>
+                              <Link href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/') ? 'active':'')}>Hotels</Link>
                             </li>
                             <li className="nav-item">
-                              <a href="#" className="nav-link">Dharamshala</a>
+                              <a href="/"  onClick={() => updatePage('dharmshala')} className={`nav-link ` +(propertyType =='dharmshala' && (action == null || action == '/') ? 'active':'')}>Dharamshala</a>
                             </li>
                             <li className="nav-item">
                               <a href="#" className="nav-link">About Us</a>

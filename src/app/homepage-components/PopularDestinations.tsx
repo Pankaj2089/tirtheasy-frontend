@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getData } from '../utils/api';
+import { postData } from '../utils/api';
 import { log } from 'console';
 
 interface BannerData {
@@ -25,7 +25,8 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
               let sliderData = JSON.parse(data);
               setData(sliderData);
             }else{
-                const res = await getData('popular-destinations/'+type);        
+                let postRec: { type: number; property_type: string | null } = { type: type,property_type: localStorage.getItem('property_type')}; 
+                const res = await postData('popular-destinations', postRec);        
                 setData(res.records);
                 sessionStorage.setItem("popularDestinations"+type, JSON.stringify(res.records));
             }

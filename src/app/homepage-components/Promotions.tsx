@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getData } from '../utils/api';
+import { postData } from '../utils/api';
 import { log } from 'console';
 
 import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -62,7 +62,8 @@ export default function Promotions({ title, type }: PromotionsProps) {
               let sliderData = JSON.parse(data);
               setData(sliderData);
             }else{
-                const res = await getData('promotions/'+type);        
+                let postRec: { type: number; promotion_for: string | null } = { type: type,promotion_for: localStorage.getItem('property_type')}; 
+                const res = await postData('promotions', postRec);         
                 setData(res.records);
                 sessionStorage.setItem("promotions"+type, JSON.stringify(res.records));
             }
