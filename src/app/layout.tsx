@@ -24,6 +24,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/animate.css"/>
         <link rel="stylesheet" href="/css/owl.carousel.css"/>
         <link rel="stylesheet" href="/css/style.css"></link>
+        <link rel="stylesheet" href="/css/primary-search.css"></link>
         <link rel="stylesheet" href="/css/custom_style.css"></link>
      </head>
       <body>

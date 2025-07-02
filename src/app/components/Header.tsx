@@ -66,7 +66,7 @@ export default function Header() {
                             </span>
                           </li>                           
                             <li className="nav-item">
-                              <Link href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/') ? 'active':'')}>Hotels</Link>
+                              <a href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/') ? 'active':'')}>Hotels</a>
                             </li>
                             <li className="nav-item">
                               <a href="/"  onClick={() => updatePage('dharmshala')} className={`nav-link ` +(propertyType =='dharmshala' && (action == null || action == '/') ? 'active':'')}>Dharamshala</a>
