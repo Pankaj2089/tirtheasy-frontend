@@ -41,6 +41,7 @@
 .btn-primary:hover{
     color: #cc484a !important;
     border-color: #cc484a !important;
+    background-color: #FFFFFF !important;
 }
 .btn-primary, .btn-primary:focus{
     background-color: #cc484a !important;
@@ -51,4 +52,28 @@
 }
 .search-btn-box .btn, .btn:disabled{
     border-color: #cc484a !important;
+}
+.select-city-row{
+    padding:5px 0 ;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+}
+.select-city-row:hover, .select-city-row:hover .city-lable{
+    color: #FFF !important;
+    background-color: #cc484a !important;
+}
+.country_name{
+    font-weight: 400;
+}
+.city-lable{
+    font-weight: 400;
+    font-size: 13px;
+    color:#666;
+    display: block;
+    width:100%;
+}
+.ucfirst{
+    text-transform: capitalize;
 }

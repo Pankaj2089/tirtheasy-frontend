@@ -47,6 +47,7 @@ export default function Header() {
               <Link href="/" className="navbar-brand comp-logo">
                 <img src="/img/logo.svg" className="img-fluid" alt="" />
               </Link>
+              
             <div className="header-start d-flex align-items-center">
                 <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                       <div className="offcanvas-header">
@@ -66,10 +67,10 @@ export default function Header() {
                             </span>
                           </li>                           
                             <li className="nav-item">
-                              <a href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/') ? 'active':'')}>Hotels</a>
+                              <a href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
                             </li>
                             <li className="nav-item">
-                              <a href="/"  onClick={() => updatePage('dharmshala')} className={`nav-link ` +(propertyType =='dharmshala' && (action == null || action == '/') ? 'active':'')}>Dharamshala</a>
+                              <a href="/"  onClick={() => updatePage('dharmshala')} className={`nav-link ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
                             </li>
                             <li className="nav-item">
                               <a href="#" className="nav-link">About Us</a>

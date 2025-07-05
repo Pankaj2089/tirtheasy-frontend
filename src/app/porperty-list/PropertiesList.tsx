@@ -13,13 +13,45 @@ export default function propertiesList() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const { ref, inView } = useInView(); // triggers when the ref is visible
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [propertyType, setPropertyType] = useState(false);
+
+  const [searchData, setSearchState] = useState({
+    keywords: '',
+    start_date: '',
+    end_date: '',
+    persons: 0
+  });
+
+   // Get array from localStorage
+  const loadFromLocalStorage = () => {
+    const data = localStorage.getItem('searchData');
+    if (data) {
+      let serData = JSON.parse(data);
+      setSearchState(serData);      
+      setStartDate(serData.start_date);
+      setEndDate(serData.end_date);
+    }
+  };
+
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [])
 
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
     try {
-      const res = await postData(`get-property-list?page=${page}`);
+
+      let searchDataArr = [];
+      const storatgeData = localStorage.getItem('searchData');
+      if (storatgeData) {
+        searchDataArr = JSON.parse(storatgeData);
+      }
+      searchDataArr['property_type'] = localStorage.getItem('property_type');
+      const res = await postData(`get-property-list?page=${page}`, searchDataArr);
       const data = await res.records;
 
       setRecords((prev:any) => [...prev, ...data.data]);
@@ -33,6 +65,10 @@ export default function propertiesList() {
   };
 
   useEffect(() => {
+    
+     const data:any = localStorage.getItem('property_type');
+     setPropertyType(data);
+    loadFromLocalStorage();
     fetchPosts(); // Load initial data
   }, []);
 
@@ -41,6 +77,7 @@ export default function propertiesList() {
   }, [inView]);
 
   const searchProperties =() => {
+    loadFromLocalStorage();
     setPage(1);
     setRecords([]);
     setHasMore(true);
@@ -299,7 +336,7 @@ return <>
 
           <div className="col-lg-9 wow fadeInUp">
             <div className="d-flex align-items-center justify-content-between mb-3 text-center wow fadeInUp">
-              <h1 className="">Hotels in New Delhi</h1>
+              <h1 className="ucfirst">{propertyType+'s'} in {searchData.keywords}</h1>
               <div className="shotby-dropdown align-items-center d-none d-md-flex">
                 <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>
                 <select className="form-select" aria-label="Default select example">
@@ -434,10 +471,13 @@ return <>
                </div>
             </div>
             ))}
-
+            { (!hasMore && records.length == 0)  &&
+                <div className="text-center py-4 mt-4 pt-4">
+                  Records Not found
+              </div>            }
             {hasMore && (
             <div ref={ref} className="text-center py-4">
-              {loading ? "Loading more..." : "Scroll down to load more"}
+              {loading ? "Loading..." : "Scroll down to load more"}
             </div>
           )}
             
