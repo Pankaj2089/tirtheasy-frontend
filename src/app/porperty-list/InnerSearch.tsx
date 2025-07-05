@@ -3,9 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, format } from 'date-fns';
+import { Button } from 'antd';
 import { log } from 'console';
-
-export default function InnerSearch() {
+type InnerSearchProps = {
+  searchAction: any;
+  loading:any;
+};
+export default function InnerSearch({ searchAction, loading }: InnerSearchProps) {
 
 const [startDate, setStartDate] = useState<Date | null>(null);
 const [endDate, setEndDate] = useState<Date | null>(null);
@@ -142,7 +146,14 @@ const today = new Date();
                 </div>
                 
                 <div className="search-btn-box">
-                   <button type="submit" className="btn btn-primary">Search</button>
+                  <Button
+                  onClick={searchAction}
+                  className="btn btn-primary"
+                  loading={loading}
+                  disabled={loading}
+                >
+                  Search
+                </Button>
                 </div>
         </form> 
         <div className="moible-search-box d-block d-md-none">

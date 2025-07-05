@@ -38,3 +38,17 @@
 .dateBox input{
     max-width: 10px;
 }
+.btn-primary:hover{
+    color: #cc484a !important;
+    border-color: #cc484a !important;
+}
+.btn-primary, .btn-primary:focus{
+    background-color: #cc484a !important;
+}
+:where(.css-dev-only-do-not-override-36gkoj).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-dev-only-do-not-override-36gkoj).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover{
+    
+    background-color: #cc484a !important;
+}
+.search-btn-box .btn, .btn:disabled{
+    border-color: #cc484a !important;
+}
