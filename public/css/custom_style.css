@@ -38,11 +38,7 @@
 .dateBox input{
     max-width: 10px;
 }
-.btn-primary:hover{
-    color: #cc484a !important;
-    border-color: #cc484a !important;
-    background-color: #FFFFFF !important;
-}
+
 .btn-primary, .btn-primary:focus{
     background-color: #cc484a !important;
 }
@@ -52,6 +48,11 @@
 }
 .search-btn-box .btn, .btn:disabled{
     border-color: #cc484a !important;
+}
+.btn-primary:hover, :where(.css-dev-only-do-not-override-36gkoj).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover{
+    color: #cc484a !important;
+    border-color: #cc484a !important;
+    background-color: #FFFFFF !important;
 }
 .select-city-row{
     padding:5px 0 ;
@@ -76,4 +77,10 @@
 }
 .ucfirst{
     text-transform: capitalize;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+.ant-btn-loading-icon{
+    margin-right: 5px;
 }

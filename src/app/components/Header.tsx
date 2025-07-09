@@ -36,7 +36,11 @@ export default function Header() {
       sessionStorage.removeItem('promotions2');
       localStorage.setItem('property_type',pageName);
       setPropertyType(pageName);
-      window.location.reload()
+      if(action == null || action == '/' || action == '/porperty-list'){
+        window.location.reload()
+      }else{
+        window.location.href = '/';
+      }
     };
 
   return (
@@ -67,13 +71,13 @@ export default function Header() {
                             </span>
                           </li>                           
                             <li className="nav-item">
-                              <a href="/" onClick={() => updatePage('hotel')} className={`nav-link ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
+                              <a  onClick={() => updatePage('hotel')} className={`nav-link cursor-pointer ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
                             </li>
                             <li className="nav-item">
-                              <a href="/"  onClick={() => updatePage('dharmshala')} className={`nav-link ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
+                              <a  onClick={() => updatePage('dharmshala')} className={`nav-link  cursor-pointer ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
                             </li>
                             <li className="nav-item">
-                              <a href="#" className="nav-link">About Us</a>
+                              <a href="/about" className="nav-link">About Us</a>
                             </li>
                             <li className="nav-item">
                               <a className="nav-link" href="#">Blog</a>

@@ -20,7 +20,8 @@ const [searchData, setSearchState] = useState({
     end_date: '',
     adult: 1,
     rooms: 1,
-    childerns: 0
+    childerns: 0,
+    sortby:''
   });
   
   const inputRef = useRef<any>(null);
@@ -31,6 +32,7 @@ const [searchData, setSearchState] = useState({
   const [isRoomPerson, setRoomPerson] = useState(false);
   const [isSearchKeywords, setSearchKeywords] = useState(false);
   const [citiesList, setSearchCities] = useState([]);
+  
 
   const toggleRoomPerson = () => {
     setRoomPerson(prev => !prev); // toggles between true/false

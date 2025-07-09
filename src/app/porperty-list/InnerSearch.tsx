@@ -24,7 +24,8 @@ const [searchData, setSearchState] = useState({
     end_date: '',
     adult: 1,
     rooms: 1,
-    childerns: 0
+    childerns: 0,
+    sortby: '',
   });
 
   useEffect(() => {
@@ -88,7 +89,7 @@ const inputRef = useRef<any>(null);
 
   useEffect(() => {
     loadFromLocalStorage();
-  }, [])
+  }, []);
 
 const endDatePickerRef = useRef<DatePicker>(null);;
 const handleStartDateChange = (date:any) => { 
@@ -291,12 +292,12 @@ const today = new Date();
               </svg> Filters
             </a>
              <div className="select-box-mob">
-              <select className="form-select" aria-label="Default select example">
-                <option selected>Sort by</option>
-                <option value="1">Best Match</option>
-                <option value="2">Top Reviewed</option>
-                <option value="3">Lowest Price First</option>
-                <option value="4">Distance</option>
+              <select className="form-select" aria-label="Default select example" value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
+                <option selected value="">Sort by</option>
+                <option value="best_match"  >Best Match</option>
+                <option value="top_reviewed" >Top Reviewed</option>
+                <option value="lowest_price">Lowest Price First</option>
+                <option value="distance" >Distance</option>
               </select>
             </div>
             <a href="" className="map-view-btn">Map View</a>

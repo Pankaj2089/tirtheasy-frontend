@@ -21,8 +21,26 @@ export default function propertiesList() {
     keywords: '',
     start_date: '',
     end_date: '',
-    persons: 0
+    persons: 0,
+    sortby:''
   });
+
+    useEffect(() => {
+      if(searchData.keywords !== '' || searchData.start_date !== '' || searchData.end_date !== ''){
+        localStorage.setItem("searchData", JSON.stringify(searchData));      
+      }   
+  }, [searchData]);
+
+  const handleChange = (name:any,value:any) => {    
+    const updatedData = { ...searchData, [name]: value };
+    setSearchState(updatedData);
+
+    if (updatedData.keywords !== '' || updatedData.start_date !== '' || updatedData.end_date !== '') {
+      localStorage.setItem("searchData", JSON.stringify(updatedData));
+    }
+
+    searchProperties();
+  };
 
    // Get array from localStorage
   const loadFromLocalStorage = () => {
@@ -34,6 +52,7 @@ export default function propertiesList() {
       setEndDate(serData.end_date);
     }
   };
+
 
   useEffect(() => {
     loadFromLocalStorage();
@@ -75,6 +94,7 @@ export default function propertiesList() {
   useEffect(() => {
     if (inView) fetchPosts(); // Load more when in view
   }, [inView]);
+
 
   const searchProperties =() => {
     loadFromLocalStorage();
@@ -339,12 +359,12 @@ return <>
               <h1 className="ucfirst">{propertyType+'s'} in {searchData.keywords}</h1>
               <div className="shotby-dropdown align-items-center d-none d-md-flex">
                 <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>
-                <select className="form-select" aria-label="Default select example">
-                  <option selected value="1">Clear</option>
-                  <option value="2">Best Match</option>
-                  <option value="3">Top Reviewed</option>
-                  <option value="4">Lowest Price First</option>
-                  <option value="5">Distance</option>
+                <select className="form-select" aria-label="Default select example" name='sortby' value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
+                  <option selected value="">Clear</option>
+                  <option value="best_match"  >Best Match</option>
+                  <option value="top_reviewed" >Top Reviewed</option>
+                  <option value="lowest_price">Lowest Price First</option>
+                  <option value="distance" >Distance</option>
                 </select>
               </div>
             </div>
@@ -489,7 +509,7 @@ return <>
        <div className="container">
           <div className="col-md-10 mx-auto">
              <div className="section-title text-center mt-0 mt-md-5 mb-3">
-              <h2>Fast Facts About New Delhi, India</h2>
+              <h2>Fast Facts About {searchData.keywords}, India</h2>
              </div>
              <div className="fast-fects-content">
                <dl>
