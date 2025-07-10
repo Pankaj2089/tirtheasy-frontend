@@ -5,6 +5,7 @@ import React from 'react';
 import { useInView } from "react-intersection-observer";
 import { log } from 'console';
 import InnerSearch from './InnerSearch';
+import { Form, Slider } from 'antd';
 
 export default function propertiesList() {
 
@@ -22,7 +23,8 @@ export default function propertiesList() {
     start_date: '',
     end_date: '',
     persons: 0,
-    sortby:''
+    sortby:'',
+    priceRange:[0,1000]
   });
 
     useEffect(() => {
@@ -51,6 +53,21 @@ export default function propertiesList() {
       setStartDate(serData.start_date);
       setEndDate(serData.end_date);
     }
+  };
+
+
+  const onSliderChange = (value: number[]) => {
+    
+    const updatedData = { ...searchData, priceRange: value };
+    setSearchState(updatedData);
+
+    if (updatedData.keywords !== '' || updatedData.start_date !== '' || updatedData.end_date !== '') {
+      localStorage.setItem("searchData", JSON.stringify(updatedData));
+    }
+    setTimeout(() => {
+      searchProperties();
+    }, 500);
+    
   };
 
 
@@ -167,32 +184,17 @@ return <>
                       </div>
                       <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div className="accordion-body">
-                           <ul>
-                            <li>
-                               <label htmlFor="check-9" className="checkbox">
-                                <input type="checkbox" id="check-9"/><span className="checkmark"></span> - 1000k</label> 
-                            </li>
-                            <li>
-                               <label htmlFor="check-10" className="checkbox">
-                                <input type="checkbox" id="check-10"/><span className="checkmark"></span> 1000k-5000k</label> 
-                            </li>
-                            <li>
-                               <label htmlFor="check-11" className="checkbox">
-                                <input type="checkbox" id="check-11"/><span className="checkmark"></span> 5000k-10,000k</label> 
-                            </li>
-                            <li>
-                               <label htmlFor="check-12" className="checkbox">
-                                <input type="checkbox" id="check-12"/><span className="checkmark"></span> 10,000k-15,000k</label> 
-                            </li>
-                            <li>
-                               <label htmlFor="check-13" className="checkbox">
-                                <input type="checkbox" id="check-13"/><span className="checkmark"></span> 15,000k-20,000k</label> 
-                            </li>
-                            <li>
-                               <label htmlFor="check-14" className="checkbox">
-                                <input type="checkbox" id="check-14"/><span className="checkmark"></span> + 20,000k</label> 
-                            </li>
-                          </ul>
+                            <Slider
+                              range
+                              min={1000}
+                              max={20000}
+                              step={10}
+                              value={searchData.priceRange}
+                              onChange={onSliderChange}
+                            />
+                            <div>
+                              ₹{searchData.priceRange[0]} - ₹{searchData.priceRange[1]}
+                            </div>
                         </div>
                       </div>
                     </div>

@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, format } from 'date-fns';
 import { postData } from '../utils/api';
+import { FaHome, FaMapMarkerAlt  } from 'react-icons/fa'; 
 import { log } from 'console';
 
 export default function HomeSearch() {
@@ -14,6 +15,8 @@ defaultEndDate.setDate(defaultEndDate.getDate() + 1); // 7 days from today
 
 const [startDate, setStartDate] = useState<Date | null>(defaultStartDate);
 const [endDate, setEndDate] = useState<Date | null>(defaultEndDate);
+ const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
+
 const [searchData, setSearchState] = useState({
     keywords: '',
     start_date: '',
@@ -32,6 +35,7 @@ const [searchData, setSearchState] = useState({
   const [isRoomPerson, setRoomPerson] = useState(false);
   const [isSearchKeywords, setSearchKeywords] = useState(false);
   const [citiesList, setSearchCities] = useState([]);
+  const [hotelsList, setSearchHotels] = useState([]);
   
 
   const toggleRoomPerson = () => {
@@ -79,7 +83,22 @@ const [searchData, setSearchState] = useState({
 
   useEffect(() => {
     loadFromLocalStorage();
-  }, [])
+
+    async function fetchData() {
+      try {
+        const data = localStorage.getItem('property_type');
+        if (data) {
+          setPropertyType(localStorage.getItem('property_type'));
+        }else{
+            localStorage.setItem('property_type','dharmshala');
+            setPropertyType('dharmshala');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchData();
+  }, []); 
 
 const endDatePickerRef = useRef<DatePicker>(null);;
 const handleStartDateChange = (date:any) => { 
@@ -123,10 +142,13 @@ const today = new Date();
   };
 
   const getCitieisList = async () =>  {
-    setSearchCities([]);
-    let postRec: { keywords: string | null } = { keywords: searchData.keywords}; 
+      setSearchCities([]);
+      setSearchHotels([]);
+
+      let postRec: { keywords: String | null, property_type:String | null } = { keywords: searchData.keywords, property_type:propertyType};  
       const res = await postData('get-cities', postRec);        
       setSearchCities(res.records);
+      setSearchHotels(res.recHotels);
   }
 
   return (
@@ -146,14 +168,21 @@ const today = new Date();
                   onKeyUp={getCitieisList}
                   />
 
-                  <div className={`multi-collapse member-addon collapse ${(isSearchKeywords && citiesList.length > 0) ? 'show' : 'multi-collapse'}`} 
+                  <div className={`search-popup multi-collapse member-addon collapse ${(isSearchKeywords && (citiesList.length > 0 || hotelsList.length > 0)) ? 'show' : 'multi-collapse'}`} 
                      style={{ maxHeight: '200px', minHeight: 'auto', overflow: 'auto' }}
                     >
+                      {hotelsList.map((hotelRow:any, index) => (
+                        <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', hotelRow.title)}>
+                          <span className="left-label">
+                           <FaHome /> {hotelRow.title}
+                          </span>
+                        </div>
+                      ))}
                       {citiesList.map((citiRow:any, index) => (
                         <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', citiRow.title)}>
                           <span className="left-label">
-                           <i className=''></i> {citiRow.title}, <span className='country_name'>India</span>
-                           <span className='city-lable'>city</span>
+                           <FaMapMarkerAlt  /> {citiRow.title}, <span className='country_name'>India</span>
+                           <span className='city-lable' style={{marginLeft:'18px'}}>city</span>
                           </span>
                         </div>
                       ))}

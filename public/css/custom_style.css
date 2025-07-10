@@ -60,6 +60,7 @@
     font-size: 14px;
     cursor: pointer;
     padding: 5px;
+    margin-bottom: 10px;
 }
 .select-city-row:hover, .select-city-row:hover .city-lable{
     color: #FFF !important;
@@ -83,4 +84,17 @@
 }
 .ant-btn-loading-icon{
     margin-right: 5px;
+}
+
+:where(.css-dev-only-do-not-override-36gkoj).ant-slider .ant-slider-handle::after {
+    box-shadow: 0 0 0 2px #cc484a !important;
+}
+:where(.css-dev-only-do-not-override-36gkoj).ant-slider .ant-slider-track {
+    background-color: #cc484a !important;
+}
+:where(.css-dev-only-do-not-override-36gkoj).ant-slider .ant-slider-step {
+    background: #cc484a45 !important;
+}
+.search-popup {
+    overflow-x: hidden !important;
 }
