@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
 import { log } from 'console';
+import { Skeleton } from 'antd';
 
 interface BannerData {
   heading: string;
@@ -16,17 +17,21 @@ type DestinationsProps = {
 
 export default function PopularDestinations({ title, type }: DestinationsProps) {
     const [promotions, setData] = useState<BannerData[]>([]);
+    const [showLoader, setShowLoader] = useState(false);
     
       useEffect(() => {
+        setShowLoader(true);
         async function fetchData() {
           try {
             const data = sessionStorage.getItem('popularDestinations'+type);
             if (data) {
               let sliderData = JSON.parse(data);
+              setShowLoader(false);
               setData(sliderData);
             }else{
                 let postRec: { type: number; property_type: string | null } = { type: type,property_type: localStorage.getItem('property_type')}; 
-                const res = await postData('popular-destinations', postRec);        
+                const res = await postData('popular-destinations', postRec);       
+                setShowLoader(false); 
                 setData(res.records);
                 sessionStorage.setItem("popularDestinations"+type, JSON.stringify(res.records));
             }
@@ -34,12 +39,15 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
             console.error(err);
           }
         }
-        fetchData();
+        setTimeout(() => {
+          fetchData();
+        }, 300);
+
       }, [type]); 
 
   return (
     <>
-    {promotions.length > 0 &&
+    {(promotions.length > 0 || showLoader)  && 
       <div className="popular-destination py-50 wow fadeInUp">
         <div className="container">
           <div className="section-title text-center wow fadeInUp">
@@ -49,7 +57,26 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
 
           <div className="top-destination wow fadeInUp">
             <div className="row">
-            {promotions.map((data, index) => (
+               {showLoader &&
+                  <>
+                    <div className= {`wow fadeInUp mb-4 col-6`} >
+                     <Skeleton.Image active={true} style={{height:'250px', width:'640px'}}  />
+                  </div>
+                  <div className= {`wow fadeInUp mb-4 col-6`} >
+                     <Skeleton.Image active={true} style={{height:'250px', width:'640px'}}  />
+                  </div>
+                  <div className= {`wow fadeInUp mb-4 col-4`} >
+                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  </div>
+                  <div className= {`wow fadeInUp mb-4 col-4`} >
+                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  </div>
+                  <div className= {`wow fadeInUp mb-4 col-4`} >
+                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  </div>
+                </>                    
+            }
+            {promotions.length > 0 && promotions.map((data, index) => (
               <>
               { index <= 4 &&
                   <div className= {`wow fadeInUp mb-4 ${index > 1 ? 'col-4' : 'col-6'}`} >
@@ -74,7 +101,7 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
             }
         </div>
       </div>
-    }
+}
 </>
   );
 }

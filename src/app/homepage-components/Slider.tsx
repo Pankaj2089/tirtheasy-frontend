@@ -7,6 +7,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
 import dynamic from 'next/dynamic';
 import '../page.module.css' 
+import { Skeleton } from 'antd';
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -30,32 +31,45 @@ const options = {
 export default function Slider() {
 
   const [banners, setData] = useState<BannerData[]>([]);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
+    setShowLoader(true);
     async function fetchData() {
+      
       try {
         const data = sessionStorage.getItem('sliderList');
         if (data) {
           let sliderData = JSON.parse(data);
+          setShowLoader(false);
           setData(sliderData);
         }else{
             const res = await getData('sliders');        
             setData(res.records);
             sessionStorage.setItem("sliderList", JSON.stringify(res.records));
+            setShowLoader(false);
         }
       } catch (err) {
         console.error(err);
       }
     } 
-      fetchData();
+      setTimeout(() => {
+        fetchData();
+      }, 200);
   }, []); 
+  
   return (
     <>
-    {banners.length > 0 && 
       <div className="hero-section">
         <div className="hero-banner">
+          {showLoader &&
+             <div className="item">
+                  <div className="overlay-box"></div>
+                    <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
+                </div>
+            }
           <OwlCarousel {...options}>
-            {banners.map(data => (
+            {banners.length > 0 &&  banners.map(data => (
               <>
                 {(data.id > 0) &&
                 <div className="item" key={data.id}>
@@ -65,11 +79,12 @@ export default function Slider() {
               }
               </>
             ))}
+
+             
           </OwlCarousel>
         </div>
         <HomeSearch/>
       </div>
-      }
     </>
   );
 }

@@ -5,7 +5,7 @@ import React from 'react';
 import { useInView } from "react-intersection-observer";
 import { log } from 'console';
 import InnerSearch from './InnerSearch';
-import { Form, Slider } from 'antd';
+import { Form, Slider,Skeleton } from 'antd';
 
 export default function propertiesList() {
 
@@ -17,6 +17,9 @@ export default function propertiesList() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [propertyType, setPropertyType] = useState(false);
+
+  const isMobile = window.innerWidth < 480;
+  const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
 
   const [searchData, setSearchState] = useState({
     keywords: '',
@@ -500,6 +503,13 @@ return <>
             {hasMore && (
             <div ref={ref} className="text-center py-4">
               {loading ? "Loading..." : "Scroll down to load more"}
+              {loading && 
+                <div style={{ width: '100%', maxWidth: '1000px' }}>
+                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
+                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
+                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
+                </div>
+               }
             </div>
           )}
             
