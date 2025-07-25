@@ -37,9 +37,9 @@ export default function RootLayout({
         <Script src="https://code.jquery.com/jquery-2.2.4.min.js" type="text/javascript" /> 
         <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" />
         <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" />
-        <Script src="js/wow.min.js" type="text/javascript" />
-        <Script src="js/owl.carousel.js" type="text/javascript" />
-        <Script src="js/custom.js" type="text/javascript" />
+        <Script src="/js/wow.min.js" type="text/javascript" />
+        <Script src="/js/owl.carousel.js" type="text/javascript" />
+        <Script src="/js/custom.js" type="text/javascript" />
       </body>
     </html>
   );

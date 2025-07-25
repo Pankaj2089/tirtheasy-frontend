@@ -4,7 +4,7 @@ import { getData, postData } from '../utils/api';
 import React from 'react';
 import { useInView } from "react-intersection-observer";
 import { log } from 'console';
-import InnerSearch from './InnerSearch';
+import InnerSearch from '../components/InnerSearch';
 import { Form, Slider,Skeleton } from 'antd';
 
 export default function propertiesList() {
@@ -377,7 +377,7 @@ return <>
             <div className="hotel-list-box">
                <div className="row">
                   <div className="col-md-4 col-5">
-                    <a href="#">
+                    <a href={"/property/" + record.slug}>
                       <span className="hotel-thumb">
                         <img src={record.image} alt={record.title} title={record.title} />
                       </span>
@@ -394,14 +394,14 @@ return <>
                     </a>
 
                     <div className="view-details mt-3 d-block d-md-none text-end w-100%">
-                      <a href="#">View Details</a>
+                      <a href={"/property/" + record.slug}>View Details</a>
                     </div>
                   </div>
 
                  <div className="col-md-8 col-7">
                     <div className="row">
                       <div className="col-md-8">
-                        <h5 className="mb-1"><a href="#">{record.title}</a></h5>
+                        <h5 className="mb-1"><a href={"/property/" + record.slug}>{record.title}</a></h5>
                         <p className="location-box d-flex align-items-center"><img src="img/location_pin.svg" className="me-1"/> {record.city}, {record.state}</p>
 
                         { (record?.facilities_list && record?.facilities_list?.length > 0) &&
@@ -433,7 +433,7 @@ return <>
                           </div>
                         </div>
                         <div className="view-details mt-2 mt-md-5 text-end w-100%">
-                          <a href="#">View Details</a>
+                          <a href={"/property/" + record.slug}>View Details</a>
                         </div>
                       </div>
                       
@@ -456,7 +456,7 @@ return <>
                           }
                         </div>
                         <div className="col-md-5 d-flex flex-column text-end">
-                           <a href="#" className="btn btn-primary">Check Availability</a>
+                           <a href={"/property/" + record.slug} className="btn btn-primary">Check Availability</a>
                         </div>
                     </div>
 
@@ -483,15 +483,17 @@ return <>
                <div className="row d-flex d-md-none">                
                   <div className="col-6">
                     <div className="price-del text-end">
-                      <del>Rs.30,596</del>
+                      <del>Rs.{record.price}</del>
                     </div>
                     <div className="new-price d-flex text-end align-items-center justify-content-end">
-                      <p className="new-price-big red-text fw-bold">Rs. 13,567</p>
+                      <p className="new-price-big red-text fw-bold">Rs. {record.lowest_price}</p>
                     </div>
-                    <span className="free-cancel justify-content-end w-100 d-flex">+ FREE CANCELLATION</span>
+                      {record.cancellation_policy > 1 &&
+                        <span className="free-cancel justify-content-end w-100 d-flex">+ {record.cancellation_policy == 2 ?'FREE CANCELLATION' :'NO CANCELLATION'}</span>
+                        }
                   </div>
                   <div className="col-6 d-flex flex-column text-end">
-                      <a href="#" className="btn btn-primary">Check Availability</a>
+                      <a href={"/property/" + record.slug} className="btn btn-primary">Check Availability</a>
                   </div>
                </div>
             </div>

@@ -16,6 +16,7 @@ interface HotelData {
   image: string;
   state: string;
   id: string;
+  slug: string;
 }
 
 type HotelsProps = {
@@ -82,11 +83,11 @@ export default function Hotels({ title, type }: HotelsProps) {
               {hotels.map((data, index) => (
                 <div className="item">
                   <div className="hotal-detail-box">
-                      <a href="#" className="hotel-thumbnail">
+                      <a href={"/property/" + data.slug} className="hotel-thumbnail">
                           <img src={data.image} alt={data.title} title={data.title} />
                       </a>
                       <div className="hotel-description">
-                        <h4><a href="#">{data.title}</a></h4>
+                        <h4><a href={"/property/" + data.slug}>{data.title}</a></h4>
                         { type === 'hotel' && 
                           <p className="fs-14">{data.state}</p>
                         }

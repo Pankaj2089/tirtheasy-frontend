@@ -21,10 +21,11 @@ $(window).scroll(function(){
       $('.inner-page-search').removeClass("sticky");
      
      }
+
+
 });
 
-
-
+$("#show-more-content").hide();
 
 
 

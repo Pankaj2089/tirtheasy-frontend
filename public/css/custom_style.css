@@ -102,6 +102,17 @@
     min-height: 350px;
     overflow: hidden;
 }
+.max-height230{
+    overflow-y: auto;
+}
+.overview-pra h4{
+    font-size: 1rem !important;
+}
+.circuit-list-section{
+        max-height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+}
 @media(max-width: 960px){
     .hero-banner {
         min-height: 150px;

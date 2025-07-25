@@ -195,7 +195,7 @@ const today = new Date();
 
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>
                     <div className="start-date" onClick={handleDivClick}>
-                      <span className="date-picker-icon"><img src="img/date.svg"/></span>
+                      <span className="date-picker-icon"><img src="/img/date.svg"/></span>
                       <div className="selected-date-day" >
                           <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
                           <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
@@ -231,7 +231,7 @@ const today = new Date();
                     </div>
 
                     <div className="start-date end-date" ref={endDateDiv}  onClick={handleEndDateClick} >
-                      <span className="date-picker-icon"><img src="img/date.svg"/></span>
+                      <span className="date-picker-icon"><img src="/img/date.svg"/></span>
                       <div className="selected-date-day">
                           <div className="date"> {endDate ? format(endDate, 'dd MMM yyyy') : ''}</div>
                           <div className="day">{endDate ? format(endDate, 'EEEE') : ''}</div>
@@ -258,7 +258,7 @@ const today = new Date();
 
                 <div className="slect-audience" >
                     <div className="select-member" role="button" onClick= {() =>{toggleRoomPerson(); setSearchKeywords(false);}}>
-                      <span className="date-picker-icon"><img src="img/user.svg"/></span>
+                      <span className="date-picker-icon"><img src="/img/user.svg"/></span>
                       <div className="selected-date-day">
                             <div className="date">{searchData.adult} Adult,</div>
                             <div className="day">{searchData.rooms} Room{searchData.childerns > 0 ? ', '+searchData.childerns+' Child' : '' }</div>
