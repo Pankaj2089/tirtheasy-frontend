@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { log } from 'console';
 import InnerSearch from '../components/InnerSearch';
 import { Form, Slider,Skeleton } from 'antd';
+import Link from 'next/link';
 
 export default function propertiesList() {
 
@@ -108,11 +109,12 @@ export default function propertiesList() {
      const data:any = localStorage.getItem('property_type');
      setPropertyType(data);
     loadFromLocalStorage();
-    fetchPosts(); // Load initial data
+    //fetchPosts(); // Load initial data
   }, []);
 
   useEffect(() => {
     if (inView) fetchPosts(); // Load more when in view
+    window.scroll(0,0);
   }, [inView]);
 
 
@@ -377,7 +379,7 @@ return <>
             <div className="hotel-list-box">
                <div className="row">
                   <div className="col-md-4 col-5">
-                    <a href={"/property/" + record.slug}>
+                    <Link href={"/property/" + record.slug}>
                       <span className="hotel-thumb">
                         <img src={record.image} alt={record.title} title={record.title} />
                       </span>
@@ -391,17 +393,17 @@ return <>
                           </span>
                         ))}
                       </span>
-                    </a>
+                    </Link>
 
                     <div className="view-details mt-3 d-block d-md-none text-end w-100%">
-                      <a href={"/property/" + record.slug}>View Details</a>
+                      <Link href={"/property/" + record.slug}>View Details</Link>
                     </div>
                   </div>
 
                  <div className="col-md-8 col-7">
                     <div className="row">
                       <div className="col-md-8">
-                        <h5 className="mb-1"><a href={"/property/" + record.slug}>{record.title}</a></h5>
+                        <h5 className="mb-1"><Link href={"/property/" + record.slug}>{record.title}</Link></h5>
                         <p className="location-box d-flex align-items-center"><img src="img/location_pin.svg" className="me-1"/> {record.city}, {record.state}</p>
 
                         { (record?.facilities_list && record?.facilities_list?.length > 0) &&
@@ -433,7 +435,7 @@ return <>
                           </div>
                         </div>
                         <div className="view-details mt-2 mt-md-5 text-end w-100%">
-                          <a href={"/property/" + record.slug}>View Details</a>
+                          <Link href={"/property/" + record.slug}>View Details</Link>
                         </div>
                       </div>
                       
@@ -456,7 +458,7 @@ return <>
                           }
                         </div>
                         <div className="col-md-5 d-flex flex-column text-end">
-                           <a href={"/property/" + record.slug} className="btn btn-primary">Check Availability</a>
+                           <Link href={"/property/" + record.slug} className="btn btn-primary">Check Availability</Link>
                         </div>
                     </div>
 
@@ -493,7 +495,7 @@ return <>
                         }
                   </div>
                   <div className="col-6 d-flex flex-column text-end">
-                      <a href={"/property/" + record.slug} className="btn btn-primary">Check Availability</a>
+                      <Link href={"/property/" + record.slug} className="btn btn-primary">Check Availability</Link>
                   </div>
                </div>
             </div>

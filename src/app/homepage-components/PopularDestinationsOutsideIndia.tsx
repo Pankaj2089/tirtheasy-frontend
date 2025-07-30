@@ -6,6 +6,7 @@ import { log } from 'console';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -53,6 +54,50 @@ const options = {
 };
 export default function ({ title, type }: DestinationsProps) {
     const [promotions, setData] = useState<BannerData[]>([]);
+    const router = useRouter();
+    const [searchData, setSearchState] = useState({
+        keywords: '',
+        start_date: '',
+        end_date: '',
+        persons: 0,
+        sortby:'',
+        priceRange:[0,1000]
+      });
+    
+        useEffect(() => {
+          if(searchData.keywords !== '' || searchData.start_date !== '' || searchData.end_date !== ''){
+            localStorage.setItem("searchData", JSON.stringify(searchData));      
+          }   
+      }, [searchData]);
+    
+      const handleChange = (name:any,value:any) => {    
+        const updatedData = { ...searchData, [name]: value };
+        setSearchState(updatedData);
+    
+        if (updatedData.keywords !== '' || updatedData.start_date !== '' || updatedData.end_date !== '') {
+          localStorage.setItem("searchData", JSON.stringify(updatedData));
+        }
+    
+        searchProperties();
+      };
+    
+       // Get array from localStorage
+      const loadFromLocalStorage = () => {
+        const data = localStorage.getItem('searchData');
+        if (data) {
+          let serData = JSON.parse(data);
+          setSearchState(serData); 
+        }
+      };
+    
+    
+      useEffect(() => {
+        loadFromLocalStorage();
+      }, [])
+
+      const searchProperties =() => {      
+        router.push('/porperty-list', { scroll: false });
+      } 
     
       useEffect(() => {
         async function fetchData() {
@@ -90,7 +135,7 @@ export default function ({ title, type }: DestinationsProps) {
           <OwlCarousel {...options}>
             {promotions.map((data, index) => (
                 <div className="item">
-                  <a href="#" className="destination-box rounded-4" title={data.heading}>
+                  <a className="destination-box rounded-4 cursor-pointer" title={data.heading} onClick={() => {handleChange('keywords', data.heading)}}>
                       <img src={data.image} alt={data.heading} title={data.heading} />
                       <span className="overlay-box"></span>
                       <span className="address-box text-white">

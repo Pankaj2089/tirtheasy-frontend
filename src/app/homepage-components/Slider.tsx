@@ -56,7 +56,7 @@ export default function Slider() {
       setTimeout(() => {
         fetchData();
       }, 200);
-  }, []); 
+  }, [banners.length == 0]); 
   
   return (
     <>

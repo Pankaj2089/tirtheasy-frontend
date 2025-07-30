@@ -8,7 +8,6 @@ import Hotels from './homepage-components/Hotels';
 import GuestReviews from './homepage-components/GuestReviews';
 import { Metadata } from 'next';
 import { getData } from './utils/api';
-import { Button } from 'antd';
 
 // Simulate dynamic data fetch (could be API/db call)
 async function getHotelData() {

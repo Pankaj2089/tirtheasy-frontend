@@ -265,7 +265,7 @@ const today = new Date();
                       </div>
                     </div>
                     <div className={`multi-collapse member-addon collapse ${isRoomPerson ? 'show' : 'multi-collapse'}`}>
-                      {['rooms', 'adult', 'childerns'].map((field, index) => (
+                      {['adult', 'childerns', 'rooms'].map((field, index) => (
                         <div className="select-adult" key={index}>
                           <span className="left-label">
                             {field.charAt(0).toUpperCase() + field.slice(1)}

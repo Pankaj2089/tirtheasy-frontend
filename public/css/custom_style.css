@@ -113,6 +113,68 @@
     overflow: hidden;
     overflow-y: auto;
 }
+.ant-tabs-nav-list {
+  display: flex;
+  overflow-x: auto !important;
+  scrollbar-width: thin;
+}
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    color: #702829;
+    text-shadow: 0 0 0.25px rgb(112 40 41);
+}
+.ant-tabs .ant-tabs-tab:hover {
+    color: #702829;
+}
+.custom-scroll-tabs .ant-tabs-tab-active {
+    border: 2px solid #702829;
+    padding: 0px 10px;
+    border-radius: 6px;
+    height: auto;
+}
+.ant-tabs-nav-list{
+    padding-bottom: 3px;
+}
+/* Optional: If using 'line' type, also change the ink bar */
+.custom-scroll-tabs .ant-tabs-ink-bar {
+  background-color: #FFF !important; /* change to match your active border color */
+}
+
+/* For Chrome, Edge, Safari */
+.tab-scroll-container::-webkit-scrollbar {
+  height: 1px;
+  width: 1px;
+}
+
+.tab-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #702829; /* Your desired color */
+  border-radius: 4px;
+}
+
+.tab-scroll-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* For Firefox */
+.tab-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #702829 #f1f1f1;
+}
+.landmarks-list li{
+    padding-bottom:10px !important;
+}
+.landmarks-list span{
+    font-size:0.896rem !important;
+}
+.landmarks-list img{
+    max-width: 22px !important;
+}
+.view-all-amenities li{
+    display: inline-block;
+    width: 33%;
+}
+.view-all-amenities li img{
+    display: inline-block;
+}
 @media(max-width: 960px){
     .hero-banner {
         min-height: 150px;

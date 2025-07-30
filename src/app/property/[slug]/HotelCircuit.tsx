@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { postData } from '../../utils/api';
 import { Skeleton } from 'antd';
+import { log } from 'node:console';
 type hotelDataProps = {
   hotelState:any;
   handleChange:any;
@@ -14,7 +15,7 @@ interface ListData {
 export default function HotelCircuit({ hotelState, handleChange }: hotelDataProps) {
 
     const [records, setData] = useState<ListData[]>([]);
-      const [showLoader, setShowLoader] = useState(false);
+      const [showLoader, setShowLoader] = useState(false);     
 
           useEffect(() => {
             setShowLoader(true);
@@ -30,7 +31,7 @@ export default function HotelCircuit({ hotelState, handleChange }: hotelDataProp
             }
             setTimeout(() => {
               fetchData();
-            }, 300);
+            }, 600);
     
           }, [hotelState]); 
 

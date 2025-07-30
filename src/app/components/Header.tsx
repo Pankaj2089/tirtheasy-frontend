@@ -39,7 +39,8 @@ export default function Header() {
       if(action == null || action == '/' || action == '/porperty-list'){
         window.location.reload()
       }else{
-        window.location.href = '/';
+        router.push('/', { scroll: false });
+        //window.location.href = '/';
       }
     };
 
@@ -62,7 +63,7 @@ export default function Header() {
                       <div className="d-flex flex-column flex-lg-row align-lg-items-center justify-content-between">
                         <ul className="navbar-nav mx-lg-auto">
                            <li className="px-3 d-block d-lg-none user-profile">
-                            <a href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</a>
+                            <Link href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</Link>
                             <span className="profile-details d-none">
                               <span className="profile-thumb">
                                 <img src="/img/user_icon.svg"/>
@@ -77,13 +78,13 @@ export default function Header() {
                               <a  onClick={() => updatePage('dharmshala')} className={`nav-link  cursor-pointer ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
                             </li>
                             <li className="nav-item">
-                              <a href="/about" className="nav-link">About Us</a>
+                              <Link href="/about" className="nav-link">About Us</Link>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link" href="#">Blog</a>
+                              <Link className="nav-link" href="#">Blog</Link>
                             </li>
                             <li className="nav-item">
-                              <a className="nav-link" href="#">Contact Us</a> 
+                              <Link className="nav-link" href="#">Contact Us</Link> 
                             </li>
                         </ul>
                       </div> 
