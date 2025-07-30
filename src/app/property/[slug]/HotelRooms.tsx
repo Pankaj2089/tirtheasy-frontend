@@ -159,6 +159,7 @@ return (
                                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div className="modal-body">
+                                                    <h6 className='mt-2'>Amenities</h6>
                                                     <ul className='bed-pref-list p-3 mt-0'>
                                                         { record.amenities_list.map((amenityRow:any) => (
                                                             <li><img src={amenityRow.icon} className="me-2" width={24}/> {amenityRow.title}</li>
