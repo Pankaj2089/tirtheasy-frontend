@@ -16,7 +16,7 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
         setShowAll(!showAll);
         setVisibleCount(showAll ? 4 : record.room_prices.length);
     };
-      
+    
   return (
     <>
      { record.room_prices.length > 0 && record.room_prices.slice(0,visibleCount).map((recPrice:any, index:any) => (
@@ -34,7 +34,6 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                     </div>
                     <div className="col-md-2 border-end align-items-center justify-content-center">
                         { record.bedPreference == 'double' ?
-
                             <ul className="adult-room-child-list py-3">
                                 <li>
                                     <span className="adult-icon-box me-2"><img src="/img/single.svg"/></span> {record.no_of_guest_in_double_room} Adults
@@ -62,7 +61,6 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                                     <span className="adult-icon-box me-2"><img src="/img/room_bad.svg"/></span> {record.no_of_single_rooms} Room
                                 </li>
                             </ul>
-
                         }
                         
                     </div>

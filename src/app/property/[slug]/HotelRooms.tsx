@@ -4,6 +4,7 @@ import { postData, } from '../../utils/api';
 import { Skeleton } from 'antd';
 import HotelImages from './HotelImages';
 import RoomPrices from './RoomPrices';
+import MobileRoomPrices from './MobileRoomPrices';
 
 type hotelDataProps = {
   hotelId:any;
@@ -60,7 +61,10 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
             return updated;
         });
     };
-    
+
+    const isMobile = window.innerWidth < 480;
+    const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
+
 
 return (
     <>
@@ -79,7 +83,8 @@ return (
 
                 {(records.length > 0) &&
                 <>
-                    {records.length > 0 && records.map((record, index) => ( 
+                    {/* Desktop View */}
+                    {!isMobile && records.length > 0 && records.map((record, index) => ( 
                         <div className="overview-section room-overview border rounded p-3 mb-4 wow fadeInUp d-none d-md-block" id="rooms">
                         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between pb-3">
                             <h5 className="">{record.title}</h5>
@@ -112,10 +117,12 @@ return (
                         <div className="row">
                             <div className="col-md-9">
                                 <div className="row rooms-img-section">
-                                    <div className="col-md-6 mb-2 mb-md-0 full-img position-relative">
+                                    <div className={` mb-3 full-img position-relative ${record.additional_images.length >= 1 ? 'col-md-6' :'col-md-12'}`}>
                                         <div className="big-img-box">
                                             <img src={record.image} alt={record.title} title={record.title} className="rounded h-100" />
-                                            <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
+                                            { record.additional_images.length >= 1 && 
+                                                <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
+                                            }
                                         </div>
                                     </div>
                                     {record.additional_images.length > 0 && 
@@ -139,7 +146,7 @@ return (
                                     <h6 className="fw-semibold text-dark pb-2">Room Facilities</h6>
 
                                     <ul className="bed-pref-list">
-                                        <li><img src="/img/room_size.svg" className="me-2"/> Room Size: {record.room_size}</li>
+                                        <li><img src="/img/room_size.svg" className="me-2"/>Room Size: {record.room_size}</li>
                                         {record.amenities_list.length > 0 &&  record.amenities_list.slice(0, 3).map((facility: any) => (
                                             <li><img src={facility.icon} className="me-2" width={24}/> {facility.title}</li>
                                         ))}
@@ -189,187 +196,74 @@ return (
                        <RoomPrices record={record} hotelFacilities={hotelFacilities} />
                        </div>
                     ))}
-                    
-                                    
-                    <div className="overview-section room-overview border rounded p-2 mb-3 wow fadeInUp d-block d-md-none" id="rooms">
-                        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between pb-3">
-                            <h5 className="">Luxury King Room</h5>
-                            <div className="bed-preference">
-                                <p className="fw-normal">Bed preference (if available)</p>
-                                <div className="d-flex">
-                                    <label className="custom-radio me-2">
-                                        <input type="radio" name="option" checked />
-                                        <span className="radio-mark"></span>
-                                        1 Single Beds
-                                    </label>
+                
+                    {/* Mobile View */}     
+                    {isMobile && records.length > 0 && records.map((record, index) => (         
+                        <div className="overview-section room-overview border rounded p-2 mb-3 wow fadeInUp d-block d-md-none" id="rooms">
+                            <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between pb-3">
+                                <h5 className="">{record.title}</h5>
+                                { (record.no_of_single_rooms > 0 && record.no_of_double_rooms > 0 && record.room_prices.length > 0) &&
+                                    <div className="bed-preference">
+                                        <p className="fw-normal">Bed preference (if available)</p>
+                                        <div className="d-flex">
+                                            <label className="custom-radio me-2" htmlFor={"singleBed"+index}>
+                                                <input type="radio" name={`bed-${index}`} id={"singleBed"+index} value={1} 
+                                                checked={record.bedPreference === 'single'}
+                                                onChange={() => handleBedPreferenceChange(index, 'single')} 
+                                                />
+                                                <span className="radio-mark"></span>
+                                                Single Beds
+                                            </label>
 
-                                    <label className="custom-radio">
-                                        <input type="radio" name="option" />
-                                        <span className="radio-mark"></span>
-                                        1 Double Bed
-                                    </label>
-                                </div>
-                                    
+                                            <label className="custom-radio" htmlFor={"doubleBed"+index}>
+                                                <input type="radio" name={`bed-${index}`} value={2} id={"doubleBed"+index} 
+                                                checked={record.bedPreference === 'double'}
+                                                onChange={() => handleBedPreferenceChange(index, 'double')} 
+                                                />
+                                                <span className="radio-mark"></span>
+                                                Double Bed
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
-                        </div>
-                        
+                            
                             <div className="room-images position-relative"> 
-                            <a href="#" className="see-all-photos see-all-photos_absolute" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See All Photos</a>                    
-                            <div id="carouselExampleIndicators" className="carousel slide">
-                                <div className="carousel-inner">
-                                    <div className="carousel-item active">
-                                        <img src="/img/hotel-4.png" className="d-block w-100" alt="..." />
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img src="/img/hotel-3.png" className="d-block w-100" alt="..." />
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img src="/img/hotel-2.png" className="d-block w-100" alt="..." />
-                                    </div>
-
-                                    <div className="carousel-item">
-                                        <img src="/img/hotel-1.png" className="d-block w-100" alt="..." />
-                                    </div>
-                                </div>
-                                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Previous</span>
-                                </button>
-                                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>  
-
-                        <div className="border-top mt-3 mb-3">
-                                <div className="room-facility">
-                                <div className="row">
-                                    <div className="col-7">
-                                        <ul className="bed-pref-list pt-2">
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Breakfast available (Rs. 500 / person)</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Free cancellation before 23:59 on June 04, 2025</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Book and pay now</li>
-                                            <li><a href="#">See All</a></li>
-                                            
-                                        </ul>
-                                        
-                                    </div>
-                                    <div className="col-5 justify-content-end">
-                                            <div className="price-box-section py-2">
-                                            <del><span className="rs">Rs.</span> 25,529</del>
-                                            <div className="room-price red-text"><span className="rs">Rs.</span> 5,154</div>
-                                            <em>Per night before taxes and fees</em>
+                                {record.additional_images.length > 1 &&
+                                    <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
+                                }
+                                <div id={`carouselExampleIndicators${index}`} className="carousel slide">
+                                    <div className="carousel-inner">
+                                        <div className={`carousel-item active`} key={0}>
+                                            <img src={record.image} alt={record.title} title={record.title} className="d-block w-100" />
                                         </div>
-                                    </div>
-                                </div>
-
-                                    <div className="adult-rooms">
-                                    <div className="adult-section"><img src="/img/adult_user.svg" className="me-1"/> 2 Adult, 1 Child</div> | <div className="adult-section"><img src="/img/double_bed_icon.svg" className="me-1"/> 1 Room</div>
-                                </div>
-                                </div>                   
-                            <div className="row">                            
-                                <div className="col-12">
-                                    <div className="no-risk-section">
-                                        <div className="no-risk-content">
-                                            <div className="d-flex flex-column w-50">
-                                                <h3 className="fw-medium mt-0">No Risk!</h3>
-                                                <p>No cancellation fee</p>
-                                                <p className="limited-offer red-text mt-0 mb-0">Limited availability</p>
+                                        {record.additional_images.slice(0, 4).map((imgrec: any, imgindex: number) => (
+                                            <div className={`carousel-item `} key={imgindex+1}>
+                                                <img src={imgrec.image} alt={`thumb-${imgindex}`} className="d-block w-100" />
                                             </div>
-                                            <a href="#" className="btn btn-primary w-100">Book Now</a>
-                                        </div>
+                                        ))}
                                     </div>
-                                </div>        
-                            </div>              
-                        </div>
+                                    {record.additional_images.length > 1 &&
+                                        <>
+                                            <button className="carousel-control-prev" type="button" data-bs-target={`#carouselExampleIndicators${index}`} data-bs-slide="prev">
+                                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span className="visually-hidden">Previous</span>
+                                            </button>
+                                            <button className="carousel-control-next" type="button" data-bs-target={`#carouselExampleIndicators${index}`} data-bs-slide="next">
+                                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span className="visually-hidden">Next</span>
+                                            </button>
+                                        </>
+                                    }
 
-                        <div className="border-top mt-3 mb-3">
-                                <div className="room-facility">
-                                <div className="row">
-                                    <div className="col-7">
-                                        <ul className="bed-pref-list pt-2">
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Breakfast available (Rs. 500 / person)</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Free cancellation before 23:59 on June 04, 2025</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Book and pay now</li>
-                                            <li><a href="#">See All</a></li>
-                                            
-                                        </ul>
-                                        
-                                    </div>
-                                    <div className="col-5 justify-content-end">
-                                            <div className="price-box-section py-2">
-                                            <del><span className="rs">Rs.</span> 25,529</del>
-                                            <div className="room-price red-text"><span className="rs">Rs.</span> 5,154</div>
-                                            <em>Per night before taxes and fees</em>
-                                        </div>
-                                    </div>
                                 </div>
-
-                                    <div className="adult-rooms">
-                                    <div className="adult-section"><img src="/img/adult_user.svg" className="me-1"/> 2 Adult, 1 Child</div> | <div className="adult-section"><img src="/img/double_bed_icon.svg" className="me-1"/> 1 Room</div>
-                                </div>
-                                </div>                   
-                            <div className="row">                            
-                                <div className="col-12">
-                                    <div className="no-risk-section">
-                                        <div className="no-risk-content">
-                                            <div className="d-flex flex-column w-50">
-                                                <h3 className="fw-medium mt-0">No Risk!</h3>
-                                                <p>No cancellation fee</p>
-                                                <p className="limited-offer red-text mt-0 mb-0">Limited availability</p>
-                                            </div>
-                                            <a href="#" className="btn btn-primary w-100">Book Now</a>
-                                        </div>
-                                    </div>
-                                </div>        
-                            </div>              
+                            </div>  
+                            
+                            <MobileRoomPrices record={record} hotelFacilities={hotelFacilities} />
                         </div>
+                    ))}
 
-                        <div className="border-top mt-3 mb-3">
-                                <div className="room-facility">
-                                <div className="row">
-                                    <div className="col-7">
-                                        <ul className="bed-pref-list pt-2">
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Breakfast available (Rs. 500 / person)</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Free cancellation before 23:59 on June 04, 2025</li>
-                                            <li><img src="/img/tick_icon.svg" className="me-2"/> Book and pay now</li>
-                                            <li><a href="#">See All</a></li>
-                                            
-                                        </ul>
-                                        
-                                    </div>
-                                    <div className="col-5 justify-content-end">
-                                            <div className="price-box-section py-2">
-                                            <del><span className="rs">Rs.</span> 25,529</del>
-                                            <div className="room-price red-text"><span className="rs">Rs.</span> 5,154</div>
-                                            <em>Per night before taxes and fees</em>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <div className="adult-rooms">
-                                    <div className="adult-section"><img src="/img/adult_user.svg" className="me-1"/> 2 Adult, 1 Child</div> | <div className="adult-section"><img src="/img/double_bed_icon.svg" className="me-1"/> 1 Room</div>
-                                </div>
-                                </div>                   
-                            <div className="row">                            
-                                <div className="col-12">
-                                    <div className="no-risk-section">
-                                        <div className="no-risk-content">
-                                            <a href="#" className="btn btn-primary w-100 mx-auto">Book Now</a>
-                                        </div>
-                                    </div>
-                                </div>        
-                            </div>              
-                        </div>
-
-                        <div className="load-more-btn d-flex align-items-center justify-content-center">
-                            <a href="#" className="btn btn-outline-primary">Load More</a>
-                        </div>
-                    </div>
-
-
-                    
                     <div className="modal fade view-all-phots-popup z-index-big" id="staticImageBackdrop" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex={-1}>
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
@@ -385,10 +279,8 @@ return (
                             </div>
                         </div>
                     </div>
-                   
                 </>
                 }
-                
             </div>
         }
     </>
