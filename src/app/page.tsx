@@ -19,8 +19,6 @@ async function getHotelData() {
 export async function generateMetadata(): Promise<Metadata> {
   const hotel = await getHotelData();
 
-
-
   return {
     title: hotel.seo_title,
     description: hotel.seo_description,

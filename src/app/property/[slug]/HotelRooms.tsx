@@ -119,7 +119,12 @@ return (
                                 <div className="row rooms-img-section">
                                     <div className={` mb-3 full-img position-relative ${record.additional_images.length >= 1 ? 'col-md-6' :'col-md-12'}`}>
                                         <div className="big-img-box">
-                                            <img src={record.image} alt={record.title} title={record.title} className="rounded h-100" />
+                                            { (record.image && record.image != '') ?
+                                                <img src={record.image} alt={record.title} title={record.title} className="rounded h-100" />
+                                            :
+                                                <Skeleton.Image active={true} style={{height:'200px', width:'60rem'}}  className="rounded h-100" />
+                                            }
+                                            
                                             { record.additional_images.length >= 1 && 
                                                 <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
                                             }

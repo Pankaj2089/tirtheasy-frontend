@@ -12,7 +12,8 @@ async function getHotelData(slug: string) {
 
 // ✅ Dynamic SEO meta using slug
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const hotelData = await getHotelData(params.slug);
+  const resolvedParams = await params;
+  const hotelData = await getHotelData(resolvedParams.slug);
   return {
     title: hotelData.seo_title,
     description: hotelData.seo_description,

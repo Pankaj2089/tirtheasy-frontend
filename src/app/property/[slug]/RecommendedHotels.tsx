@@ -58,9 +58,11 @@ export default function RecommendedHotels({ hotelId, hotelCity }: hotelDataProps
         useEffect(() => {
         async function fetchData() {
             try {
+                window.scroll(0,0);
                 let postRec: { hotel_id: number, hotel_city: string, type:any } = { hotel_id: hotelId, hotel_city: hotelCity, type : localStorage.getItem('property_type')}; 
                 const res = await postData('recommended-hotels', postRec);        
                 setData(res.records);
+                
             } catch (err) {
                 console.error(err);
             }
