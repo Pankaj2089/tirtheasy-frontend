@@ -3,15 +3,47 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname , useRouter } from 'next/navigation';
+import Signin from './Signin';
+import { Dropdown, Menu } from "antd";
 export default function Header() {
 
+interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+}
+const menu = (
+  <Menu>
+    <Menu.Item key="1">
+      <Link href="/profile">Profile</Link>
+    </Menu.Item>
+    <Menu.Item key="2">
+      <Link href="/settings">Settings</Link>
+    </Menu.Item>
+    <Menu.Item key="3">
+      <a className='cursor-pointer' onClick={() => LogOut()} >Logout</a>
+    </Menu.Item>
+  </Menu>
+);
  const action = usePathname();
  const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
 
- 
-  const router = useRouter();
+ const router = useRouter();
 
+ const LogOut = () => {
+    localStorage.removeItem('userDetails');
+    localStorage.removeItem('accessToken');
+    window.location.href= '/';
+ }
+ const [userDetails, setUserDetails] = useState<UserData  | null>(null);
   useEffect(() => {
+
+    if(localStorage.getItem("accessToken")){
+       let userData = JSON.parse(localStorage.getItem("userDetails") ?? "{}");;
+      setUserDetails(userData as UserData);
+    } 
+
       async function fetchData() {
         try {
           const data = localStorage.getItem('property_type');
@@ -26,7 +58,7 @@ export default function Header() {
         }
       }
       fetchData();
-    }, []); 
+    }, []);  
 
     const updatePage = (pageName:any) => {
       sessionStorage.removeItem('popularDestinations1');
@@ -64,7 +96,7 @@ export default function Header() {
                         <ul className="navbar-nav mx-lg-auto">
                            <li className="px-3 d-block d-lg-none user-profile">
                             <Link href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</Link>
-                            <span className="profile-details d-none">
+                            <span className="profile-details ">
                               <span className="profile-thumb">
                                 <img src="/img/user_icon.svg"/>
                               </span>
@@ -89,69 +121,37 @@ export default function Header() {
                         </ul>
                       </div> 
                 </div>             
-            </div>                  
-              
+            </div>              
 
               <div className="header-end d-flex align-items-center">
 
-                <a href="#" className="me-3 me-lg-4 cart-icon"><img src="/img/cart.svg"/></a>
-                                      
-                <a href="" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" className="btn btn-primary d-none d-lg-block">Sign in / Create Account</a>
-                <a href="#" className="navbar-toggler m-usericon" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"><img src="/img/user_icon.svg" className="user-icon"/></a>
+                <a className=" cursor-pointer me-3 me-lg-4 cart-icon"><img src="/img/cart.svg"/></a>
 
-                <button className="navbar-toggler d-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                { (userDetails) ?
+                  <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
+                  <span className="profile-details" style={{ cursor: "pointer" }}>
+                    <span className="profile-thumb">
+                      <img src="/img/user_icon.svg" alt="User" />
+                    </span>
+                    <span className="user-details">{userDetails?.name}</span>
+                  </span>
+                </Dropdown>
+                :
+                <>
+                  <a  data-bs-target="#exampleModalToggle" data-bs-toggle="modal" className="cursor-pointer btn btn-primary d-none d-lg-block">Sign in / Create Account</a>
+                  <a className="cursor-pointer navbar-toggler m-usericon" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"><img src="/img/user_icon.svg" className="user-icon"/></a>
+
+                </>
+                }
+                <button className="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <img src="/img/user_icon.svg" className="user-icon"/>
                 </button>
               </div>
           </div>
         </nav>    
-      
+
     </div>
-      <div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header align-items-start">
-                <div className="d-flex flex-column">
-                <h1 className="modal-title fs-5">Sign in or create an account</h1>
-                <p className="fs-6">Sign up for free or log in to access amazing deals and benefits!</p>
-                </div>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <form className="needs-validation">
-                   <div className="email-signin">                    
-
-                    <div className="mb-3">
-                      <label htmlFor="validationCustom01" className="form-label">Email</label>
-                      <input type="email" className="form-control" id="validationCustom01" placeholder="Enter your email id" />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="validationCustom02" className="form-label">Password</label>
-                      <input type="password" className="form-control" id="validationCustom02" placeholder="Enter password" />
-                    </div>
-
-                    <div className="mb-3 d-flex align-items-center justify-content-center">
-                      <button type="submit" className="btn btn-primary w-100">Sign In</button>
-                    </div>
-
-                   </div>
-                </form>
-
-                <div className="or-saprator"><div className="left-line"></div><p>or</p><div className="left-line"></div></div>
-
-                <div className="login-with-social">
-                   <a href="#"className="signin-with-social google-signup"><img src="/img/signup_google.svg"/></a>
-                   <a href="#"className="signin-with-social facebook-signup"><img src="/img/signup-fb.svg"/></a>
-                   <a href="#"className="signin-with-social apple-signup"><img src="/img/signup-apple.svg"/></a>
-                </div>
-                <p className="by-signup mb-4 text-center">By signing in, I agree to tirtheasy's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy.</a></p>
-                
-                <div className="create-an-account">Don't have an account? <a href="#">Create Account.</a></div>
-              </div>
-             
-            </div>
-          </div>
-      </div>
+      <Signin />
     </header>
   );
 }

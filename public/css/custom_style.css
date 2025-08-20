@@ -185,3 +185,32 @@
         overflow: hidden;
     }
 }
+.Toastify__toast-container{
+    z-index: 999999;
+}
+.edit_mobile {
+    background-color: #cc484a !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin: 5px 0 0 0;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400 !important;
+    margin-bottom:20px;
+}
+.edit_mobile img{
+    display: inline-block;
+    margin-left: 5px;
+}
+.login-mobile .ant-input-group-addon{
+    padding: 10px 15px;
+    color: #FFF;
+    background-color: #cc484a !important;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+.login-mobile .ant-input{
+    padding: 10px;    
+    font-size: 0.875rem;
+    font-weight: 600;
+}
