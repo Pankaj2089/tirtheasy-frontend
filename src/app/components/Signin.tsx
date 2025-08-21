@@ -182,9 +182,9 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header align-items-start">
-                <div className="d-flex flex-column">
+                <div className="d-flex flex-column text-center">
                 <h1 className="modal-title fs-5">Sign in or create an account</h1>
-                <p className="fs-6">Sign up for free or log in to access amazing deals and benefits!</p>
+                <p className="fs-6">Sign up or log in to access amazing deals and benefits!</p>
                 </div>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -194,7 +194,7 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
 
                     { activeStep == 1 &&
                         <>
-                            <form className="needs-validation" onSubmit={handleSignInSubmit}>
+                            <form className="needs-validation mobile-section" onSubmit={handleSignInSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="validationCustom01" className="form-label">Mobile Number</label>
                                     <Input
@@ -227,7 +227,7 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
 
                     { activeStep == 2 &&
                         <>
-                         <form className="needs-validation" onSubmit={handleOTPSubmit}>
+                         <form className="needs-validation otp-section" onSubmit={handleOTPSubmit}>
                             <div className="mb-3">
                                 <div className="form-phone text-center">
                                     <a href="javascript:void(0)" className="edit_mobile text-white fw-bold" onClick={() => setActiveStep(1)}>+91 {mobile} <img src="/img/edit.svg" alt="" />

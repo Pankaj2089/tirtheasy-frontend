@@ -214,3 +214,11 @@
     font-size: 0.875rem;
     font-weight: 600;
 }
+.otp-section input{
+    border-color: #DEE2E6 !important;
+    background-color: #FDF3F3 !important;
+}
+.mobile-section input{
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+}
