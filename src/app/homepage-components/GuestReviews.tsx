@@ -32,7 +32,7 @@ export default function Dharamshala() {
           <p>What Our Satisfied Guests Are Saying</p>
         </div>
 
-        <div className="guest_reviews-sldier owl-carousel show-nav">
+        <div className="guest_reviews-sldier show-nav">
           <OwlCarousel {...options} key={'guest-review1'}>
             <div className="item">
               <div className="guest-review-content-main">

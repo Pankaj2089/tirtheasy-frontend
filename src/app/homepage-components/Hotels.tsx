@@ -78,7 +78,7 @@ export default function Hotels({ title, type }: HotelsProps) {
             <div className="section-title text-center wow fadeInUp">
               <h2 className="mb-0">{title}</h2>
             </div>
-            <div className="top-hotels-sldier owl-carousel show-nav">
+            <div className="top-hotels-sldier show-nav">
               <OwlCarousel {...options} key={'hotal'+hotels.length}> 
               {hotels.map((data, index) => (
                 <div className="item">

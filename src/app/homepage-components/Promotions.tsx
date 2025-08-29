@@ -81,7 +81,7 @@ export default function Promotions({ title, type }: PromotionsProps) {
             <div className="section-title text-center wow fadeInUp">
               <h2 className="mb-0">{title}</h2>
             </div>
-            <div className="promotions-sldier owl-carousel show-nav">
+            <div className="promotions-sldier show-nav">
               <OwlCarousel {...options} key={'promotion'+promotions.length}>
                 {promotions.map((data) => (
                     <div className="item" key={data.id}>

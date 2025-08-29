@@ -88,7 +88,7 @@ export default function Destinations({ title, type }: DestinationsProps) {
           </div>
 
           <div className="container-fluid">
-            <div className="outside-india-sldier owl-carousel">
+            <div className="outside-india-sldier">
               {mounted && (
                 <OwlCarousel {...options} key={'promotionsp'+promotions.length}>
                   {promotions.map((data, index) => (

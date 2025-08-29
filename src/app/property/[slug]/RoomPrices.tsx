@@ -89,8 +89,6 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                                     <p className="limited-offer red-text mt-1 mb-2">Limited availability</p>
                                     <a className="btn btn-primary w-100 cursor-pointer" data-bs-target={"#bookingConfirmPopup"+recPrice.id} data-bs-toggle="modal" onClick={() => bookNowConfirmation(recPrice.id)} >Book Now</a>
 
-
-                                     
                                 </div>
                             </div>
                         </div>

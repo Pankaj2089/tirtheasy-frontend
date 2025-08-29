@@ -76,7 +76,7 @@ useEffect(() => {
     setTimeout(() => {
            handleChange('roomID',record.id);
            handleChange('roomPriceID',selectedRoom);           
-      }, 500);
+      }, 200);
   }, [selectedRoom, extraMattressValue]);
 
    useEffect(() => {
@@ -143,6 +143,11 @@ useEffect(() => {
          // simulate button click
         closeBtnRef.current?.click();
 
+        const searchDataObj: any = { ...searchData };
+        searchDataObj.roomID = record.id;
+        searchDataObj.roomPriceID = selectedRoom;
+        localStorage.setItem("searchData", JSON.stringify(searchDataObj)); 
+        
         // navigate after short delay (allow modal animation to run)
         setTimeout(() => {
           router.push("/checkout/user-information");
