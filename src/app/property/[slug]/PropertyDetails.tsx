@@ -53,7 +53,7 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
     end_date: '',
     persons: 0,
     sortby:'',
-    priceRange:[0,1000]
+    priceRange:[0,1000],
   });
 
     useEffect(() => {
@@ -86,6 +86,7 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
 
   useEffect(() => {
     loadFromLocalStorage();
+    localStorage.setItem("hotelData", JSON.stringify(hotelData));
   }, [])
 
 

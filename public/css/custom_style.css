@@ -222,3 +222,12 @@
     font-size: 1rem !important;
     font-weight: 400 !important;
 }
+.ant-select-dropdown{
+    z-index: 99999;
+}
+.ant-select-single{
+    height: 36px;
+}
+.ant-input{
+    border-color: #C2C9CF !important;
+}

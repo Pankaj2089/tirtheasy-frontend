@@ -69,6 +69,9 @@
 .owl-carousel .owl-nav .owl-next span{
   font-size: 0;
 }
+.show-nav .owl-nav{
+  display: block !important;
+}
 .owl-carousel .owl-nav .owl-prev span, 
 .owl-carousel .owl-nav .owl-prev.disabled span{
   background: url(../img/arrow-left.svg) no-repeat 0 0;
@@ -288,7 +291,6 @@
   .owl-theme .owl-dots .owl-dot {
     display: inline-block;
     zoom: 1;
-    *display: inline; 
   }
     .owl-theme .owl-dots .owl-dot span {
       width: 10px;

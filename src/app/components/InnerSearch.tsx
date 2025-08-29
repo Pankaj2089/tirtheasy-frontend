@@ -12,7 +12,7 @@ type InnerSearchProps = {
 };
 export default function InnerSearch({ searchAction, loading }: InnerSearchProps) {
 
-  const defaultStartDate = new Date(); // Today
+const defaultStartDate = new Date(); // Today
 const defaultEndDate = new Date();
 defaultEndDate.setDate(defaultEndDate.getDate() + 1); // 7 days from today
 

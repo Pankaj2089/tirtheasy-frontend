@@ -8,6 +8,7 @@ import Hotels from './homepage-components/Hotels';
 import GuestReviews from './homepage-components/GuestReviews';
 import { Metadata } from 'next';
 import { getData } from './utils/api';
+import Head from "next/head";
 
 // Simulate dynamic data fetch (could be API/db call)
 async function getHotelData() {
@@ -48,6 +49,9 @@ export default function Home() {
   
   return (
     <>
+     <Head>
+        <link rel="stylesheet" href="/css/owl.carousel.css" />
+      </Head>
       <Slider />
       <PopularDestinations title="Popular Destinations" type={1} />
       <Promotions title="Promotions on Flights, Tours & Tickets" type={1} />

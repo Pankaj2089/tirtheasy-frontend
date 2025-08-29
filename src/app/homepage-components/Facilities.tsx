@@ -52,11 +52,11 @@ export default function Facilities() {
             }
           }
           fetchData();
-        }, []); 
+        }, [facilities.length == 0]); 
   return (
     <>
       {facilities.length > 0 &&
-      <div className="relax_with_facilities py-50 wow fadeInUp">
+      <div className="relax_with_facilities py-50 wow fadeInUp" >
         <div className="container">
           <div className="section-title text-center wow fadeInUp">
             <h2 className="mb-1 mb-md-2 mb-lg-2">Relax With Premium Facilities</h2>
@@ -66,7 +66,7 @@ export default function Facilities() {
           <div className="facilities-content wow fadeInUp d-none d-lg-block">
             <div className="row">
             {facilities.map((data, index) => (
-              <div className="col-lg-4 col-md-6 mb-4 wow fadeInUp">
+              <div className="col-lg-4 col-md-6 mb-4 wow fadeInUp" key={'facilities' +index }>
                 <div className="facilites-box">
                   <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
                   <h5>{data.title}</h5>

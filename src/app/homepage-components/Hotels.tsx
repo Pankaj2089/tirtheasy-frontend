@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { getData } from '../utils/api';
 import { log } from 'console';
-
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
@@ -70,7 +69,7 @@ export default function Hotels({ title, type }: HotelsProps) {
         }
       }
       fetchData();
-  }, [type]); 
+  }, [hotels.length == 0]); 
   return (
     <>
       {hotels.length > 0 &&
@@ -79,8 +78,8 @@ export default function Hotels({ title, type }: HotelsProps) {
             <div className="section-title text-center wow fadeInUp">
               <h2 className="mb-0">{title}</h2>
             </div>
-            <div className="top-hotels-sldier">
-              <OwlCarousel {...options}>
+            <div className="top-hotels-sldier owl-carousel show-nav">
+              <OwlCarousel {...options} key={'hotal'+hotels.length}> 
               {hotels.map((data, index) => (
                 <div className="item">
                   <div className="hotal-detail-box">

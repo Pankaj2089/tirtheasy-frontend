@@ -43,7 +43,7 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
           fetchData();
         }, 300);
 
-      }, [type]); 
+      }, [promotions.length == 0]); 
 
   return (
     <>
@@ -76,9 +76,9 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
                   </div>
                 </>                    
             }
-            {promotions.length > 0 && promotions.map((data, index) => (
+            {promotions.map((data, index) => (
               <>
-              { index <= 4 &&
+              { (index <= 4) &&
                   <div className= {`wow fadeInUp mb-4 ${index > 1 ? 'col-4' : 'col-6'}`} >
                     <a href="#" className="destination-box rounded-4" title={data.heading}>
                       <img src={data.image} alt={data.heading} title={data.heading} />

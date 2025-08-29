@@ -68,7 +68,7 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
                                 <p>No cancellation fee</p>
                                 <p className="limited-offer red-text mt-0 mb-0">Limited availability</p>
                             </div>
-                            <a href="#" className="btn btn-primary w-100">Book Now</a>
+                            <a className="btn btn-primary w-100 cursor-pointer">Book Now</a>
                         </div>
                     </div>
                 </div>        

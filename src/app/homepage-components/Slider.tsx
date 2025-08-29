@@ -62,25 +62,26 @@ export default function Slider() {
     <>
       <div className="hero-section">
         <div className="hero-banner">
-          {showLoader &&
-             <div className="item">
-                  <div className="overlay-box"></div>
-                    <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
-                </div>
-            }
-          <OwlCarousel {...options}>
-            {banners.length > 0 &&  banners.map(data => (
-              <>
-                {(data.id > 0) &&
-                <div className="item" key={data.id}>
-                  <div className="overlay-box"></div>
-                    <img src={data.banner} alt={data.title} title={data.title}/>
-                </div>
+            {/* <>
+              {showLoader &&
+                <div className="item">
+                    <div className="overlay-box"></div>
+                      <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
+                  </div>
               }
-              </>
-            ))}
+            </> */}
 
-             
+            <OwlCarousel {...options}>
+              {banners.length > 0 &&  banners.map(data => (
+                <>
+                  {(data.id > 0) &&
+                  <div className="item" key={data.id}>
+                    <div className="overlay-box"></div>
+                      <img src={data.banner} alt={data.title} title={data.title}/>
+                  </div>
+                }
+                </>
+              ))}
           </OwlCarousel>
         </div>
         <HomeSearch/>

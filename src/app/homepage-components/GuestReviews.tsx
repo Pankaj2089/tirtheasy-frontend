@@ -1,44 +1,27 @@
 
 'use client'
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
 
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
 });
 
 const options = {
-  loop:true,
-  margin:20,
-  autoplay:false,
-  nav:true,
-  items:3,
-  dots:false,
-  responsive : {
-    0 : {
-        items:1.3,
-        margin:10,
-    },
-    480 : {
-      items:1.4,
-      margin:10,
-    },
-    768 : {
-      items:2,
-      margin:0,
-    },
-    992:{
-      items:2.5,
-      margin:15,
-    },
-
-     1200:{
-      items:3,
-      margin:15,
-    },
-   
-  }
+  loop: true,
+  margin: 20,
+  autoplay: false,
+  nav: true,
+  items: 3,
+  dots: false,
+  responsive: {
+    0: { items: 1, margin: 10 },
+    480: { items: 1, margin: 10 },
+    768: { items: 2, margin: 0 },
+    992: { items: 2, margin: 15 },
+    1200: { items: 3, margin: 15 },
+  },
 };
 export default function Dharamshala() {
   return (
@@ -49,8 +32,8 @@ export default function Dharamshala() {
           <p>What Our Satisfied Guests Are Saying</p>
         </div>
 
-        <div className="guest_reviews-sldier">
-          <OwlCarousel {...options}>
+        <div className="guest_reviews-sldier owl-carousel show-nav">
+          <OwlCarousel {...options} key={'guest-review1'}>
             <div className="item">
               <div className="guest-review-content-main">
                 <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">

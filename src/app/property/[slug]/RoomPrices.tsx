@@ -1,6 +1,7 @@
 'use client'
 import { log } from 'console';
 import { useEffect, useState, useRef } from 'react';
+import BookingConfirmationPopup from './BookingConfirmationPopup';
 
 type hotelDataProps = {
   record:any;
@@ -11,11 +12,16 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
 
     const [visibleCount, setVisibleCount] = useState<number>(4);
     const [showAll, setShowAll] = useState<boolean>(false);
+    const [selectedRoom, setSelectRoom] = useState(0);
 
     const toggleShow = () => {
         setShowAll(!showAll);
         setVisibleCount(showAll ? 4 : record.room_prices.length);
     };
+
+    const bookNowConfirmation =(priceID:any ) => {
+        setSelectRoom(priceID);
+    }
     
   return (
     <>
@@ -81,11 +87,15 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                                     <h3 className="fw-medium mt-0">No Risk!</h3>
                                     <p>No cancellation fee</p>
                                     <p className="limited-offer red-text mt-1 mb-2">Limited availability</p>
-                                    <a href="#" className="btn btn-primary w-100">Book Now</a>
+                                    <a className="btn btn-primary w-100 cursor-pointer" data-bs-target={"#bookingConfirmPopup"+recPrice.id} data-bs-toggle="modal" onClick={() => bookNowConfirmation(recPrice.id)} >Book Now</a>
+
+
+                                     
                                 </div>
                             </div>
                         </div>
-                    </div>        
+                    </div> 
+                    <BookingConfirmationPopup selectedRoom={recPrice.id} record={record} key={recPrice.id} />       
                 </div> 
                 <div className="modal fade view-all-amenities z-index-big" id={`viewmoreamenities${recPrice.id}`} aria-hidden="true" aria-labelledby="viewmoreresultLabel" tabIndex={-1}>
                     <div className="modal-dialog modal-lg">
@@ -127,6 +137,7 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                 <a className="btn btn-outline-primary cursor-pointer">{showAll ? 'View Less' : 'Load More'}</a>
             </div>
         }
+
     </>
   );
 }

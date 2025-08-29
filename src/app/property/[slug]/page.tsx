@@ -24,7 +24,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // ✅ Page Component
 export default async function HotelPage({ params }: { params: { slug: string } }) {
   const hotelData = await getHotelData(params.slug); // same fetch used above
-  
 
 return <> 
  <PropertyDetails hotelData={hotelData}  />

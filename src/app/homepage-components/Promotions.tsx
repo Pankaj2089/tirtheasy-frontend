@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
 import { log } from 'console';
 
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
@@ -53,7 +51,7 @@ const options = {
 
 export default function Promotions({ title, type }: PromotionsProps) {
   const [promotions, setData] = useState<BannerData[]>([]);
-  
+    
     useEffect(() => {
       async function fetchData() {
         try {
@@ -73,7 +71,7 @@ export default function Promotions({ title, type }: PromotionsProps) {
       }
   
       fetchData();
-    }, [type]); 
+    }, [promotions.length == 0]); 
     
   return (
     <>
@@ -83,8 +81,8 @@ export default function Promotions({ title, type }: PromotionsProps) {
             <div className="section-title text-center wow fadeInUp">
               <h2 className="mb-0">{title}</h2>
             </div>
-            <div className="promotions-sldier">
-              <OwlCarousel {...options}>
+            <div className="promotions-sldier owl-carousel show-nav">
+              <OwlCarousel {...options} key={'promotion'+promotions.length}>
                 {promotions.map((data) => (
                     <div className="item" key={data.id}>
                       <a className="promotion-img" href="#">

@@ -198,7 +198,7 @@ return <>
                               onChange={onSliderChange}
                             />
                             <div>
-                              ₹{searchData.priceRange[0]} - ₹{searchData.priceRange[1]}
+                              { searchData.priceRange ? <>₹{searchData.priceRange[0]} - ₹{searchData.priceRange[1]}</> : '₹0-1000' }
                             </div>
                         </div>
                       </div>
