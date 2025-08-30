@@ -7,9 +7,13 @@ import { Input, Row, Col, Button } from "antd";
 import type { InputRef } from "antd";
 import 'react-toastify/dist/ReactToastify.css';
 import { postData } from '../utils/api';
+import { useRouter } from "next/navigation";
 
+type pageProps = {
+  request_title: string;
+};
 
-export default function Signin() {
+export default function Signin({ request_title }: pageProps) {
 
 const [mobile, setMobile] = useState('');
 const [activeStep, setActiveStep] = useState(1);
@@ -18,10 +22,18 @@ const [resendProcessing, setResendProcessing] = useState(false);
 const [verifyOTPProcessing, setVerifyOTPProcessing] = useState(false);
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
-
 const [otp, setOtp] = useState(Array(6).fill(""));
 const inputRefs = useRef<(InputRef | null)[]>([]);
+const router = useRouter();
 
+// wait until client side render
+  useEffect(() => {
+    const user_data = localStorage.getItem('userData');
+    if (user_data) {
+        let uData = JSON.parse(user_data);
+        setMobile(uData.mobile);
+    }    
+  }, [request_title]);
   const isValidMobile = (mobile: any) => {
     // Only digits, length 10 (common in India for example)
     const regex = /^[6-9]\d{9}$/;
@@ -42,10 +54,6 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
           if(res.success){
             toast.success("OTP send successfully.");
             setActiveStep(2);
-            // toast.success(res.msg);
-            // localStorage.setItem("accessToken", res.accessToken);
-            // localStorage.setItem("userDetails", JSON.stringify(res.userDetails));
-            // window.location.reload();
           }else{
             toast.error(res.msg);
           }
@@ -85,7 +93,13 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
                 toast.success(res.msg);
                 localStorage.setItem("accessToken", res.accessToken);
                 localStorage.setItem("userDetails", JSON.stringify(res.userDetails));
-                window.location.reload();
+                
+                if(localStorage.getItem('RequestTitle') && localStorage.getItem('RequestTitle') == 'booking'){
+                  localStorage.removeItem('RequestTitle');
+                  window.location.href = "/checkout/payment-review";
+                }else{
+                  window.location.reload();
+                }
             }
           }else{
             toast.error(res.msg);
@@ -116,7 +130,13 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
             toast.success(res.msg);
             localStorage.setItem("accessToken", res.accessToken);
             localStorage.setItem("userDetails", JSON.stringify(res.userDetails));
-            window.location.reload();
+            if(localStorage.getItem('RequestTitle') && localStorage.getItem('RequestTitle') == 'booking'){
+              localStorage.removeItem('RequestTitle');
+              window.location.href = "/checkout/payment-review";
+            }else{
+              window.location.reload();
+            }
+
           }else{
             toast.error(res.msg);
           }

@@ -2,6 +2,7 @@
 import { log } from 'console';
 import { useEffect, useState, useRef } from 'react';
 import BookingConfirmationPopup from './BookingConfirmationPopup';
+import {Button} from "antd";
 
 type hotelDataProps = {
   record:any;
@@ -87,8 +88,14 @@ export default function RoomPrices({ record, hotelFacilities }: hotelDataProps) 
                                     <h3 className="fw-medium mt-0">No Risk!</h3>
                                     <p>No cancellation fee</p>
                                     <p className="limited-offer red-text mt-1 mb-2">Limited availability</p>
-                                    <a className="btn btn-primary w-100 cursor-pointer" data-bs-target={"#bookingConfirmPopup"+recPrice.id} data-bs-toggle="modal" onClick={() => bookNowConfirmation(recPrice.id)} >Book Now</a>
+                                    { recPrice.room_available ? 
+                                        <a className="btn btn-primary w-100 cursor-pointer" data-bs-target={"#bookingConfirmPopup"+recPrice.id} data-bs-toggle="modal" onClick={() => bookNowConfirmation(recPrice.id)} >Book Now</a>
 
+                                    :
+                                        <Button disabled={true} className="btn btn-primary w-100 cursor-pointer" >Already Booked</Button>
+
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>

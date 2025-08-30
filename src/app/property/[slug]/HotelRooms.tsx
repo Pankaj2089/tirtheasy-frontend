@@ -34,11 +34,19 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
     const [showLoader, setShowLoader] = useState(false); 
     const [imagesData, setImagesData] = useState<ListData[]>([]);
 
-        useEffect(() => {
+    useEffect(() => {
         async function fetchData() {
             setShowLoader(true);
             try {
-                let postRec: { hotel_id: number } = { hotel_id: hotelId}; 
+                const data = localStorage.getItem('searchData');
+                let start_date = '';
+                let end_date = '';
+                if (data) {
+                    let serData = JSON.parse(data);
+                    start_date = serData.start_date;  
+                    end_date = serData.end_date;        
+                }
+                let postRec = { hotel_id: hotelId, start_date : start_date, end_date : end_date}; 
                 const res = await postData('get-hotel-rooms', postRec);  
                 setShowLoader(false);     
                 setRecords(res.records);

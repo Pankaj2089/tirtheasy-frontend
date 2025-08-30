@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { addDays, format,differenceInDays  } from 'date-fns';
 import { getData, postData, } from '../../utils/api';
@@ -11,6 +11,7 @@ import { log } from 'console';
 const { Option } = Select;
 import { useRouter } from "next/navigation";
 import CheckoutFooter from '@/app/components/CheckoutFooter';
+import Signin from '@/app/components/Signin';
 
 export default function UserInformationPage() {
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -20,11 +21,15 @@ export default function UserInformationPage() {
   const [mattressTotalPrice, setMattressTotalPrice] = useState<any>('0.00');
   const [grandTotal, setGrandTotal] = useState<any>('0.00');
   const [processing, setProcessing] = useState(false);
+  const [userloggedin, setUserLogin] = useState(false);
   
   const [hotelData, setHotelData] = useState<any>([]);
   const [showLoader, setShowLoader] = useState(false);
   const [states, setStates] = useState<any>([]);
   const [cities, setCities] = useState<any>([]);
+
+  const [request_title, setRequestTitle] = useState('');
+  const buttonLoginRef = useRef<any>(null);
 
   const router = useRouter();
 
@@ -52,6 +57,7 @@ export default function UserInformationPage() {
     roomPriceID: 0,
     extra_mattress: 0,
   });
+  
 
     async function fetchData(serData:any) {
         setShowLoader(true);
@@ -129,6 +135,24 @@ const loadFromLocalStorage = () => {
         if(uData.state_id > 0){
             getCities(uData.state_id);
         }
+    }else{
+        let login_user_data = localStorage.getItem("userDetails");
+        if (login_user_data) {
+            let uData = JSON.parse(login_user_data);
+            setFormData(uData);
+            if(uData.state_id > 0){
+                getCities(uData.state_id);
+            } 
+        }
+    }
+
+    if(!data){
+        router.push("/porperty-list");
+    }else{
+        let searData = JSON.parse(data);
+        if(!searData.start_date || !searData.end_date || searData.rooms <= 0 || searData.adult <= 0 || searData.roomID <= 0 || searData.roomPriceID <= 0 ){
+            router.push("/porperty-list");
+        }
     }
 
 }
@@ -141,6 +165,10 @@ const hotel_data = localStorage.getItem("hotelData");
 };
 
 useEffect(() => {
+    if(localStorage.getItem("accessToken")){        
+      setUserLogin(true);
+    } 
+
     loadFromLocalStorage();  
 }, []);
 
@@ -190,10 +218,19 @@ const handleSubmit = async (e:any) => {
     }else{
         setProcessing(true);
         localStorage.setItem("userData", JSON.stringify(formData)); 
-        setTimeout(() => {
-            setProcessing(false);
-            router.push("/checkout/payment-review");
-        }, 300);
+        if(!userloggedin){
+            setRequestTitle('booking');
+            localStorage.setItem('RequestTitle','booking');
+            buttonLoginRef.current?.click();
+            setTimeout(() => {
+                setProcessing(false);
+            }, 300);
+        }else{
+            setTimeout(() => {
+                setProcessing(false);
+                router.push("/checkout/payment-review");
+            }, 300);
+        }
 
     }
 };
@@ -549,13 +586,24 @@ setFormData((prev) => ({
                             </li>
                         </ul>
                     </div>
-                    <div className="px-15 mb-3">    
+                    <div className="px-15 mb-3">
+                        {!userloggedin && 
+                            <Button 
+                            ref={buttonLoginRef}
+                            htmlType="button" 
+                            data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+                            className="d-none"></Button>
+                        }
+
                         <Button 
                         htmlType="button" 
                         disabled={processing}
                         loading={processing}
                         onClick={handleSubmit}
                         className="btn btn-primary w-100">Book Now</Button>
+                        
+                        
+                        <Signin request_title={request_title}/>
                     </div>
                 </div>
                 

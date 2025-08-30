@@ -28,6 +28,7 @@ const menu = (
 );
  const action = usePathname();
  const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
+ const [request_title, setRequestTitle] = useState('');
 
  const router = useRouter();
 
@@ -138,7 +139,7 @@ const menu = (
                 </Dropdown>
                 :
                 <>
-                  <a  data-bs-target="#exampleModalToggle" data-bs-toggle="modal" className="cursor-pointer btn btn-primary d-none d-lg-block">Sign in / Create Account</a>
+                  <a  data-bs-target="#exampleModalToggle" onClick={() => setRequestTitle('header')} data-bs-toggle="modal" className="cursor-pointer btn btn-primary d-none d-lg-block">Sign in / Create Account</a>
                   <a className="cursor-pointer navbar-toggler m-usericon" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"><img src="/img/user_icon.svg" className="user-icon"/></a>
 
                 </>
@@ -151,7 +152,7 @@ const menu = (
         </nav>    
 
     </div>
-      <Signin />
+      <Signin request_title={request_title} />
     </header>
   );
 }

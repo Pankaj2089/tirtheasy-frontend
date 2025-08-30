@@ -26,6 +26,8 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
   const [showLoader, setShowLoader] = useState(false);
   const [userData, setUserData] = useState<any>([]);
 
+  const router = useRouter();
+
   const [searchData, setSearchState] = useState({
     keywords: '',
     start_date: '',
@@ -76,6 +78,9 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
       
    // Get array from localStorage
 const loadFromLocalStorage = () => {
+    if(!localStorage.getItem("userDetails")){
+        router.push("/checkout/user-information");
+    }
     const data = localStorage.getItem('searchData');
     if (data) {
       let serData = JSON.parse(data);
@@ -91,6 +96,20 @@ const loadFromLocalStorage = () => {
         let uData = JSON.parse(user_data);
         setUserData(uData);
     }
+
+    if(!data){
+        router.push("/porperty-list");
+    }else if(!user_data){
+        router.push("/checkout/user-information");
+    }else{
+        let searData = JSON.parse(data);
+        let usrData = JSON.parse(user_data);
+        if(!searData.start_date || !searData.end_date || searData.rooms <= 0 || searData.adult <= 0 || searData.roomID <= 0 || searData.roomPriceID <= 0 ){
+            router.push("/porperty-list");
+        }else if(!usrData.name || !usrData.email || !usrData.mobile ){
+            router.push("/checkout/user-information");
+        }
+    }
 }
 
 const hotel_data = localStorage.getItem("hotelData");
@@ -101,6 +120,9 @@ const hotel_data = localStorage.getItem("hotelData");
 };
 
 useEffect(() => {
+    if(!localStorage.getItem("accessToken")){        
+      router.push("/checkout/user-information");
+    } 
     loadFromLocalStorage();  
 }, []);
 
@@ -148,43 +170,75 @@ const [loading, setLoading] = useState(false);
     setLoading(true);
 
     // 1️⃣ Create order from Laravel API
-    const orderRes = await postData("create-order", { amount: grandTotal });
 
-    const orderData = orderRes;
+    let data:any = localStorage.getItem('searchData');
+    let user_data:any = localStorage.getItem('userData');
 
-    // 2️⃣ Initialize Razorpay Checkout
-    const options = {
-      key: orderData.key,
-      amount: orderData.amount,
-      currency: orderData.currency,
-      name: "Tirtheasy",
-      description: hotelData.title+' Booking',
-      order_id: orderData.order_id,
-      handler: async function (response: any) {
-        // 3️⃣ Verify payment with Laravel backend
-        const verifyRes = await postData("verify-payment", response);
+    let searData = JSON.parse(data);
+    let usrData = JSON.parse(user_data);
 
-        const verifyData = verifyRes;
-        if (verifyData.success) {
-          alert("Payment Successful ✅");
-           setLoading(false);
-        } else {
-          alert("Payment Verification Failed ❌");
-          setLoading(false);
-        }
-      },
-      prefill: {
-        name: userData.name,
-        email: userData.email,
-        contact: '+91 '+userData.mobile,
-      },
-      theme: { color: "#CC484A" },
+    let postDataArr={ 
+        adults: searData.adult, 
+        childerns: searData.childerns, 
+        rooms: searData.rooms, 
+        end_date: searData.end_date, 
+        start_date: searData.start_date,
+        extra_mattress: searData.extra_mattress,
+        room_id: searData.roomID,
+        room_price_id: searData.roomPriceID,
+        user_name: usrData.name,
+        user_email: usrData.email,
+        user_mobile: usrData.mobile,
+        user_data: usrData
     };
 
-    // @ts-ignore
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-    setLoading(false);
+    const orderRes = await postData("create-order", postDataArr);
+    if(orderRes.success){
+        const orderData = orderRes.data;
+        // 2️⃣ Initialize Razorpay Checkout        
+        const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Tirtheasy",
+        description: hotelData.title+' Booking',
+        order_id: orderData.order_id,
+        handler: async function (response: any) {
+            // 3️⃣ Verify payment with Laravel backend
+            response['o_id'] = orderData.o_id;
+            const verifyRes = await postData("verify-payment", response);
+
+            const verifyData = verifyRes;
+            if (verifyData.success) {
+
+                const updatedData = { ...searchData, roomID: 0, roomPriceID: 0,extra_mattress: 0   };
+                setSearchState(updatedData);
+                localStorage.setItem("searchData", JSON.stringify(updatedData));
+                alert("Payment Successful ✅");
+                setLoading(false);
+            } else {
+                alert("Payment Verification Failed ❌");
+                setLoading(false);
+            }
+        },
+        prefill: {
+            name: userData.name,
+            email: userData.email,
+            contact: '+91 '+userData.mobile,
+        },
+        theme: { color: "#CC484A" },
+        };
+
+        // @ts-ignore
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+
+        setLoading(false);
+    }else{
+        toast.error(orderRes.message);        
+        setLoading(false);
+    }
+
   };
 return (
   <>
