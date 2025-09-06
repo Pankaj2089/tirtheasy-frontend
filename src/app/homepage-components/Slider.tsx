@@ -6,8 +6,10 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
 import dynamic from 'next/dynamic';
+
+//import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import '../page.module.css' 
-import { Skeleton } from 'antd';
+//import { Skeleton } from 'antd';
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -86,6 +88,12 @@ export default function Slider() {
         </div>
         <HomeSearch/>
       </div>
+       {/* <DotLottieReact
+            src="https://lottie.host/0073ec4e-2e80-453c-a1d6-9b57c4a210bb/H1416U8Fso.lottie"
+            loop
+            autoplay
+            style={{height:'100px'}}
+          /> */}
     </>
   );
 }

@@ -55,6 +55,7 @@ export default function Home() {
         <link rel="stylesheet" href="/css/owl.carousel.css" />
       </Head>
       <Slider />
+     
       <PopularDestinations title="Popular Destinations" type={1} />
       <Promotions title="Promotions on Flights, Tours & Tickets" type={1} />
       <PopularDestinationsOutsideIndia  title="Popular Destinations Outside India" type={2}  />

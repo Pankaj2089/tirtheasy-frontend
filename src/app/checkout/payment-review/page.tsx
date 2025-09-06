@@ -22,9 +22,12 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
   const [grandTotal, setGrandTotal] = useState<any>('0.00');
   const [processing, setProcessing] = useState(false);
   
+  const [lastOrderID, setLastOrderID] = useState(0);
+  
   const [hotelData, setHotelData] = useState<any>([]);
   const [showLoader, setShowLoader] = useState(false);
   const [userData, setUserData] = useState<any>([]);
+  const [appliedOffer, setApliedOffer] = useState<any>({});
 
   const router = useRouter();
 
@@ -56,7 +59,17 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
             const mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
             setMattressTotalPrice(mattressTotalPriceVal);
 
-            const setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+
+            const offerData = localStorage.getItem('appliedOffer');
+            if(offerData){
+                let oData = JSON.parse(offerData);
+                if(Object.keys(oData).length > 0 && oData.amount > 0){            
+                    setApliedOffer(oData);
+                    setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
+                }
+            }
+
             setGrandTotal(setGrandTotalVal);
 
         } catch (err) {
@@ -71,7 +84,16 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
         const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress;
         setMattressTotalPrice(mattressTotalPriceVal); 
         const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms;
-        const setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+
+        const offerData = localStorage.getItem('appliedOffer');
+        if(offerData){
+            let oData = JSON.parse(offerData);
+            if(Object.keys(oData).length > 0 && oData.amount > 0){            
+                setApliedOffer(oData);
+                setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
+            }
+        }
         setGrandTotal(setGrandTotalVal);
       }
   }, [searchData]);
@@ -140,7 +162,22 @@ const [remainingTime, setRemainingTime] = useState(initialTime);
 
   useEffect(() => {
     // Prevent multiple intervals
-    if (remainingTime <= 0) return;
+    if (remainingTime <= 0) {
+        if(localStorage.getItem('appliedOffer')){ localStorage.removeItem('appliedOffer');}
+
+        const updatedData = { ...searchData, roomID: 0, roomPriceID: 0,extra_mattress: 0   };
+        setSearchState(updatedData);
+
+        if(lastOrderID > 0){
+            deleteTempOrder(lastOrderID);
+            setTimeout(() => {
+                router.push("/porperty-list");
+            }, 1000);
+        }else{
+            router.push("/porperty-list");
+        }
+        return;
+    }
 
     const timerInterval = setInterval(() => {
       setRemainingTime((prev:any) => (prev > 0 ? prev - 1 : 0));
@@ -148,6 +185,17 @@ const [remainingTime, setRemainingTime] = useState(initialTime);
 
     return () => clearInterval(timerInterval); // cleanup on unmount
   }, [remainingTime]);
+
+
+  async function deleteTempOrder(lastOrderID:any) {
+    try {
+         const postRec = {o_id:lastOrderID};
+         const orderRes = await postData('delete-temp-order', postRec);  
+        
+    } catch (err) {
+        console.error(err);
+    }
+}
 
   // Format minutes and seconds
   const minutes = Math.floor(remainingTime / 60);
@@ -177,6 +225,17 @@ const [loading, setLoading] = useState(false);
     let searData = JSON.parse(data);
     let usrData = JSON.parse(user_data);
 
+    let couponCode = '';
+    let couponCodeAmt = 0;
+    const offerData = localStorage.getItem('appliedOffer');
+    if(offerData){
+        let oData = JSON.parse(offerData);
+        if(Object.keys(oData).length > 0 && oData.amount > 0){  
+            couponCode =oData.name;
+            couponCodeAmt = parseFloat(oData.amount);
+        }
+    }
+
     let postDataArr={ 
         adults: searData.adult, 
         childerns: searData.childerns, 
@@ -189,12 +248,16 @@ const [loading, setLoading] = useState(false);
         user_name: usrData.name,
         user_email: usrData.email,
         user_mobile: usrData.mobile,
-        user_data: usrData
+        user_data: usrData,
+        coupon_code: couponCode,
+        coupon_amtount: couponCodeAmt
     };
 
     const orderRes = await postData("create-order", postDataArr);
     if(orderRes.success){
         const orderData = orderRes.data;
+        setLastOrderID(orderData.o_id);
+
         // 2️⃣ Initialize Razorpay Checkout        
         const options = {
         key: orderData.key,
@@ -214,6 +277,8 @@ const [loading, setLoading] = useState(false);
                 const updatedData = { ...searchData, roomID: 0, roomPriceID: 0,extra_mattress: 0   };
                 setSearchState(updatedData);
                 localStorage.setItem("searchData", JSON.stringify(updatedData));
+                if(localStorage.getItem('appliedOffer')){ localStorage.removeItem('appliedOffer');}
+
                 alert("Payment Successful ✅");
                 setLoading(false);
             } else {
@@ -400,10 +465,15 @@ return (
                                 <dt className="text-end">104.20</dt>
                             </li>
 
-                            <li className="payment-type">
-                                <dd>Offer Applied (FLAT 25% OFF)</dd>
-                                <dt className="text-end">- 104.20</dt>
-                            </li>                            
+                          { Object.keys(appliedOffer).length > 0 ?
+                            <li className="payment-type" style={{color:'#1d8f00'}}>
+                                <dd>Offer Applied ({appliedOffer.name})</dd>
+                                <dt className="text-end">- {numberFormat(appliedOffer.amount)}</dt>
+                            </li>
+                          :
+                            null
+                          }
+                                                        
                         </ul>                        
                     </div>
                     

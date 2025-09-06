@@ -17,11 +17,13 @@ export default function UserInformationPage() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [record, setRecords] = useState<any>([]);
+  const [offers, setOffers] = useState<any>([]);
   const [roomTotalPrice, setRoomTotalPrice] = useState<any>('0.00');
   const [mattressTotalPrice, setMattressTotalPrice] = useState<any>('0.00');
   const [grandTotal, setGrandTotal] = useState<any>('0.00');
   const [processing, setProcessing] = useState(false);
   const [userloggedin, setUserLogin] = useState(false);
+  const [offerApplyLoader, setOfferApplyLoader] = useState(false);
   
   const [hotelData, setHotelData] = useState<any>([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -43,6 +45,11 @@ export default function UserInformationPage() {
     city_id:0,
     arrival_date:'',
     arrival_time:''
+  });
+
+  const [appliedOffer, setAppliedOffer] = useState({
+    name: '',
+    amount: '',
   });
 
   const [searchData, setSearchState] = useState({
@@ -74,12 +81,34 @@ export default function UserInformationPage() {
             const mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
             setMattressTotalPrice(mattressTotalPriceVal);
 
-            const setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            
+            const offerData = localStorage.getItem('appliedOffer');
+            if(offerData){
+                let oData = JSON.parse(offerData);
+                if(Object.keys(oData).length > 0 && oData.amount > 0){             
+                    setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
+                }
+            }
+           
             setGrandTotal(setGrandTotalVal);
+
+            //get offers
+            getOffers();
 
         } catch (err) {
             console.error(err);
             setShowLoader(false);
+        }
+    }
+
+    async function getOffers() {
+        try {
+            const res = await getData('get-offers');   
+            setOffers(res.records);
+            
+        } catch (err) {
+            console.error(err);
         }
     }
     
@@ -110,7 +139,16 @@ export default function UserInformationPage() {
 
         const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms;
 
-        const setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+
+        const offerData = localStorage.getItem('appliedOffer');
+        if(offerData){
+            let oData = JSON.parse(offerData);   
+            if(Object.keys(oData).length > 0 && oData.amount > 0){        
+                setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
+            }
+        }
+
         setGrandTotal(setGrandTotalVal);
       }
   }, [searchData]);
@@ -143,6 +181,16 @@ const loadFromLocalStorage = () => {
             if(uData.state_id > 0){
                 getCities(uData.state_id);
             } 
+        }
+    }
+
+    const offerData = localStorage.getItem('appliedOffer');
+    if(offerData){
+        let oData = JSON.parse(offerData);
+        if(Object.keys(oData).length > 0 && oData.amount > 0){ 
+            setAppliedOffer(oData);
+        }else{
+            localStorage.removeItem('appliedOffer')
         }
     }
 
@@ -282,6 +330,41 @@ setFormData((prev) => ({
     arrival_date: dateString, // saves date as string (e.g. "2025-08-28")
 }));
 };
+
+const applyCouponCode = (offerData:any) => {
+    if(parseFloat(roomTotalPrice) > 0){
+        setOfferApplyLoader(true);
+
+        let amount:any = 0;
+        if(offerData.discount_type == "Percent"){
+            amount = parseFloat(roomTotalPrice) * (parseFloat(offerData.amount) / 100); 
+        }else if(parseFloat(offerData.amount) > parseFloat(roomTotalPrice)){
+            amount = parseFloat(offerData.amount); 
+        }
+
+        const setGrandTotalVal = (parseFloat(roomTotalPrice)+parseFloat(mattressTotalPrice))-parseFloat(amount);        
+        setGrandTotal(setGrandTotalVal);
+
+        setAppliedOffer(prev => ({
+            ...prev,
+            ['name']: offerData.title
+        }));
+        setAppliedOffer(prev => ({
+            ...prev,
+            ['amount']: amount
+        }));
+        setOfferApplyLoader(false)
+        
+    }else{
+        toast.error('Coupon can not apply with this room');
+    }
+}
+
+useEffect(() => {
+  if (Object.keys(appliedOffer).length > 0 && appliedOffer.amount != '') {
+        localStorage.setItem("appliedOffer", JSON.stringify(appliedOffer));
+  }
+}, [appliedOffer]);
 
   return (
   <>
@@ -515,6 +598,8 @@ setFormData((prev) => ({
                     </div>
                 </div>
                 <div className="warning-message mb-2">Message here for warning and other things</div>
+
+                {offers.length > 0 ?
                 <div className="booking-review overview-section border rounded-3 p15 mb-2">
                     <div className="accordion" id="accordionExample">
                         <div className="accordion-item border-0">
@@ -523,20 +608,34 @@ setFormData((prev) => ({
                             <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                               <div className="offer-list">
                                  <ul>
-                                     <li>
-                                        <span className="offer-name">FLAT 25% OFF</span>
-                                        <a href="#" className="apply-link">Apply</a>
-                                     </li>
-                                      <li className="applied">
-                                        <span className="offer-name">FLAT 25% OFF</span>
-                                        <span className="apply-link">Applied</span>
-                                     </li>
+                                    {offers.map((offer:any) => (
+                                        <>
+                                        { appliedOffer.name == offer.title ?
+                                            <li className="applied">
+                                                <span className="offer-name">{offer.title}</span>
+                                                <span className="apply-link">Applied</span>
+                                            </li>
+                                        :
+                                            <li>
+                                                <span className="offer-name">{offer.title}</span>
+                                                <Button onClick={()=> applyCouponCode(offer)} 
+                                                className="apply-link bursor-ponter" 
+                                                style={{padding:'0px', border:'0px',height: 'auto'}}
+                                                disabled={offerApplyLoader} 
+                                                loading={offerApplyLoader}>Apply</Button>
+                                            </li>
+                                        }
+                                            
+                                        </>
+                                    ))}
                                  </ul>
                               </div>
                             </div>
                         </div>                        
                     </div>
                 </div>
+                : null
+                }
                 
                 <div className="booking-review overview-section border rounded-3 mb-2">
                     <h5 className="p15 checkout-tile">Payment Review</h5> 

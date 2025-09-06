@@ -150,6 +150,7 @@ useEffect(() => {
         
         // navigate after short delay (allow modal animation to run)
         setTimeout(() => {
+          if(localStorage.getItem('appliedOffer')){ localStorage.removeItem('appliedOffer');}
           router.push("/checkout/user-information");
         }, 300);
       }

@@ -231,3 +231,11 @@
 .ant-input{
     border-color: #C2C9CF !important;
 }
+.apply-link {
+    color: var(--red);
+    text-decoration: none;
+}
+.apply-link:hover span {
+    text-decoration: none;
+    color: var(--black) !important;
+}
