@@ -279,7 +279,8 @@ const [loading, setLoading] = useState(false);
                 localStorage.setItem("searchData", JSON.stringify(updatedData));
                 if(localStorage.getItem('appliedOffer')){ localStorage.removeItem('appliedOffer');}
 
-                alert("Payment Successful ✅");
+                const orderNo = btoa(orderData.invoice_id);
+                router.push("/checkout/confirm-booking/"+orderNo);
                 setLoading(false);
             } else {
                 alert("Payment Verification Failed ❌");

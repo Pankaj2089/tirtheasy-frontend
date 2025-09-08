@@ -131,10 +131,10 @@ const menu = (
                 { (userDetails) ?
                   <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
                   <span className="profile-details" style={{ cursor: "pointer" }}>
-                    <span className="profile-thumb">
-                      <img src="/img/user_icon.svg" alt="User" />
-                    </span>
-                    <span className="user-details">{userDetails?.name}</span>
+                    <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
+                    <span className="user-details">{userDetails?.name?.length > 8 
+                      ? userDetails?.name.substring(0, 8) + "..." 
+                      : userDetails?.name}</span>
                   </span>
                 </Dropdown>
                 :
