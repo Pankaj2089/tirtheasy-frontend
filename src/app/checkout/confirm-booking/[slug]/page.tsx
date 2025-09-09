@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { format,differenceInDays  } from 'date-fns';
-import { postData, } from '../../../utils/api';
+import { postData } from '../../../utils/api';
 import {Select} from "antd";
 
 import { log } from 'console';
@@ -11,6 +11,7 @@ import CheckoutFooter from '@/app/components/CheckoutFooter';
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import PrintInvoice from './PrintInvoice';
 
 export  default function BookingConfirmPage({ params }: { params: { slug: string } }) {
 
@@ -20,6 +21,7 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
     const [checkInTime, setCheckInTime] = useState<any>();
     const [checkOutTime, setCheckOutTime] = useState<any>();
     const [numberofNights, setNumberOfNights] = useState<any>();
+    const [printInvoice, setPrintInvoice] = useState<any>(false);
 
     //console.log(resolvedParams.slug);
     const [headingCounter, setHeadingCounter] = useState(true);
@@ -27,17 +29,26 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
     const invoiceRef = useRef<any>(null);
 
     const handleDownload = () => {
-        const input = invoiceRef.current;
-        html2canvas(input, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("invoice.pdf");
-        });
+        setPrintInvoice(true);
+        setTimeout(() => {
+            
+           const input = invoiceRef.current;
+            html2canvas(input, { scale: 4 }).then((canvas) => {
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save("booking-invoice.pdf");
+            });
+        }, 300);
+        setTimeout(() => {
+            setPrintInvoice(false);
+        }, 2000);
     };
+
 
     
     useEffect(() => {
@@ -138,7 +149,7 @@ return (
         </div>
         
 
-        <div className="row" ref={invoiceRef}>
+        <div className="row" >
             <div className="col-lg-12">
                  <div className="button-set-top d-flex align-items-center justify-content-end gap-3 mb-2 mb-lg-3">
                     <a href="#" className="d-flex align-items-center gap-2"><img src="/img/pro_location.svg"/> Property Location</a>
@@ -305,9 +316,16 @@ return (
     </div>
     <hr className="my-5"/>
 </div>
-
-
     <CheckoutFooter />
+    { printInvoice ? 
+        <div ref={invoiceRef}>
+        <PrintInvoice orderData = {orderData} checkInTime={checkInTime} nights={numberofNights}  checkOutTime={checkOutTime} />
+    </div>
+    :
+    null
+
+    }
+    
   </>
   );
 }

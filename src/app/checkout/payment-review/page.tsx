@@ -171,10 +171,10 @@ const [remainingTime, setRemainingTime] = useState(initialTime);
         if(lastOrderID > 0){
             deleteTempOrder(lastOrderID);
             setTimeout(() => {
-                router.push("/porperty-list");
+                router.push("/checkout/booking-cancel");
             }, 1000);
         }else{
-            router.push("/porperty-list");
+            router.push("/checkout/booking-cancel");
         }
         return;
     }
@@ -283,7 +283,14 @@ const [loading, setLoading] = useState(false);
                 router.push("/checkout/confirm-booking/"+orderNo);
                 setLoading(false);
             } else {
-                alert("Payment Verification Failed ❌");
+               if(orderData.id > 0){
+                deleteTempOrder(orderData.id);
+                setTimeout(() => {
+                    router.push("/checkout/booking-cancel");
+                }, 1000);
+            }else{
+                router.push("/checkout/booking-cancel");
+            }
                 setLoading(false);
             }
         },
@@ -304,7 +311,6 @@ const [loading, setLoading] = useState(false);
         toast.error(orderRes.message);        
         setLoading(false);
     }
-
   };
 return (
   <>

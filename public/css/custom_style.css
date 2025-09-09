@@ -239,3 +239,47 @@
     text-decoration: none;
     color: var(--black) !important;
 }
+
+.invoice-card {
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .logo-placeholder {
+      width: 120px;
+      min-height: 48px;
+      line-height: 48px;
+      background: linear-gradient(135deg,#e9ecef,#f8f9fa);
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #cc484a;
+      font-weight: 600;
+      font-size: 20px !important;
+    }
+
+    .invoice-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .small-muted {
+      color: #6c757d;
+      font-size: 16px !important;
+    }
+
+    .table thead th {
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .no-break {
+      page-break-inside: avoid;
+    }
+
+    .custom-table td{
+        padding:10px !important;
+
+    }
