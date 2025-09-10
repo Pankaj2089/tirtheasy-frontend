@@ -117,7 +117,7 @@ const menu = (
                               <Link className="nav-link" href="#">Blog</Link>
                             </li>
                             <li className="nav-item">
-                              <Link className="nav-link" href="#">Contact Us</Link> 
+                              <Link className="nav-link" href="/contact-us">Contact Us</Link> 
                             </li>
                         </ul>
                       </div> 
