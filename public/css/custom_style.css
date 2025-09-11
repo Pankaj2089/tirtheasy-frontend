@@ -204,15 +204,16 @@
 }
 .login-mobile .ant-input-group-addon{
     padding: 10px 15px;
-    color: #FFF;
-    background-color: #cc484a !important;
+    color: #999;
+    background-color: #e7e7e7 !important;
     font-size: 0.875rem;
     font-weight: 600;
 }
 .login-mobile .ant-input{
     padding: 10px;    
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 400;
+    color: #212529;
 }
 .otp-section input{
     border-color: #DEE2E6 !important;
@@ -229,7 +230,9 @@
     height: 36px;
 }
 .ant-input{
-    border-color: #C2C9CF !important;
+    border-color: #dee2e6 !important;
+    font-weight: normal;
+    color: #212529;
 }
 .apply-link {
     color: var(--red);

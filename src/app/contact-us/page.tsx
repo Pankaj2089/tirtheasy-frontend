@@ -5,15 +5,33 @@ import {Select, Button, Input, TimePicker, DatePicker   } from "antd";
 import { ToastContainer, toast } from 'react-toastify';
 import { getData, postData, } from '../utils/api';
 
+const { Option } = Select;
 export default function ContactUs() {
 
   const [processing, setProcessing] = useState(false);
   const [formType, setFormType] = useState('Contact');
+  const [bookingprocessing, setBookingProcessing] = useState(false);
+  const [destinations, setDestinations] = useState([
+    { destination: "", checkIn: "" },
+  ]);
+  
+  const [states, setStates] = useState<any>([]);
+
   const [formData, setFormData] = useState({
     mobile: '',
     name: '',
     email: '',
     message:'',
+  });
+
+  const [bookingFormData, setBookingFormData] = useState({
+    booking_type: 'New Inquiry',
+    booking_number: '',
+    booking_mobile: '',
+    booking_name: '',
+    booking_email: '',
+    booking_total_guest: 0,
+    booking_message:'',
   });
 
   const isValidEmail = (email:any) => {
@@ -57,6 +75,61 @@ const handleSubmit = async (e:any) => {
     }
 };
 
+const handleBookingSubmit = async (e:any) => {
+
+    // booking form validations
+  if (bookingFormData.booking_type === "Existing Booking" && bookingFormData.booking_number === "") {
+    toast.error("Please enter booking number");
+  } else if (bookingFormData.booking_name === "") {
+    toast.error("Please enter your full name");
+  } else if (bookingFormData.booking_email === "") {
+    toast.error("Please enter your email address");
+  } else if (!isValidEmail(bookingFormData.booking_email)) {
+    toast.error("Please enter a valid email address");
+  } else if ( bookingFormData.booking_type === "New Inquiry" && 
+   ( destinations.some((d) => d.destination === "" || d.checkIn === ""))
+  ) {
+    toast.error("Please select all destinations and check-in dates");
+  }  else if (bookingFormData.booking_mobile === "") {
+    toast.error("Please enter your mobile number");
+  } else if (!isValidMobile(bookingFormData.booking_mobile)) {
+    toast.error("Please enter a valid mobile number");
+  } else if (bookingFormData.booking_total_guest <= 0) {
+    toast.error("Please enter number of total guest");
+  } else if (isNaN(bookingFormData.booking_total_guest)) {
+    toast.error("Total guests must be a number");
+  } else if (bookingFormData.booking_message === "") {
+    toast.error("Please enter tour description");
+  } else {
+        setBookingProcessing(true);
+
+        let finalData:any = {
+            ...bookingFormData, destinations: []};
+        if (bookingFormData.booking_type === "New Inquiry") {
+            finalData = { ...bookingFormData, destinations, booking_number : ''};
+        } 
+
+        const formPost = await postData("save-booking-enquiry", finalData);
+        if(formPost.success){
+            toast.success('Your request has been sent successfully.');
+            setBookingFormData({
+            booking_type: 'New Inquiry',
+            booking_number: '',
+            booking_mobile: '',
+            booking_name: '',
+            booking_email: '',
+            booking_total_guest: 0,
+            booking_message:'',
+          });
+          setBookingProcessing(false);
+        }else{
+          toast.error(formPost.message);
+          setBookingProcessing(false);
+        }
+        
+          setBookingProcessing(false);
+    }
+};
 const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
 
@@ -69,16 +142,53 @@ const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
   }));
 };
 
+const handleBookingFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const { name, value } = e.target;
+
+  // allow only numbers if field is mobile
+  const newValue = name === "booking_mobile" ? value.replace(/\D/g, "") : value;
+
+  setBookingFormData(prev => ({
+    ...prev,
+    [name]: newValue
+  }));
+};
+
+  // add another destination
+  const addDestination = () => {
+    setDestinations([...destinations, { destination: "", checkIn: "" }]);
+  };
+
+  // remove destination
+  const removeDestination = (index:any) => {
+    setDestinations(destinations.filter((_, i) => i !== index));
+  };
+
+   // handle changes
+  const handleChange = (index:any, field:any, value:any) => {
+    const newDestinations:any = [...destinations];
+    newDestinations[index][field] = value;
+    setDestinations(newDestinations);
+  };
+
+  async function fetchStates() {
+        try {
+            const res = await getData('get-states');   
+            setStates(res.records);
+            
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+useEffect(() => {
+    fetchStates();  
+}, []);
+
   return <>
   <div className="hero-section pb-3">
   <div className="inner-page-banner py-md-3 py-2 gray_bg">
         <div className="container">  
-            <nav   className="breadcrumb" aria-label="breadcrumb">
-                <ol className="breadcrumb mb-0">
-                    <li className="breadcrumb-item"><Link href="/">Home</Link></li>
-                    <li className="breadcrumb-item active" aria-current="page">Contact Us</li>
-                </ol>
-            </nav>              
            <h1 className="text-center d-flex align-items-center justify-content-center">Contact Us</h1>    
         </div>
   </div>
@@ -168,78 +278,154 @@ const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                                         <div className="radio-section">
                                             <div className="d-flex">
                                                 <label className="custom-radio me-5">
-                                                    <input type="radio" name="option" checked={false} />
+                                                    <input type="radio" onChange={handleBookingFieldChange} name='booking_type'  
+                                                    value="New Inquiry"
+                                                    checked={bookingFormData.booking_type === "New Inquiry"}
+                                                    />
                                                     <span className="radio-mark"></span>
                                                     New Inquiry
                                                 </label>
 
                                                 <label className="custom-radio">
-                                                    <input type="radio" name="option" />
+                                                    <input type="radio" onChange={handleBookingFieldChange} name='booking_type'  
+                                                    value="Existing Booking"
+                                                    checked={bookingFormData.booking_type === "Existing Booking"}
+                                                    />
                                                     <span className="radio-mark"></span>
                                                     Existing Booking
                                                 </label>
                                             </div>
                                         </div>
+                                        
+                                        { bookingFormData.booking_type === "Existing Booking" ?
+                                                <div className="row">
+                                                    <div className="col-md-6 mb-2 mb-lg-3">
+                                                        <label htmlFor="booking_number" className="form-label">Booking Number<em>*</em></label>
+                                                        <input type="text" className="form-control" id="booking_number" placeholder="" onChange={handleBookingFieldChange} name='booking_number'  value={bookingFormData.booking_number} />
+                                                    </div>
+                                            </div>
+                                        :
+                                            null
+
+                                        }
+                                        
                                         <div className="row">
                                             <div className="col-md-6 mb-2 mb-lg-3">
-                                                <label htmlFor="firstName" className="form-label">Full Name<em>*</em></label>
-                                                <input type="text" className="form-control" id="firstName" placeholder="Enter first name" />
+                                                <label htmlFor="booking_name" className="form-label">Full Name<em>*</em></label>
+                                                <input type="text" className="form-control" id="booking_name" placeholder="" onChange={handleBookingFieldChange} name='booking_name'  value={bookingFormData.booking_name} />
                                             </div>
                                             <div className="col-md-6 mb-2 mb-lg-3">
-                                                <label htmlFor="email" className="form-label">Email Address<em>*</em></label>
-                                                <input type="email" className="form-control" id="email" placeholder="example@email.com" />
+                                                <label htmlFor="booking_email" className="form-label">Email Address<em>*</em></label>
+                                                <input type="email" className="form-control" id="booking_email" placeholder="" onChange={handleBookingFieldChange} name='booking_email'  value={bookingFormData.booking_email} />
                                             </div>
                                         </div>
 
-                                        <div className="row">
-                                            <div className="col-md-6 mb-2 mb-lg-3 d-flex flex-column">
-                                                <label htmlFor="state" className="form-label">Travel Destination<em>*</em></label>
-                                                <select className="form-select" id="state">
-                                                    <option selected disabled>Select Destination</option>
-                                                    <option>Maharashtra</option>
-                                                    <option>California</option>
-                                                    <option>Ontario</option>
-                                                    <option>New South Wales</option>
-                                                    <option>Delhi</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-md-6 mb-2 mb-lg-3 d-flex flex-column">
-                                                <label htmlFor="city" className="form-label">Check-In<em>*</em></label>
-                                                <input type="date" className="form-control" id="city" placeholder="Enter your city" />
-                                            </div>
-                                        </div>
+                                         { bookingFormData.booking_type === "New Inquiry" ?
+                                         <>
 
-                                        <div className="mb-3">
-                                            <a href="#" className="btn btn-primary">+ Add Another Destination</a>
-                                        </div>
+                                         {destinations.map((item, index) => (
+                                            <div className="row mb-3" key={index}>
+                                            {/* Destination */}
+                                            <div className="col-md-6 d-flex flex-column">
+                                                <label className="form-label">Travel Destination<em>*</em></label>
+                                                <Select
+                                                showSearch
+                                                placeholder="Select a state"
+                                                optionFilterProp="children"
+                                                onChange={(e:any) =>
+                                                    handleChange(index, "destination", e.target.value)
+                                                }
+                                                value={item.destination}
+                                                filterOption={(input, option) =>
+                                                (option?.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+                                                }   
+                                            >
+                                                <option value="" disabled>
+                                                    Select Destination
+                                                </option>
+                                                {states.map((state:any) => (
+                                                <Option key={state.id} value={state.title} >
+                                                    {state.title}
+                                                </Option>
+                                                ))}
+                                            </Select>
+                                            </div>
+
+                                            {/* Check-In Date */}
+                                            <div className="col-md-6 d-flex flex-column">
+                                                <label className="form-label">Check-In<em>*</em></label>
+                                                <input
+                                                type="date"
+                                                className="form-control"
+                                                value={item.checkIn}
+                                                onChange={(e) => handleChange(index, "checkIn", e.target.value)}
+                                                />
+                                            </div>
+
+                                            {/* Remove button */}
+                                            {index > 0 && (
+                                                <div className="mt-2" style={{textAlign:'right'}}>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger btn-xs"
+                                                    onClick={() => removeDestination(index)}
+                                                    style={{ padding: '5px 10px', height: 'auto', lineHeight: 'normal', fontSize:'12px'}}
+                                                >
+                                                    Remove
+                                                </button>
+                                                </div>
+                                            )}
+                                            </div>
+                                        ))}
+                                            <div className="mb-3">
+                                                <button
+                                                type="button"
+                                                className="btn btn-primary"
+                                                onClick={addDestination}
+                                                >
+                                                + Add Another Destination
+                                                </button>
+                                            </div>
+                                            </>
+                                            : 
+                                            null
+                                        }
 
                                          <div className="row">
                                             <div className="col-md-6 mb-2 mb-lg-3">
                                                 <label htmlFor="phone" className="form-label">Contact No.<em>*</em></label>
-                                                <input type="tel" className="form-control" id="phone" placeholder="Enter your contact number" />
+                                                <Input
+                                                addonBefore="+91"
+                                                value={bookingFormData.booking_mobile}
+                                                onChange={handleBookingFieldChange}
+                                                placeholder=""
+                                                maxLength={10}
+                                                className='login-mobile'
+                                                name='booking_mobile'
+                                                />
                                             </div>
                                             <div className="col-md-6 mb-2 mb-lg-3">
-                                                <label htmlFor="guests" className="form-label">Number of guests<em>*</em></label>
-                                                <input type="text" className="form-control" id="guests" placeholder="Enter Number of gues" />
+                                                <label htmlFor="booking_total_guest" className="form-label">Number of guests<em>*</em></label>
+                                                <input type="text" className="form-control" id="booking_total_guest" placeholder="Enter Number of gues" onChange={handleBookingFieldChange} name='booking_total_guest'  value={bookingFormData.booking_total_guest}/>
                                             </div>
                                         </div>
 
                                         <div className="row">                                            
                                             <div className="col-md-12 mb-2 mb-lg-3">
-                                                <label htmlFor="desctiption" className="form-label">Tour Description <em>*</em></label>
-                                                <textarea className="form-control" placeholder="Enter details here..." id="desctiption" style={{height: "100px", resize:"none"}}></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div className="row">
-                                            <div className="col-md-12 mb-2 mb-lg-3">
-                                                <img src="img/captcha.svg"/>
+                                                <label htmlFor="booking_message" className="form-label">Tour Description <em>*</em></label>
+                                                <textarea className="form-control" placeholder="" id="booking_message" style={{height: "100px", resize:"none"}}
+                                                onChange={handleBookingFieldChange} name='booking_message'  value={bookingFormData.booking_message} />
                                             </div>
                                         </div>
 
                                         <div className="row">                                            
                                             <div className="col-md-12 mb-2 mb-lg-3">
-                                                <button type="submit" className="btn btn-primary">Submit</button>
+                                                <Button 
+                                                htmlType="button" 
+                                                disabled={bookingprocessing}
+                                                loading={bookingprocessing}
+                                                onClick={handleBookingSubmit}
+                                                className="btn btn-primary">Submit</Button>
                                             </div>
                                         </div>
                                     </form>
@@ -310,7 +496,7 @@ const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
             <img src="img/map.png"/>
         </div>
         
-            <div className="terms_conditions py-50 wow fadeInUp">
+            {/* <div className="terms_conditions py-50 wow fadeInUp">
                 <div className="container">
                     <div className="section-title wow fadeInUp">
                         <h4 className="mb-2">Terms & Conditions Services</h4>
@@ -360,7 +546,7 @@ const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                     </div>
 
                 </div>
-            </div>
+            </div> */}
     </div>
     </div>
   </>

@@ -1680,6 +1680,7 @@ label.checkin-text {
 .terms p{
     font-size: 0.875rem;
     font-weight: normal;
+    text-align: justify;
 }
 
 .terms h6{
@@ -2955,8 +2956,13 @@ header .dropdown-menu ul li:hover .my-account-icon{
 
 .hotel-list-box.wishlist-box {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	gap: 20px;
+    background-color: var(--white);
+}
+.hotel-list-box.wishlist-box:hover{
+    border-color: var(--red);
+    background-color: #F4F4F4;
 }
 
 .successfully-message {
@@ -2965,7 +2971,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
 	justify-content: center;
 }
 .booking-id {
-	gap: 20px;
+	gap: 10px;
 	color: var(--gray);
 }
 
@@ -3040,6 +3046,256 @@ header .dropdown-menu ul li:hover .my-account-icon{
 	width: 32px;
 }
 
+.upcoming-booking-listing {
+	border: 1px solid #EAEAEE;
+	display: flex;
+	flex-direction: column;
+	border-radius: 6px;
+	overflow: hidden;
+}
+.top-bar-booking {
+	padding: 7px 10px;
+	border-radius: 4px 4px 0 0;
+	background-color: #EAEAEE;
+}
+.top-bar-booking p{
+    color: var(--black);
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+.my-booked-hotal {
+	padding: 10px;
+    color: var(--black);
+    font-size: 0.8rem;
+}
+.my-hotal-thumbnail {
+	overflow: hidden;
+	border-radius: 6px;
+	width: 100%;
+	height: 110px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+.my-hotal-thumbnail img {
+	width: 100%;
+	height: 100%;
+    object-fit: cover;
+}
+.hotal-detials-right h6 {
+	color: var(--black);
+	margin-bottom: 0px;
+	font-weight: 600;
+}
+.hotal-detials-right p{
+    font-size: 0.8rem;
+    color: var(--black);
+}
+.hotal-detials-right p.address-small {
+	color: var(--gray);
+}
+.upcoming-booking-listing:hover u{
+    text-decoration: none;
+}
+
+.pic-80 {
+	width: 80px!important;
+	height: 80px!important;
+	min-width: 80px!important;
+	min-height: 80px!important;
+}
+.neet-help-content p {
+	font-size: 0.8rem;
+}
+.question-answer h6{
+    color: var(--black);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+.question-answer p{
+    color: var(--black);
+    font-size: 0.875rem;
+}
+
+.share-button {
+	position: absolute;
+	z-index: 9;
+	left: 30px;
+	top: 18px;
+}
+
+.share-button a {
+	background-color: rgba(255, 255, 255, 0.8);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+}
+.share-button a img{
+    max-width: 18px;
+}
+.share-button a:hover{
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.wishlist-item-detials .title-main{
+    color:var(--black);
+    display: flex;
+    margin-bottom: 3px;
+    font-size: 1rem;
+}
+.wishlist-item-detials .price-view-detials .red-text {
+	font-size: 13px;
+}
+.hotel-list-box.wishlist-box:hover .title-main{
+    color: var(--red);
+}
+
+.wishlist-item-detials .price-view-detials {
+	margin: 14px 0 0 0;
+	display: flex;
+	align-items: flex-start;
+	/* flex-direction: column; */
+	justify-content: space-between;
+}
+
+.wishlist-item-detials {
+	width: 73%;
+}
+
+/*--About us page--*/
+.aboutus-title{
+    background:url(../img/about_us_bg.svg) no-repeat 0 0;
+    background-size: cover;
+    min-height: 180px;
+    align-items: center;
+    display: flex;
+}
+.about-banner-thumb ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.thumb-about-banner{
+    width: 210px;
+    height: 210px;
+    overflow: hidden;
+    display: flex;
+    border-radius: 50%;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+}
+.thumb-about-banner .thumb-about-inner{
+    width: 190px;
+    height: 190px;
+    overflow: hidden;
+    display: flex;
+    border-radius: 50%;
+    position: relative;
+}
+.thumb-about-banner .thumb-about-inner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+
+.about-inner-content p {
+	text-align: justify;
+	font-size: 0.875rem;
+	margin: 20px 0 20px 0;
+}
+
+.our-journey-section .owl-nav {
+	position: absolute;
+	right: 42px;
+	top: -45px;
+    width: auto;
+}
+.hotal-name-about {
+	position: absolute;
+	background-color: #fff;
+	padding: 10px 10px;
+	color: var(--black);
+	left: 50%;
+	top: 50%;
+	z-index: 99;
+	transform: translate(-50%, -50%);
+	width: 88%;
+	text-align: center;
+    font-size: 0.875rem;
+}
+
+.our-journey-section .hotal-detail-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.red-bg{
+    background-color: var(--red);
+}
+.our-footprint {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.footprint-count{
+    background-color: var(--white);
+    border:1px solid #DEE2E6;
+    border-radius: 8px;
+    width: 24%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+}
+.footprint-count p{
+    color: var(--black);
+    font-size: 0.875rem;
+}
+.footprint-count h5 {
+	font-size: 1.3rem !important;
+}
+.culture-our-box{
+    background-color: var(--white);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+    padding: 20px 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.calture-content p{
+    font-size: 0.75rem;
+    max-width: 86%;
+    margin: 0 auto;
+}
+.illustration-img {
+	height: 200px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.wishlist-item-detials .benefits-section ul li {
+	width: 31%;
+}
+
+
+
 @media(max-width: 1600px){
     .comp-logo{
         max-width: 150px;
@@ -3094,6 +3350,10 @@ header .dropdown-menu ul li:hover .my-account-icon{
     }
     .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
         max-width: 1120px;
+    }
+
+    .footprint-count{
+        width: 23%;
     }
 
 }
@@ -3402,9 +3662,47 @@ header .dropdown-menu ul li:hover .my-account-icon{
         min-height: 90px;
         min-width: 90px;
     }
+
+    .booking-confirm-detals .check-hotal-tile {
+        min-width: 100%;
+    }
+    #offcanvasLeft{
+        max-width: 78%;
+    }
+
+    .aboutus-title {
+        min-height: 90px;
+    }
+    .thumb-about-banner {
+        width: 190px;
+        height: 140px;
+    }
+    .thumb-about-banner .thumb-about-inner {
+        width: 120px;
+        height: 120px;
+    }
+    .our-journey-section .owl-nav{
+        display: none;
+    }
+    .hotal-name-about{
+        width: 75%;
+    }
+    .footprint-count {
+        width: 48%;
+    }
+
+    .terms h6{
+        font-size: 0.875rem;
+    }
+    .terms p, .about-inner-content p{
+        font-size: 0.8rem;
+    }
 }
 
 @media(max-width:767px){
+    .booking-confirm-detals .check-hotal-tile {
+        min-width: 100%;
+    }
     .search_box_main, .date-picker, .total-member-list, .btn-set {
         width: 100%;
         margin-right: 0px;
@@ -4065,8 +4363,8 @@ header .dropdown-menu ul li:hover .my-account-icon{
         margin-bottom: 14px;
     }
     .wishlist-box .hotel-thumb {
-        width: 50%;
-        height: 90px;
+        width: 100%;
+        height: 150px;
     }
     .wishlist-box .thumbnail-list {
         margin: 0px 0 0 0;
@@ -4089,4 +4387,67 @@ header .dropdown-menu ul li:hover .my-account-icon{
         text-decoration: none;
         color: var(--red)!important;
     }
+    .my-bookings-list ul li span {
+        padding: 10px 5px;
+        font-size: 0.8rem;
+    }
+    .my-bookings-list ul li{
+        padding: 0 5px;
+    }
+
+    .my-account-right.my-bookings-main {
+        padding: 0;
+        box-shadow: none;
+        border: 0;
+    }
+    .my-booked-hotal, .top-bar-booking p, .hotal-detials-right p {
+        font-size: 0.7rem;
+    }
+    .my-hotal-thumbnail{
+        height: 80px;
+    }
+    .hotal-detials-right h6{
+        font-size: 0.8rem;
+    }
+    .hotel-list-box.wishlist-box {
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .wishlist-item-detials {
+        width: 100%;
+    }
+    .wishlist-box .wishlist-item-detials .rating-section {
+        margin-top: 10px;
+    }
+    .wishlist-item-detials .title-main{
+        font-size: 0.875rem;
+    }
+
+    .thumb-about-banner {
+        width: 58px;
+        height: 55px;
+    }
+    .thumb-about-banner .thumb-about-inner {
+        width: 52px;
+        height: 52px;
+    }
+
+    .about-banner-thumb ul {
+        gap: 20px;
+    }
+
+    .footprint-count {
+        width: 47%;
+        padding: 10px;
+        min-height: 80px;
+    }
+    .footprint-count h5 {
+        font-size: 1rem !important;
+    }
+    .footprint-count p {
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
 }

@@ -1,6 +1,7 @@
 'use client'
 import { log } from 'console';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { postData } from '../utils/api';
@@ -78,9 +79,9 @@ const [processing, setProcessing] = useState(false);
                           <ul className="foot-link">
                               <li><a href="#">Help center</a></li>
                               <li><a href="#">FAQs</a></li>
-                              <li><a href="#">Privacy police</a></li>
+                              <li><Link href="/privacy-police">Privacy police</Link></li>
                               <li><a href="#">Cookie policy</a></li>
-                              <li><a href="#">Terms of use</a></li>
+                              <li><Link href="/terms-of-use">Terms of use</Link></li>
                               <li><a href="#">Manage cookie settings</a></li>
                               <li><a href="#">Digital services Act (EU)</a></li>
                               <li><a href="#">Content guidelines & reporting</a></li>
