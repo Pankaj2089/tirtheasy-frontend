@@ -51,14 +51,17 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
             const res = await postData('get-room-price-details', postRec);  
             setShowLoader(false);     
             setRecords(res.records);
-            // room price
-            const roomTotalPriceVal:any = parseFloat(res.records.room_price.price)*serData.rooms;
-            setRoomTotalPrice(roomTotalPriceVal);
-
+            
             //extra mattress price
-            const mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
+            const totalNights:number = serData.start_date && serData.end_date ? differenceInDays(serData.end_date, serData.start_date) : 0;             
+            let mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
+            mattressTotalPriceVal = parseFloat(mattressTotalPriceVal)*totalNights;
             setMattressTotalPrice(mattressTotalPriceVal);
 
+            // room price            
+            const roomTotalPriceVal:any = parseFloat(res.records.room_price.price)*serData.rooms*totalNights;
+            setRoomTotalPrice(roomTotalPriceVal);
+            
             let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
 
             const offerData = localStorage.getItem('appliedOffer');
@@ -81,9 +84,10 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
     useEffect(() => {
     //extra mattress price
       if(record && record.room_price){
-        const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress;
+         const totalNights = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+        const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress*totalNights;
         setMattressTotalPrice(mattressTotalPriceVal); 
-        const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms;
+        const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms*totalNights;
         let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
 
         const offerData = localStorage.getItem('appliedOffer');
@@ -290,8 +294,9 @@ const [loading, setLoading] = useState(false);
                 }, 1000);
             }else{
                 router.push("/checkout/booking-cancel");
-            }
                 setLoading(false);
+            }
+                
             }
         },
         prefill: {
@@ -469,7 +474,7 @@ return (
                           }
                             <li className="payment-type">
                                 <dd>Convenience Fee (All inc.)</dd>
-                                <dt className="text-end">104.20</dt>
+                                <dt className="text-end">₹0.00</dt>
                             </li>
 
                           { Object.keys(appliedOffer).length > 0 ?

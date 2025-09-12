@@ -146,6 +146,7 @@ useEffect(() => {
         const searchDataObj: any = { ...searchData };
         searchDataObj.roomID = record.id;
         searchDataObj.roomPriceID = selectedRoom;
+        searchDataObj.extra_mattress = extraMattressValue;
         localStorage.setItem("searchData", JSON.stringify(searchDataObj)); 
         
         // navigate after short delay (allow modal animation to run)
@@ -155,7 +156,7 @@ useEffect(() => {
         }, 300);
       }
   }
-
+  
   return (
     <>
     <div className="modal fade" id={"bookingConfirmPopup"+selectedRoom} aria-hidden="true" aria-labelledby={"bookingConfirmPopup"+selectedRoom}>
@@ -251,11 +252,11 @@ useEffect(() => {
                                     {record.extra_mattress == 1 &&
                                         <Row className='mb-4 pb-4'  justify={'space-between'}>
                                             <Col xs={18} lg={10} xl={10} xxl={10}>                          
-                                                <label htmlFor="check-1" className="checkbox">
+                                                <label htmlFor={"check-"+selectedRoom} className="checkbox">
                                                 <input type="checkbox"
-                                                checked={extraMattress}   // controlled value
+                                                checked={extraMattress}
                                                 onChange={handleMattressChange}  
-                                                id="check-1"
+                                                id={"check-"+selectedRoom}
                                                 />
                                                 <span className="checkmark"></span> Extra Mattress</label> 
                                             </Col>
