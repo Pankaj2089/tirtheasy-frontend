@@ -135,6 +135,7 @@ export default function UserInformationPage() {
             console.error(err);
         }
     }
+    
     useEffect(() => {
     //extra mattress price
       if(record && record.room_price){

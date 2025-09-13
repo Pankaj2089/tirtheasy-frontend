@@ -4,6 +4,8 @@ import { getData, postData } from '../../utils/api';
 import React from 'react';
 import { useInView } from "react-intersection-observer";
 import { log } from 'console';
+
+import { ToastContainer, toast } from 'react-toastify';
 import InnerSearch from '../../components/InnerSearch';
 import HotelImages from './HotelImages';
 import HotelCircuit from './HotelCircuit';
@@ -17,6 +19,7 @@ import HotelOtherDetails from './HotelOtherDetails';
 import HotelLandmark from './HotelLandmark';
 import HotelRooms from './HotelRooms';
 import HotelReviews from './HotelReviews';
+import Signin from '@/app/components/Signin';
 
 type PropertyDetailsProps = {
   hotelData: any;
@@ -37,6 +40,9 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   const [opneDetailsModal, setOpneDetailsModal] = useState(false);
   const [hotelDetails, setHotelDetails] = useState<any>([]);
   const [activeDetailTab, setActiveDetailTab] = useState('');
+  const [is_wishlist, setIsWishlist] = useState('');
+  
+  const [userloggedin, setUserLogin] = useState(false);
   const [hotelFacilitiesList, setHotelFacilities] = useState([]);
   
   const maxLength = 800;
@@ -85,9 +91,21 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("accessToken")){        
+      setUserLogin(true);
+      checkIsWishlist();
+    } 
     loadFromLocalStorage();
     localStorage.setItem("hotelData", JSON.stringify(hotelData));
   }, [])
+
+   async function checkIsWishlist() {
+        let postRec: { hotel_id: number} = { hotel_id: hotelData.id}; 
+        const res = await postData('get-is-wishlist', postRec); 
+        if(res.success && res.record){
+            setIsWishlist(res.record);
+        } 
+    }
 
 
   useEffect(() => {
@@ -113,7 +131,6 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
     e.preventDefault();
     setExpanded(!expanded);
   };
-
   const handleOpneDetailsModalCancel = () => {
     setOpneDetailsModal(false);
   }
@@ -131,6 +148,22 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   const detailsContantsList = (records:any) => {
     setHotelDetails(records);
   }
+
+   const unWishlist = () => {
+        manageMyWishlists();
+  };
+
+  async function manageMyWishlists() {
+        let postRec: { hotel_id: number} = { hotel_id: hotelData.id}; 
+        const res = await postData('manage-my-wishlist', postRec); 
+        if(res.success){
+            toast.success(res.message);
+            setIsWishlist(res.record);
+        } else{
+            toast.error(res.message);
+        }
+    }
+  
   
 return <> 
 <InnerSearch searchAction={searchProperties} loading = {loading}/>
@@ -166,7 +199,17 @@ return <>
                 <div className={"mb-2 mb-md-0 wow fadeInUp " + (hotelData.additional_images.length == 0 ? 'col-md-12':'col-md-6 ')}>
                     <div className="big-img-box">
                         <img src={hotelData.image} alt={hotelData.title} title={hotelData.title} />
-                        <a href="#" className="heat-btn"><img src="/img/heart_liner.svg"/></a>
+                        {userloggedin ? 
+                            <a className="heat-btn cursor-pointer" onClick={unWishlist}>
+                                { is_wishlist ?
+                                    <img src="/img/heart_select.svg"/>
+                                :
+                                    <img src="/img/heart_liner.svg"/>
+                                }
+                            </a>
+                        :
+                        <a className="heat-btn cursor-pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"><img src="/img/heart_liner.svg"/></a>
+                        }
 
                         <a href="#" className="see-all-photos see-all-photos_absolute" data-bs-toggle="modal" data-bs-target="#staticBackdrop">See All Photos</a>
 
@@ -461,6 +504,8 @@ return <>
             </div>
         </div>
     </div>
+
+    <Signin request_title={"hotel"}/>
 
     <HotelOtherDetails  
     hotelId={hotelData.id}

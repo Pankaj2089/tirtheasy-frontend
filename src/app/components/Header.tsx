@@ -16,7 +16,7 @@ interface UserData {
 const menu = (
   <Menu>
     <Menu.Item key="1">
-      <Link href="/profile">Profile</Link>
+      <Link href="/my-profile">Profile</Link>
     </Menu.Item>
     <Menu.Item key="2">
       <Link href="/settings">Settings</Link>
@@ -129,14 +129,45 @@ const menu = (
                 <a className=" cursor-pointer me-3 me-lg-4 cart-icon"><img src="/img/cart.svg"/></a>
 
                 { (userDetails) ?
-                  <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
-                  <span className="profile-details" style={{ cursor: "pointer" }}>
+                //   <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
+                //   <span className="profile-details" style={{ cursor: "pointer" }}>
+                //     <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
+                //     <span className="user-details">{userDetails?.name?.length > 8 
+                //       ? userDetails?.name.substring(0, 8) + "..." 
+                //       : userDetails?.name}</span>
+                //   </span>
+                // </Dropdown>
+                <>
+                  <div className="dropdown userprofile">
+                    <a href="#" className="profile-icon dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
+                        <span className="username-desk d-none d-lg-block">{userDetails?.name?.length > 8 
+                          ? userDetails?.name.substring(0, 8) + "..." 
+                          : userDetails?.name}
+                        </span>
+                    </a>
+                    <div className="dropdown-menu profile-dropdown dropdown-menu-end">
+                      <div className="profile-info">
+                        <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
+                        <span className="username">{userDetails?.name}</span>
+                      </div>
+                      <div className="header-links">
+                        <ul>
+                          <li><Link href="/my-profile" className="dropdown-item"><span className="my-account-icon"><img src="/img/user_profile.svg"/></span> My Profile</Link></li>
+                          <li><Link href="/my-bookings" className="dropdown-item"><span className="my-account-icon"><img src="/img/my_booking.svg"/></span> My Bookings</Link></li>
+                          <li><Link href="/my-wishlist" className="dropdown-item"><span className="my-account-icon"><img src="/img/wishlist_icon.svg"/></span> My Wishlist</Link></li>
+                          <hr/>
+                          <li><a onClick={() => LogOut()} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li>  
+                        </ul>
+                      </div>
+                    </div>                    
+                   
+                </div>
+
+                <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
-                    <span className="user-details">{userDetails?.name?.length > 8 
-                      ? userDetails?.name.substring(0, 8) + "..." 
-                      : userDetails?.name}</span>
-                  </span>
-                </Dropdown>
+                </button>
+                </>
                 :
                 <>
                   <a  data-bs-target="#exampleModalToggle" onClick={() => setRequestTitle('header')} data-bs-toggle="modal" className="cursor-pointer btn btn-primary d-none d-lg-block">Sign in / Create Account</a>

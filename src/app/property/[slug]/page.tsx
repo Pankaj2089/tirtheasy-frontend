@@ -6,7 +6,7 @@ import { log } from 'console';
 import PropertyDetails from './PropertyDetails';
 
 async function getHotelData(slug: string) {
-  const res = await getData(`get-property-data/${slug}`);
+  const res = await getData(`get-property-data/${slug}`);  
   return res.record;
 }
 
