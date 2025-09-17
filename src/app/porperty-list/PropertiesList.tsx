@@ -8,6 +8,13 @@ import InnerSearch from '../components/InnerSearch';
 import { Form, Slider,Skeleton } from 'antd';
 import Link from 'next/link';
 
+import { GoogleMap, Marker, InfoWindow, useLoadScript } from "@react-google-maps/api";
+
+const containerStyle = {
+  width: "100%",
+  height: "80vh",
+};
+
 export default function propertiesList() {
 
   const [records, setRecords] = useState<any>([]);
@@ -18,6 +25,7 @@ export default function propertiesList() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [propertyType, setPropertyType] = useState(false);
+  const [viewType, setViewType] = useState("list");
 
   const isMobile = window.innerWidth < 480;
   const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
@@ -29,6 +37,10 @@ export default function propertiesList() {
     persons: 0,
     sortby:'',
     priceRange:[0,1000]
+  });
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
 
     useEffect(() => {
@@ -58,7 +70,6 @@ export default function propertiesList() {
       setEndDate(serData.end_date);
     }
   };
-
 
   const onSliderChange = (value: number[]) => {
     
@@ -125,6 +136,7 @@ export default function propertiesList() {
     setHasMore(true);
     fetchPosts();
   }
+  
 
 return <> 
 <InnerSearch searchAction={searchProperties} loading = {loading}/>
@@ -135,7 +147,7 @@ return <>
           <div className="col-lg-3 d-none d-lg-block wow fadeInUp">
             <div className="map-view mb-4">
                <h6 className="mb-3">Map View</h6>
-               <div className="map-thumb">
+               <div className="map-thumb" onClick={() => setViewType('map')}>
                  <img src="img/map-img.png"/>
                </div>
             </div>
@@ -364,18 +376,24 @@ return <>
           <div className="col-lg-9 wow fadeInUp">
             <div className="d-flex align-items-center justify-content-between mb-3 text-center wow fadeInUp">
               <h1 className="ucfirst">{propertyType+'s'} in {searchData.keywords}</h1>
-              <div className="shotby-dropdown align-items-center d-none d-md-flex">
-                <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>
-                <select className="form-select" aria-label="Default select example" name='sortby' value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
-                  <option selected value="">Clear</option>
-                  <option value="best_match"  >Best Match</option>
-                  <option value="top_reviewed" >Top Reviewed</option>
-                  <option value="lowest_price">Lowest Price First</option>
-                  <option value="distance" >Distance</option>
-                </select>
-              </div>
+              { viewType =='list' ?
+                <div className="shotby-dropdown align-items-center d-none d-md-flex">
+                  <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>
+                  <select className="form-select" aria-label="Default select example" name='sortby' value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
+                    <option selected value="">Clear</option>
+                    <option value="best_match"  >Best Match</option>
+                    <option value="top_reviewed" >Top Reviewed</option>
+                    <option value="lowest_price">Lowest Price First</option>
+                    <option value="distance" >Distance</option>
+                  </select>
+                </div>
+              :
+              null
+
+              }
+              
             </div>
-            {records.map((record:any) => (
+            {viewType =='list' && records.map((record:any) => (
             <div className="hotel-list-box">
                <div className="row">
                   <div className="col-md-4 col-5">
@@ -500,6 +518,42 @@ return <>
                </div>
             </div>
             ))}
+
+          {viewType =='map' ?
+          <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={{ lat: 28.6139, lng: 77.209 }} 
+              zoom={10}
+            >
+              {records.map((hotel:any) => (
+                <Marker
+                  key={hotel.id}
+                  position={{ lat: hotel.latitude, lng: hotel.longitude }}
+                  //onClick={() =>}
+                  icon={
+                    1 === hotel.id
+                      ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                      : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                  }
+                />
+              ))}
+
+              {/* {selectedHotel && (
+                <InfoWindow
+                  position={{ lat: selectedHotel.lat, lng: selectedHotel.lng }}
+                  onCloseClick={() => setSelectedHotel(null)}
+                >
+                  <div>
+                    <h3 className="font-bold">{selectedHotel.name}</h3>
+                    <p>📍 Lat: {selectedHotel.lat}, Lng: {selectedHotel.lng}</p>
+                  </div>
+                </InfoWindow>
+              )} */}
+            </GoogleMap>
+            :
+            null
+            }
+            
             { (!hasMore && records.length == 0)  &&
                 <div className="text-center py-4 mt-4 pt-4">
                   Records Not found

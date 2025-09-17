@@ -26,9 +26,9 @@ export default function DashboardNav({ page }: Props) {
             <div className="my-account-links border-bottom">
                 <h6 className="mb-2">Settings</h6>
                 <ul>
-                    <li><Link href="#" className="dropdown-item">Help Center</Link></li>
-                    <li><Link href="#" className="dropdown-item">Privacy Policy</Link></li>
-                    <li><Link href="#" className="dropdown-item">Terms & Condition</Link></li>
+                    <li><Link href="/help-center" className="dropdown-item">Help Center</Link></li>
+                    <li><Link href="/privacy-policy" className="dropdown-item">Privacy Policy</Link></li>
+                    <li><Link href="/terms-of-use" className="dropdown-item">Terms & Condition</Link></li>
                 </ul>
             </div>
             <div className="my-account-links mb-0 pb-0">

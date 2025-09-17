@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.15.2",
+    "@react-google-maps/api": "^2.20.7",
     "antd": "^5.26.1",
     "bootstrap": "^5.3.6",
     "date-fns": "^4.1.0",
