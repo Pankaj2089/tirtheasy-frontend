@@ -102,7 +102,7 @@ export default function Destinations({ title, type }: DestinationsProps) {
                           alt={data.heading}
                           title={data.heading}
                         />
-                        <span className="overlay-box"></span>
+                        {/* <span className="overlay-box"></span> */}
                         <span className="address-box text-white">
                           <img
                             src="img/location.svg"

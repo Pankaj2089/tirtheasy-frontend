@@ -78,7 +78,7 @@ export default function Slider() {
                 <>
                   {(data.id > 0) &&
                   <div className="item" key={data.id}>
-                    <div className="overlay-box"></div>
+                    {/* <div className="overlay-box"></div> */}
                       <img src={data.banner} alt={data.title} title={data.title}/>
                   </div>
                 }

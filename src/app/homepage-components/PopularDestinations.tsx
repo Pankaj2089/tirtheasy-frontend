@@ -82,7 +82,7 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
                   <div className= {`wow fadeInUp mb-4 ${index > 1 ? 'col-4' : 'col-6'}`} >
                     <a href="#" className="destination-box rounded-4" title={data.heading}>
                       <img src={data.image} alt={data.heading} title={data.heading} />
-                      <span className="overlay-box"></span>
+                      {/* <span className="overlay-box"></span> */}
                       <span className="address-box text-white">
                         <img src="img/location.svg" className="me-2"/> {data.heading} 
                       </span>
