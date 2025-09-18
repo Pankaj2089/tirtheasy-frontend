@@ -96,13 +96,18 @@ const menu = (
                       <div className="d-flex flex-column flex-lg-row align-lg-items-center justify-content-between">
                         <ul className="navbar-nav mx-lg-auto">
                            <li className="px-3 d-block d-lg-none user-profile">
-                            <Link href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</Link>
-                            <span className="profile-details ">
-                              <span className="profile-thumb">
-                                <img src="/img/user_icon.svg"/>
+                            { (userDetails) ?
+                              <>
+                                <Link onClick={() => LogOut()} href={'/'}>Log Out</Link> 
+                                <span className="profile-details mt-3 ">
+                                <span className="afterlogin-user">{userDetails?.name.substring(0, 1)}</span>
+                                <span className="user-details">{userDetails?.name}</span>
                               </span>
-                              <span className="user-details">Shankar Shankar</span>
-                            </span>
+                              </>
+                            :
+                              <Link href="" type="button" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Sign in / Create Account</Link>
+                            }
+
                           </li>                           
                             <li className="nav-item">
                               <a  onClick={() => updatePage('hotel')} className={`nav-link cursor-pointer ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
@@ -119,6 +124,13 @@ const menu = (
                             <li className="nav-item">
                               <Link className="nav-link" href="/contact-us">Contact Us</Link> 
                             </li>
+                            {/* { (userDetails) ?
+                              <li className="nav-item">
+                                <Link onClick={() => LogOut()} className="nav-link">Log Out</Link> 
+                              </li>
+                              :
+                              null
+                            } */}
                         </ul>
                       </div> 
                 </div>             
@@ -175,9 +187,10 @@ const menu = (
 
                 </>
                 }
-                <button className="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+
+                {/* <button className="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <img src="/img/user_icon.svg" className="user-icon"/>
-                </button>
+                </button> */}
               </div>
           </div>
         </nav>    

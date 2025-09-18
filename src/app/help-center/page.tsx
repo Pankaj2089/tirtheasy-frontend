@@ -60,7 +60,7 @@ export default function HelpCenter() {
                                         {records.length > 0 && records.map((record2:any, index:number) => (
                                         <div className="accordion-item">
                                             <h6 className={"accordion-header "+(activeCategory == index ? ' ':'collapsed')} data-bs-toggle="collapse" data-bs-target={"#collapse"+index} aria-expanded="true" aria-controls="collapseOne">
-                                                {record2[0]} FAQ
+                                                {record2[0]}
                                             </h6>
                                             <div id={"collapse"+index} className={"accordion-collapse collapse "+(activeCategory == index ? ' show':'')} data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
@@ -70,7 +70,6 @@ export default function HelpCenter() {
                                                             <p><b>Ans.</b> {record_data.answer}</p>
                                                         </div>
                                                     ))}
-
                                                 </div>
                                             </div>
                                         </div>

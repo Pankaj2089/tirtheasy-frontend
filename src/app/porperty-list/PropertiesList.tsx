@@ -9,10 +9,20 @@ import { Form, Slider,Skeleton } from 'antd';
 import Link from 'next/link';
 
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from "@react-google-maps/api";
+import InnerMobileSearch from '../components/InnerMobileSearch';
 
 const containerStyle = {
   width: "100%",
   height: "80vh",
+};
+
+type Hotel = {
+  id: number;
+  title?: string;          // optional, if exists
+  latitude: number | string;
+  longitude: number | string;
+  city?: string; 
+  state?: string; 
 };
 
 export default function propertiesList() {
@@ -26,6 +36,10 @@ export default function propertiesList() {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [propertyType, setPropertyType] = useState(false);
   const [viewType, setViewType] = useState("list");
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
+  
+  const [defaultLat, setDefaultLat] = useState(false);
+  const [defaultLong, setDefaultLong] = useState(false);
 
   const isMobile = window.innerWidth < 480;
   const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
@@ -42,6 +56,7 @@ export default function propertiesList() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
+  
 
     useEffect(() => {
       if(searchData.keywords !== '' || searchData.start_date !== '' || searchData.end_date !== ''){
@@ -90,30 +105,41 @@ export default function propertiesList() {
     loadFromLocalStorage();
   }, [])
 
-  const fetchPosts = async () => {
-    if (loading || !hasMore) return;
+ const fetchPosts = async () => {
+  if (loading || !hasMore) return;
 
-    setLoading(true);
-    try {
-
-      let searchDataArr = [];
-      const storatgeData = localStorage.getItem('searchData');
-      if (storatgeData) {
-        searchDataArr = JSON.parse(storatgeData);
-      }
-      searchDataArr['property_type'] = localStorage.getItem('property_type');
-      const res = await postData(`get-property-list?page=${page}`, searchDataArr);
-      const data = await res.records;
-
-      setRecords((prev:any) => [...prev, ...data.data]);
-      setHasMore(data.current_page < data.last_page);
-      setPage(prev => prev + 1);
-    } catch (err) {
-      console.error("Error loading records:", err);
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    let searchDataArr:any = [];
+    const storatgeData = localStorage.getItem('searchData');
+    if (storatgeData) {
+      searchDataArr = JSON.parse(storatgeData);
     }
-  };
+    searchDataArr['property_type'] = localStorage.getItem('property_type');
+
+    const res = await postData(`get-property-list?page=${page}`, searchDataArr);
+    const data = res.records;
+
+    setRecords((prev:any) => {
+      const newRecords = [...prev, ...data.data];
+      
+      // ✅ set first hotel if not already selected
+      if (!selectedHotel && newRecords.length > 0) {
+        setSelectedHotel(newRecords[0]);
+        setDefaultLat(newRecords[0].latitude);
+        setDefaultLong(newRecords[0].longitude);
+      }
+      return newRecords;
+    });
+
+    setHasMore(data.current_page < data.last_page);
+    setPage(prev => prev + 1);
+  } catch (err) {
+    console.error("Error loading records:", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     
@@ -137,7 +163,7 @@ export default function propertiesList() {
     fetchPosts();
   }
   
-
+if (!isLoaded) return <p>Loading Map...</p>;
 return <> 
 <InnerSearch searchAction={searchProperties} loading = {loading}/>
 <div className="popular-destination py-50 pt-0 wow fadeInUp">
@@ -519,36 +545,53 @@ return <>
             </div>
             ))}
 
-          {viewType =='map' ?
+          {(viewType =='map' && defaultLat) ?
+         
           <GoogleMap
               mapContainerStyle={containerStyle}
-              center={{ lat: 28.6139, lng: 77.209 }} 
+              center={selectedHotel
+                ? { lat: Number(selectedHotel.latitude), lng: Number(selectedHotel.longitude) }
+                : { lat: Number(defaultLat), lng: Number(defaultLong) }
+              }
               zoom={10}
             >
-              {records.map((hotel:any) => (
-                <Marker
-                  key={hotel.id}
-                  position={{ lat: hotel.latitude, lng: hotel.longitude }}
-                  //onClick={() =>}
-                  icon={
-                    1 === hotel.id
-                      ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                      : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                  }
-                />
-              ))}
+              {records.map((hotel:any) => {
+                if (!hotel.latitude || !hotel.longitude) return null; // skip invalid ones
 
-              {/* {selectedHotel && (
+                return (
+                  <Marker
+                    key={hotel.id}
+                    onClick={() =>
+                      setSelectedHotel({
+                        ...hotel,
+                        latitude: Number(hotel.latitude),
+                        longitude: Number(hotel.longitude),
+                      })
+                    }
+                    position={{
+                      lat: Number(hotel.latitude),
+                      lng: Number(hotel.longitude),
+                    }}
+                    // icon={
+                    //   selectedHotel?.id === hotel.id
+                    //     ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                    //     : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                    // }
+                  />
+                );
+              })}
+
+              {selectedHotel && (
                 <InfoWindow
-                  position={{ lat: selectedHotel.lat, lng: selectedHotel.lng }}
+                  position={{ lat: Number(selectedHotel.latitude), lng: Number(selectedHotel.longitude) }}
                   onCloseClick={() => setSelectedHotel(null)}
                 >
                   <div>
-                    <h3 className="font-bold">{selectedHotel.name}</h3>
-                    <p>📍 Lat: {selectedHotel.lat}, Lng: {selectedHotel.lng}</p>
+                    <h6 className="font-bold">{selectedHotel.title}</h6>
+                    <p>📍{selectedHotel.city}, {selectedHotel.state}</p>
                   </div>
                 </InfoWindow>
-              )} */}
+              )}
             </GoogleMap>
             :
             null
@@ -617,74 +660,7 @@ return <>
     <button className="back-btn me-2" data-bs-dismiss="offcanvas" aria-label="Close"><img src="img/back_search.svg"/></button>
     <span className="popup-title">Edit Search</span>
   </div>
-  <div className="offcanvas-body filter-accordion">
-      <form className="main-search-form" action="" method="post">
-               <div className="input-group search-main-box">
-                  <input type="button" className="form-control search-box" placeholder="Search" />
-                </div>
-                <div className="start-end-date">
-                   <div className="start-date">
-                     <span className="date-picker-icon"><img src="img/date.svg"/></span>
-                     <div className="selected-date-day">
-                          <div className="date">19 Jun 2025</div>
-                          <div className="day">Thursday</div>
-                     </div>
-                   </div>
-                   <div className="start-date end-date">
-                     <span className="date-picker-icon"><img src="img/date.svg"/></span>
-                     <div className="selected-date-day">
-                          <div className="date">19 Jun 2025</div>
-                          <div className="day">Thursday</div>
-                     </div>
-                   </div>
-                </div>
-                <div className="slect-audience" >
-                    <div className="select-member" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-                      <span className="date-picker-icon"><img src="img/user.svg"/></span>
-                      <div className="selected-date-day">
-                            <div className="date">1 Adult,</div>
-                            <div className="day">2 Room, 2 Child</div>
-                      </div>
-                    </div>
-                      <div className="collapse multi-collapse member-addon" id="multiCollapseExample1">
-                          <div className="select-adult">
-                              <span className="left-label">Room</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-                          <div className="select-adult">
-                              <span className="left-label">Adult</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-                          <div className="select-adult">
-                              <span className="left-label">Children</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-                      </div>
-                </div>
-                
-                <div className="search-btn-box">
-                   <button type="button" className="btn btn-primary">Search</button>
-                </div>
-        </form> 
-  </div>
+  <InnerMobileSearch searchAction={searchProperties} loading = {loading} />
 </div>
 
   </>;

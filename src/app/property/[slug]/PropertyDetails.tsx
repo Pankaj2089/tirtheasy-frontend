@@ -20,6 +20,7 @@ import HotelLandmark from './HotelLandmark';
 import HotelRooms from './HotelRooms';
 import HotelReviews from './HotelReviews';
 import Signin from '@/app/components/Signin';
+import InnerMobileSearch from '@/app/components/InnerMobileSearch';
 
 type PropertyDetailsProps = {
   hotelData: any;
@@ -394,84 +395,7 @@ return <>
     <button type="button" className="back-btn me-2" data-bs-dismiss="offcanvas" aria-label="Close"><img src="/img/back_search.svg"/></button>
     <span className="popup-title">Edit Search</span>
   </div>
-  <div className="offcanvas-body filter-accordion">
-      <form className="main-search-form" action="" method="post">
-               <div className="input-group search-main-box">
-                  <input type="search" className="form-control search-box" placeholder="Search" />
-                </div>
-
-                <div className="start-end-date">
-                   <div className="start-date">
-                     <span className="date-picker-icon"><img src="/img/date.svg"/></span>
-                     <div className="selected-date-day">
-                          <div className="date">19 Jun 2025</div>
-                          <div className="day">Thursday</div>
-                     </div>
-                   </div>
-
-                   <div className="start-date end-date">
-                     <span className="date-picker-icon"><img src="/img/date.svg"/></span>
-                     <div className="selected-date-day">
-                          <div className="date">19 Jun 2025</div>
-                          <div className="day">Thursday</div>
-                     </div>
-                   </div>
-                </div>
-
-                <div className="slect-audience" >
-                    <div className="select-member" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-                      <span className="date-picker-icon"><img src="/img/user.svg"/></span>
-                      <div className="selected-date-day">
-                            <div className="date">1 Adult,</div>
-                            <div className="day">2 Room, 2 Child</div>
-                      </div>
-                    </div>
-                      <div className="collapse multi-collapse member-addon" id="multiCollapseExample1">
-                          <div className="select-adult">
-                              <span className="left-label">Room</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-
-                          <div className="select-adult">
-                              <span className="left-label">Adult</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-
-
-                          <div className="select-adult">
-                              <span className="left-label">Children</span>
-                              <span className="qty-price">
-                                <span className="number cont-ad-name">
-                                  <span className="minus"><span>-</span></span>
-                                  <input type="text" value="1"/>
-                                  <span className="plus"><span>+</span></span>
-                                </span>
-                              </span>
-                          </div>
-
-                          
-                      </div>
-                      
-                </div>
-                
-                <div className="search-btn-box">
-                   <button type="submit" className="btn btn-primary">Search</button>
-                </div>
-        </form> 
-  
-  </div>
+  <InnerMobileSearch searchAction={searchProperties} loading = {loading} />
 </div>
 
     <div className="modal fade view-all-phots-popup z-index-big" id="staticBackdrop" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex={-1}>

@@ -300,7 +300,7 @@ const today = new Date();
         <div className="moible-search-box d-block d-md-none">
           <div className="search-box-mob" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearchbox" aria-controls="offcanvasSearchbox">
             <span className="search-title">{searchData.keywords}</span>
-            <span className="search-member-date">28 Jun - 5 Jul <span className="dot"></span> 2 Guests</span>
+            <span className="search-member-date">{startDate ? format(startDate, 'dd MMM') : ''} - {endDate ? format(endDate, 'dd MMM') : ''} <span className="dot"></span> {searchData.adult} Guests</span>
           </div>
         </div>        
         <div className="mobile-filter-view d-md-none pb-2">
