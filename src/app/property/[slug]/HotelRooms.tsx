@@ -41,12 +41,14 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
                 const data = localStorage.getItem('searchData');
                 let start_date = '';
                 let end_date = '';
+                let rooms = '';
                 if (data) {
                     let serData = JSON.parse(data);
-                    start_date = serData.start_date;  
-                    end_date = serData.end_date;        
+                    start_date = serData.start_date; 
+                    end_date = serData.end_date;       
+                    rooms = serData.rooms;        
                 }
-                let postRec = { hotel_id: hotelId, start_date : start_date, end_date : end_date}; 
+                let postRec = { hotel_id: hotelId, start_date : start_date, end_date : end_date, rooms:rooms}; 
                 const res = await postData('get-hotel-rooms', postRec);  
                 setShowLoader(false);     
                 setRecords(res.records);

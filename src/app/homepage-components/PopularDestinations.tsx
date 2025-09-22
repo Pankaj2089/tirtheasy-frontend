@@ -18,7 +18,6 @@ type DestinationsProps = {
 export default function PopularDestinations({ title, type }: DestinationsProps) {
     const [promotions, setData] = useState<BannerData[]>([]);
     const [showLoader, setShowLoader] = useState(false);
-    
       useEffect(() => {
         setShowLoader(true);
         async function fetchData() {
