@@ -5,9 +5,10 @@ import { log } from 'console';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
+import { Modal, Button } from "antd";
 import dynamic from 'next/dynamic';
 
-//import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import '../page.module.css' 
 //import { Skeleton } from 'antd';
 
@@ -34,6 +35,7 @@ export default function Slider() {
 
   const [banners, setData] = useState<BannerData[]>([]);
   const [showLoader, setShowLoader] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setShowLoader(true);
@@ -41,15 +43,24 @@ export default function Slider() {
       
       try {
         const data = sessionStorage.getItem('sliderList');
+        setIsModalOpen(true);
         if (data) {
           let sliderData = JSON.parse(data);
           setShowLoader(false);
           setData(sliderData);
+          setTimeout(() => {
+              setIsModalOpen(false);
+            }, 2000);
         }else{
+            
             const res = await getData('sliders');        
             setData(res.records);
             sessionStorage.setItem("sliderList", JSON.stringify(res.records));
             setShowLoader(false);
+            setTimeout(() => {
+              setIsModalOpen(false);
+            }, 2000);
+            
         }
       } catch (err) {
         console.error(err);
@@ -58,7 +69,12 @@ export default function Slider() {
       setTimeout(() => {
         fetchData();
       }, 200);
+
+
+      
   }, [banners.length == 0]); 
+
+  
   
   return (
     <>
@@ -88,12 +104,19 @@ export default function Slider() {
         </div>
         <HomeSearch/>
       </div>
-       {/* <DotLottieReact
-            src="https://lottie.host/0073ec4e-2e80-453c-a1d6-9b57c4a210bb/H1416U8Fso.lottie"
+      {isModalOpen ? 
+      <div className='loading-image'>
+        <div className='image-section'>
+          <DotLottieReact
+            src="https://lottie.host/70e7865e-43b7-49ba-9616-19b69f5731d4/XTnkhFxdp0.lottie"
             loop
             autoplay
-            style={{height:'100px'}}
-          /> */}
+            style={{ width: "300px" }}
+            className='text-center'
+            />
+          </div>
+       </div>
+       :null}
     </>
   );
 }
