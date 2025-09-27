@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname , useRouter } from 'next/navigation';
 import Signin from './Signin';
-import { Dropdown, Menu } from "antd";
+import { Menu } from "antd";
 export default function Header() {
 
 interface UserData {
@@ -82,12 +82,41 @@ const menu = (
       <div className="header">
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
-              <Link href="/" className="navbar-brand comp-logo">
-                <img src="/img/logo.svg" className="img-fluid" alt="" />
-              </Link>
-              
+            <div className="logo-left d-flex align-items-center gap-2">
+              <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft" id="offcanvasCloseBtn">
+                    <img src="/img/hemburger.svg"/>
+                </button>
+                <Link href="/" className="navbar-brand comp-logo">
+                  <img src="/img/logo.svg" className="img-fluid" alt="" />
+                </Link>
+              </div>
+
+             
+              <div className="offcanvas offcanvas-start d-lg-none" data-bs-scroll="true" tabIndex={-1} id="offcanvasLeft" aria-labelledby="offcanvasleftLabel">
+                    <div className="offcanvas-header">
+                        <button type="button" className="btn-close-back me-auto ms-0" data-bs-dismiss="offcanvas" aria-label="Close">
+                            <img src="/img/close_profile_offcancvas.svg"/>
+                        </button>
+
+                    </div>
+                    <div className="d-flex flex-column flex-lg-row align-lg-items-center justify-content-between">
+                      <div className="header-links px-2">
+                        <h6 className="mb-2">Menu</h6>
+                        <ul>
+                          <li><a href="#" className="dropdown-item" onClick={() => updatePage('hotel')} >
+                            <span className="my-account-icon"><img src="/img/hotel.svg"/></span> Hotels 
+                            <span className="arrow-right ms-auto" ><img src="/img/arrow_right_menu.svg"/></span></a></li>
+                          <li><a className="dropdown-item" onClick={() => updatePage('dharmshala')}><span className="my-account-icon"><img src="/img/dharamshala.svg"/></span> Dharamshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>
+                          <li><Link href="/about"  className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/about_us.svg"/></span> About Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
+                          <li><Link href="#" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.svg"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
+                          <li><Link href="/contact-us" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/contact_us.svg"/></span> Contact Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>
+                        </ul>
+                      </div>
+                    </div> 
+              </div>
+
             <div className="header-start d-flex align-items-center">
-                <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                {/* <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                       <div className="offcanvas-header">
                           <button type="button" className="btn-close me-auto ms-0" data-bs-dismiss="offcanvas" aria-label="Close">
                             <img src="/img/close_menu.svg"/>
@@ -124,16 +153,73 @@ const menu = (
                             <li className="nav-item">
                               <Link className="nav-link" href="/contact-us">Contact Us</Link> 
                             </li>
-                            {/* { (userDetails) ?
-                              <li className="nav-item">
-                                <Link onClick={() => LogOut()} className="nav-link">Log Out</Link> 
-                              </li>
-                              :
-                              null
-                            } */}
+                            
                         </ul>
                       </div> 
-                </div>             
+                </div>              */}
+
+                <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                          <div className="offcanvas-header my-account-header">
+                              <button type="button" className="btn-close-back me-auto ms-0" data-bs-dismiss="offcanvas" aria-label="Close"  id="offcanvasCloseBtn2">
+                                <img src="/img/close_profile_offcancvas.svg"/>
+                              </button>
+
+                              <div className="profile-info">
+                                <span className="username">{userDetails?.name}</span>
+                                <span className="mobile-no">+91 {userDetails?.mobile}</span>
+                              </div>
+                          </div>
+                          <div className="d-flex flex-column flex-lg-row align-lg-items-center justify-content-between">
+                            <ul className="navbar-nav mx-lg-auto">
+                              <li className="px-2 pt-0 d-block d-lg-none user-profile">
+                                <div className="profile-dropdown">
+                                      <div className="header-links border-bottom">
+                                        <h6 className="mb-2">Account</h6>
+                                        <ul>
+                                          <li><Link href="/my-profile" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}><span className="my-account-icon"><img src="/img/user_profile.svg"/></span> My Profile</Link></li>
+                                          <li><Link href="/my-bookings" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}><span className="my-account-icon"><img src="/img/my_booking.svg"/></span> My Bookings</Link></li>
+                                          <li><Link href="/my-wishlist" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}><span className="my-account-icon"><img src="/img/wishlist_icon.svg"/></span> My Wishlist</Link></li>                                          
+                                        </ul>
+                                      </div>
+                                      <div className="header-links border-bottom">
+                                        <h6 className="mb-2">Settings</h6>
+                                        <ul>
+                                            <li><Link href="/help-center" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}>Help Center</Link></li>
+                                            <li><Link href="/privacy-policy" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}>Privacy Policy</Link></li>
+                                            <li><Link href="/terms-of-use" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn2")?.click(); }}>Terms & Condition</Link></li>
+                                        </ul>
+                                      </div>
+                                      <div className="header-links">
+                                        <ul>
+                                          <li><a onClick={() => LogOut()} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li> 
+                                        </ul>
+                                      </div>
+                                    </div>  
+                              </li>                            
+                                
+                               <li className="nav-item">
+                                  <a  onClick={() => updatePage('hotel')} className={`nav-link cursor-pointer ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
+                                </li>
+                                <li className="nav-item">
+                                  <a  onClick={() => updatePage('dharmshala')} className={`nav-link  cursor-pointer ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
+                                </li>
+
+                                <li className="nav-item">
+                                  <Link href="/about" className="nav-link">About Us</Link>
+                                </li>
+
+                                <li className="nav-item">
+                                  <a className="nav-link" href="#">Blog</a>
+                                </li>
+
+                                <li className="nav-item">
+                                  <Link className="nav-link" href="/contact-us">Contact Us</Link> 
+                                </li>
+                              
+                            </ul>
+                            
+                          </div> 
+                </div> 
             </div>              
 
               <div className="header-end d-flex align-items-center">

@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, format } from 'date-fns';
 import { Button } from 'antd';
-import { log } from 'console';
 import { postData } from '../utils/api';
 type InnerSearchProps = {
   searchAction: any;

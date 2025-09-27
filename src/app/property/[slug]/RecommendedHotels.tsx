@@ -1,7 +1,6 @@
 'use client'
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { postData } from '../../utils/api';
-import { Skeleton } from 'antd';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';

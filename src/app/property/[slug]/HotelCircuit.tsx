@@ -1,8 +1,8 @@
 'use client'
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { postData } from '../../utils/api';
 import { Skeleton } from 'antd';
-import { log } from 'node:console';
+
 type hotelDataProps = {
   hotelState:any;
   handleChange:any;

@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { getData } from '../utils/api';
-import { log } from 'console';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
@@ -38,7 +37,7 @@ type HotelsProps = {
       items:1.5,
     },
     768 : {
-      items:2,
+      items:1.5,
     },
     992:{
       items:3,

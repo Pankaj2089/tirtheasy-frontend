@@ -1,7 +1,6 @@
 'use client'
-import { log } from 'console';
 import { useEffect, useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Input, Row, Col, Button } from "antd";
 
 import type { InputRef } from "antd";
@@ -25,6 +24,7 @@ const [email, setEmail] = useState('');
 const [otp, setOtp] = useState(Array(6).fill(""));
 const inputRefs = useRef<(InputRef | null)[]>([]);
 const router = useRouter();
+const [otpSent, setOTPSent] = useState(false);
 
 // wait until client side render
   useEffect(() => {
@@ -52,8 +52,12 @@ const router = useRouter();
           let data = {mobile};
           const res = await postData('sign-in', data);
           if(res.success){
-            toast.success("OTP send successfully.");
+            //toast.success("OTP send successfully.");
+            setOTPSent(true);
             setActiveStep(2);
+            setTimeout(() => {
+              setOTPSent(false);
+            }, 2000);
           }else{
             toast.error(res.msg);
           }
@@ -250,6 +254,11 @@ const router = useRouter();
                          <form className="needs-validation otp-section" onSubmit={handleOTPSubmit}>
                             <div className="mb-3">
                                 <div className="form-phone text-center">
+                                    { otpSent && 
+                                      <p className='alert alert-success' style={{padding:'10px'}}>OTP send successfully.</p>
+                                    }
+                                    
+
                                     <a href="javascript:void(0)" className="edit_mobile text-white fw-bold" onClick={() => setActiveStep(1)}>+91 {mobile} <img src="/img/edit.svg" alt="" />
                                     </a>
                                 </div>

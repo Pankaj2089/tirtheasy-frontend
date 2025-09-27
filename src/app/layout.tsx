@@ -26,6 +26,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/style.css"></link>
         <link rel="stylesheet" href="/css/primary-search.css"></link>
         <link rel="stylesheet" href="/css/custom_style.css"></link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
      </head>
       <body>
         <ToastContainer />

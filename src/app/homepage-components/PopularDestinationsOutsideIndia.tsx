@@ -5,6 +5,8 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -34,7 +36,7 @@ const options = {
   responsive: {
     0: { items: 1.2 },
     480: { items: 1.5 },
-    768: { items: 3 },
+    768: { items: 1.5 },
     992: { items: 4 },
     1000: { items: 5 },
   },

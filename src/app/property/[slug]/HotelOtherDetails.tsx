@@ -1,8 +1,7 @@
 'use client'
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { postData } from '../../utils/api';
-import { Modal, Tabs, Button  } from 'antd';
-import { log } from 'console';
+import { Modal, Tabs  } from 'antd';
 
 type hotelDataProps = {
   hotelId:any;

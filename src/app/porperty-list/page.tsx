@@ -1,6 +1,6 @@
 import PropertiesList from "./PropertiesList";
 import { Metadata } from 'next';
-import { getData, postData } from '../utils/api';
+import { getData } from '../utils/api';
 import React from 'react';
 
 // Simulate dynamic data fetch (could be API/db call)

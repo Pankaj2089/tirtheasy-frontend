@@ -1,37 +1,12 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { addDays, format,differenceInDays  } from 'date-fns';
-import { getData, postData, } from '../../utils/api';
-import {Select, Button, Input, TimePicker, DatePicker   } from "antd";
-import { ToastContainer, toast } from 'react-toastify';
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
-import { log } from 'console';
-const { Option } = Select;
 import { useRouter } from "next/navigation";
-import CheckoutFooter from '@/app/components/CheckoutFooter';
 import RecommendedHotels from '@/app/property/[slug]/RecommendedHotels';
 
-export default function BookingCancel({ initialTime = 600 }) {
-
-  const [record, setRecords] = useState<any>([]);
+export default function BookingCancel() {
   const [hotelData, setHotelData] = useState<any>([]);
-
   const router = useRouter();
-
-  const [searchData, setSearchState] = useState({
-    keywords: '',
-    start_date: '',
-    end_date: '',
-    adult: 1,
-    rooms: 1,
-    childerns: 0,
-    sortby: '' ,
-    roomID: 0,
-    roomPriceID: 0,
-    extra_mattress: 0,
-  });
       
    // Get array from localStorage
 const loadFromLocalStorage = () => {

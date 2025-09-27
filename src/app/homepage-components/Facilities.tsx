@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
-import { log } from 'console';
-
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import dynamic from 'next/dynamic';

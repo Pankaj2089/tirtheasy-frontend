@@ -11,19 +11,21 @@ import { getData } from './utils/api';
 import Head from "next/head";
 
 // Simulate dynamic data fetch (could be API/db call)
-async function getHotelData() {
+async function getPageData() {
     const res = await getData('get-page-data/1');  
     return res.record;
 }
 
 // ✅ Dynamic metadata function
 export async function generateMetadata(): Promise<Metadata> {
-  const hotel = await getHotelData();
+  const pageData = await getPageData();
+  console.log(pageData);
+  
 
   return {
-    title: hotel.seo_title,
-    description: hotel.seo_description,
-    keywords: hotel.seo_keyword,
+    title: pageData.seo_title,
+    description: pageData.seo_description,
+    keywords: pageData.seo_keyword,
     // openGraph: {
     //   title: hotel.name,
     //   description: hotel.description,

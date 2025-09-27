@@ -1,11 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { getData, postData } from '../utils/api';
+import { postData } from '../utils/api';
 import React from 'react';
 import { useInView } from "react-intersection-observer";
-import { log } from 'console';
 import InnerSearch from '../components/InnerSearch';
-import { Form, Slider,Skeleton } from 'antd';
+import { Slider,Skeleton } from 'antd';
 import Link from 'next/link';
 
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from "@react-google-maps/api";
@@ -41,8 +40,8 @@ export default function propertiesList() {
   const [defaultLat, setDefaultLat] = useState(false);
   const [defaultLong, setDefaultLong] = useState(false);
 
-  const isMobile = window.innerWidth < 480;
-  const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
+  //const isMobile = window.innerWidth < 480;
+  //const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
 
   const [searchData, setSearchState] = useState({
     keywords: '',
@@ -452,7 +451,7 @@ return <>
 
                         { (record?.facilities_list && record?.facilities_list?.length > 0) &&
                         <div className="benefits-section">
-                          <ul>
+                          <ul className='pro-facilities-list'>
                              {record.facilities_list.map((facilityRow:any) => (
                               <li><img src="img/gray_tick.svg"/> {facilityRow.title}</li>
                              ))}
@@ -606,16 +605,16 @@ return <>
               {loading ? "Loading..." : "Scroll down to load more"}
               {loading && 
                 <div style={{ width: '100%', maxWidth: '1000px' }}>
-                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
-                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
-                <Skeleton.Input active={true} style={{height:200,  width: '90dvw', marginTop:20, maxWidth:isiPad ? 680 : 980 }}  />
+                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
+                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
+                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
                 </div>
                }
             </div>
           )}
             
           </div>
-       </div>
+       </div> 
     </div>
 
     <div className="fast-fects-section py-50 pb-0">

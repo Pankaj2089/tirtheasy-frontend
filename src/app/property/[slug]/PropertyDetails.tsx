@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useState, useRef  } from 'react';
-import { getData, postData } from '../../utils/api';
+import { useEffect, useState  } from 'react';
+import { postData } from '../../utils/api';
 import React from 'react';
 import { useInView } from "react-intersection-observer";
-import { log } from 'console';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import InnerSearch from '../../components/InnerSearch';
 import HotelImages from './HotelImages';
 import HotelCircuit from './HotelCircuit';

@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState, useRef } from 'react';
-import { getData, postData, } from '../utils/api';
+import { useEffect, useState } from 'react';
+import { getData } from '../utils/api';
 import { Skeleton } from 'antd';
 
 export default function MyProfile() {

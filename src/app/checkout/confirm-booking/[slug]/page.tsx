@@ -1,11 +1,9 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
-import Link from 'next/link';
+
 import { format,differenceInDays  } from 'date-fns';
 import { postData } from '../../../utils/api';
-import {Select} from "antd";
 
-import { log } from 'console';
 import { useRouter } from "next/navigation";
 import CheckoutFooter from '@/app/components/CheckoutFooter';
 

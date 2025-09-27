@@ -1,8 +1,7 @@
 
 import { Metadata } from 'next';
-import { getData, postData } from '../../utils/api';
+import { getData } from '../../utils/api';
 import React from 'react';
-import { log } from 'console';
 import PropertyDetails from './PropertyDetails';
 
 async function getHotelData(slug: string) {

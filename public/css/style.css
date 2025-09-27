@@ -758,7 +758,7 @@ a:hover{
     font-weight: var(--regular);
 }
 .new-price-big{
-    font-size: 1.52rem!important;
+    font-size: 1.2rem!important;
     color: var(--red);
 }
 .rs {
@@ -878,7 +878,7 @@ a:hover{
     font-size: 1.25rem;
 }
 .free-cancel{
-    font-size: 12px;
+    font-size: 11px;
 }
 .thumbnail-list {
 	display: flex;
@@ -3293,7 +3293,9 @@ header .dropdown-menu ul li:hover .my-account-icon{
 .wishlist-item-detials .benefits-section ul li {
 	width: 31%;
 }
-
+.my-booked-hotal u {
+	text-decoration: none;
+}
 
 
 @media(max-width: 1600px){
@@ -3532,9 +3534,15 @@ header .dropdown-menu ul li:hover .my-account-icon{
         line-height: 23px;
         font-size: 0.75rem;
     }
-    .bed-pref-list li {
-        font-size: 0.75rem;
+    .bed-pref-list li, .bed-pref-list li a, .adult-room-child-list li {
+        font-size: 0.6rem;
         
+    }
+    h5 {
+    font-size: 0.875rem !important;
+    }
+    .important-notes ul li{
+        font-size: 0.75rem;
     }
     .big-img-box {
         height: 200px;
@@ -3545,7 +3553,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
         max-height: 92px;
     }
     .detail-price-box .new-price-big {
-        font-size: 1.5rem !important;
+        font-size: 1.2rem !important;
     }
     .no-risk-content h3 {
         font-size: 1rem !important;
@@ -3554,7 +3562,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
         font-size: 0.75rem;
     }
     .room-price {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
     }
     .price-box-section em {
         font-size: 0.65rem;
@@ -3697,6 +3705,109 @@ header .dropdown-menu ul li:hover .my-account-icon{
     .terms p, .about-inner-content p{
         font-size: 0.8rem;
     }
+     .owl-nav{
+        display: none;
+    }
+    .modal-header .fs-6 {
+        font-size: 0.75rem !important;
+    }
+    .create-an-account, .create-an-account a {
+        font-size: 0.75rem;
+    }
+    .small-thumb {
+        height: 70px;
+    }
+    .footer-main {
+        padding: 120px 0 0px;
+    }
+    .our-newsletter {
+        width: 80%;
+    }
+    .btn {
+        padding: 0.5rem 2rem;
+    }
+    .wishlist-box .hotel-thumb {
+        height: 160px;
+    }
+    .mob-map {
+        max-width: 270px;
+    }
+    .room-facilities {
+        min-height: 199px;
+    }
+    .bed-pref-list li{
+        align-items: flex-start;
+    }
+    .hotel-list-box h5 a, .hotel-list-box h5 {
+        font-size: 1.2rem;
+    }
+    .styled-select, .styled-select .curr{
+        font-size: 0.75rem;
+    }
+    .styled-select li{
+        font-size: 0.75rem;
+    }
+    .hero-section {
+        padding-bottom: 20px;
+    }
+   .benefits-section ul {
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+    .benefits-section {
+        margin-top: 1rem;
+    }
+    .hotel-title h1 {
+        font-size: 1.52rem;
+        margin-bottom: 5px;
+    }
+    .hotel-title p {
+        font-size: 0.75rem;
+    }
+
+    .details-sticy-tabs ul li a {
+        font-size: 0.75rem;
+    }
+    .details-sticy-tabs {
+        padding: 15px 0px 6px 0px;
+    }
+    .details-sticy-tabs ul {
+        column-gap: 10px;
+    }
+    .rating-section {
+        flex-direction: column;
+    }
+    .total-review-section {
+        margin-bottom: 10px;
+    }
+    .highlit-item-name {
+        min-height: 37px;
+    }
+
+    .client-text-box b {
+        font-size: 0.75rem;
+    }
+    .faq-section-accordion .accordion-header {
+        padding: 7px 15px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .faq-section-accordion .accordion-body {
+        font-size: 0.75rem;
+    }
+    .footer {
+        padding-top: 90px;
+    }
+    .room-facility .room-price {
+        font-size: 1.2rem;
+    }
+    .highlight-items ul li .highlit-item-name {
+        min-height: auto;
+    }
+    h3 {
+        font-size: 1.2rem !important;
+    }
 }
 
 @media(max-width:767px){
@@ -3751,7 +3862,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
         width: 95%;
     }
     h4 {
-        font-size: 0.875rem !important;
+        font-size: 1.1rem !important;
     }
     h2 {
         font-size: 1.2rem !important;
@@ -3879,7 +3990,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
         position: relative;
     }
     .new-price-big {
-        font-size: 1.2rem !important;
+        font-size: 1rem !important;
     }
     .new-price p, .price-del del{
         font-size: 0.75rem;
@@ -4065,7 +4176,7 @@ header .dropdown-menu ul li:hover .my-account-icon{
         margin-bottom: 10px;
     }
     .room-facility .room-price {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         margin-top: 5px;
         margin-bottom: 5px;
     }

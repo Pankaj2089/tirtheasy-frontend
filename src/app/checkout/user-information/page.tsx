@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { addDays, format,differenceInDays  } from 'date-fns';
+import { format,differenceInDays  } from 'date-fns';
 import { getData, postData, } from '../../utils/api';
 import {Select, Button, Input, TimePicker, DatePicker   } from "antd";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { log } from 'console';
 const { Option } = Select;
 import { useRouter } from "next/navigation";
 import CheckoutFooter from '@/app/components/CheckoutFooter';

@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { addDays, format } from 'date-fns';
 import { postData } from '../utils/api';
 import { FaHome, FaMapMarkerAlt  } from 'react-icons/fa'; 
-import { log } from 'console';
 
 export default function HomeSearch() {
 
@@ -74,10 +73,11 @@ const [searchData, setSearchState] = useState({
   const loadFromLocalStorage = () => {
     const data = localStorage.getItem('searchData');
     if (data) {
-      let serData = JSON.parse(data);
-      setSearchState(serData);      
-      setStartDate(serData.start_date);
-      setEndDate(serData.end_date);
+      localStorage.removeItem('searchData')
+      // let serData = JSON.parse(data);
+      // setSearchState(serData);      
+      // setStartDate(serData.start_date);
+      // setEndDate(serData.end_date);
     }
   };
 

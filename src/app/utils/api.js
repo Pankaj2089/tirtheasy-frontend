@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/tirtheasy/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://mainadmin.tirtheasy.com/api';
 
 export async function getData(endpoint) {
   let token = null;

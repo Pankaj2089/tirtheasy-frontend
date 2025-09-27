@@ -1,6 +1,5 @@
 'use client'
-import { log } from 'console';
-import { useEffect, useState, useRef } from 'react';
+import {  useState } from 'react';
 
 type hotelDataProps = {
   record:any;

@@ -1,16 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { getData } from '../utils/api';
-import { log } from 'console';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
-import { Modal, Button } from "antd";
 import dynamic from 'next/dynamic';
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import '../page.module.css' 
-//import { Skeleton } from 'antd';
+import { Skeleton, Modal, Spin } from "antd";
 
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false,
@@ -43,7 +41,7 @@ export default function Slider() {
       
       try {
         const data = sessionStorage.getItem('sliderList');
-        setIsModalOpen(true);
+       setTimeout(() => { setIsModalOpen(true);}, 100);
         if (data) {
           let sliderData = JSON.parse(data);
           setShowLoader(false);
@@ -80,42 +78,55 @@ export default function Slider() {
     <>
       <div className="hero-section">
         <div className="hero-banner">
-            {/* <>
-              {showLoader &&
-                <div className="item">
-                    <div className="overlay-box"></div>
-                      <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
-                  </div>
-              }
-            </> */}
+            {showLoader ?
+              <div className="item">
+                    <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
+                </div>
+                :
+                <OwlCarousel {...options}>
+                    {banners.length > 0 &&  banners.map(data => (
+                      <>
+                        {(data.id > 0) &&
+                        <div className="item" key={data.id}>
+                          {/* <div className="overlay-box"></div> */}
+                            <img src={data.banner} alt={data.title} title={data.title}/>
+                        </div>
+                      }
+                      </>
+                    ))}
+                </OwlCarousel>
+            }
 
-            <OwlCarousel {...options}>
-              {banners.length > 0 &&  banners.map(data => (
-                <>
-                  {(data.id > 0) &&
-                  <div className="item" key={data.id}>
-                    {/* <div className="overlay-box"></div> */}
-                      <img src={data.banner} alt={data.title} title={data.title}/>
-                  </div>
-                }
-                </>
-              ))}
-          </OwlCarousel>
+            
         </div>
         <HomeSearch/>
       </div>
       {isModalOpen ? 
-      <div className='loading-image'>
-        <div className='image-section'>
-          <DotLottieReact
+       <Modal
+          open={isModalOpen}
+          footer={null}
+          closable={false}
+          centered
+          maskClosable={false}
+          width={300}
+          transitionName=""
+          bodyStyle={{ textAlign: "center", padding: "20px 0"}}
+        >
+          <p>
+            <DotLottieReact
             src="https://lottie.host/70e7865e-43b7-49ba-9616-19b69f5731d4/XTnkhFxdp0.lottie"
             loop
             autoplay
-            style={{ width: "300px" }}
+            style={{ width: "250px" }}
             className='text-center'
             />
-          </div>
-       </div>
+          </p>
+        </Modal>
+      // <div className='loading-image'>
+      //   <div className='image-section'>
+      //     
+      //     </div>
+      //  </div>
        :null}
     </>
   );
