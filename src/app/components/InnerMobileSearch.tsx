@@ -246,6 +246,7 @@ const today = new Date();
                         open={isEndOpen}
                         onClickOutside={() => setIsEndOpen(false)}
                         isClearable={true}
+                        popperPlacement="bottom-end"
                     /> 
                 </div>           
                 </div>

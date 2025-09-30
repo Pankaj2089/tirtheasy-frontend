@@ -45,6 +45,8 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   const [userloggedin, setUserLogin] = useState(false);
   const [hotelFacilitiesList, setHotelFacilities] = useState([]);
   
+  const [sendWishlistRequest, setSendWishlistRequest] = useState(false);
+  
   const maxLength = 800;
   const setHotelFacilitiesList = (list:any) =>{
     setHotelFacilities(list);
@@ -154,13 +156,22 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   };
 
   async function manageMyWishlists() {
-        let postRec: { hotel_id: number} = { hotel_id: hotelData.id}; 
-        const res = await postData('manage-my-wishlist', postRec); 
-        if(res.success){
-            toast.success(res.message);
-            setIsWishlist(res.record);
-        } else{
-            toast.error(res.message);
+        if(!sendWishlistRequest){
+            setSendWishlistRequest(true);
+            let postRec: { hotel_id: number} = { hotel_id: hotelData.id}; 
+            const res = await postData('manage-my-wishlist', postRec); 
+            if(res.success){
+                toast.success(res.message, {
+                    position: "bottom-center",
+                    toastId: "unique_toast", // ✅ same id prevents duplicates
+                });
+                setIsWishlist(res.record);
+            } else{
+                toast.error(res.message);
+            }
+            setTimeout(() => {
+                setSendWishlistRequest(false);
+            }, 2000);
         }
     }
   
@@ -262,7 +273,7 @@ return <>
         <div className="row wow fadInUp">
             <div className="col-md-8">
                 { (hotelData.description != '' &&  hotelData.description != null) && 
-                    <div className="overview-section max-height230 border rounded p-3 mb-2 wow fadeInUp mob-none" id="overview">
+                    <div className="overview-section maxHeight230 border rounded p-3 mb-2 wow fadeInUp mob-none" id="overview">
                         <h5 className="pb-2">Overview</h5>
                         <p
                         className="overview-pra"
@@ -280,14 +291,12 @@ return <>
 
                 { (hotelData.amenities && hotelData.amenities != '')  &&
                     <div className="highlights-section border rounded p-2 pb-0 pb-md-3 p-md-3 mb-2 wow fadeInUp" id="highlights">
-                        <h5 className="pb-2">Highlights</h5>
                         <HotelAmenities hotelAmenities={hotelData.amenities} hotelId={hotelData.id}   />
                     </div>
                 }
 
                 { (hotelData.facilities && hotelData.facilities != '')  &&
                     <div className="highlights-section border rounded p-2 pb-0 pb-md-3 p-md-3 p-md-3 mb-2 wow fadeInUp" id="facilites">
-                        <h5 className="pb-2">Facilities</h5>
                         <HotelFacilities hotelFacilities={hotelData.facilities} hotelId={hotelData.id} hotelFacilitiesList={setHotelFacilitiesList}   />
                     </div>
                 }

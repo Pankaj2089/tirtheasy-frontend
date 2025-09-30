@@ -330,3 +330,7 @@ body.modal-open {
   overflow: hidden;
   padding-right: 17px; /* adds space to avoid layout shift */
 }
+.maxHeight230 {
+	max-height: 230px !important;
+	overflow: hidden;
+}

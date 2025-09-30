@@ -19,7 +19,7 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
       
   return (
     <>
-     { record.room_prices.length > 0 && record.room_prices.slice(0,visibleCount).map((recPrice:any, index:any) => (
+     { record.room_prices  &&  record.room_prices.length > 0 && record.room_prices.slice(0,visibleCount).map((recPrice:any, index:any) => (
 
 
     <div className="border-top mt-3 mb-3">
@@ -30,7 +30,7 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
                         { recPrice.amenities && recPrice.amenities.slice(0,3).map((amenity:any) => (
                             <li><img src="/img/tick_icon.svg" className="me-2"/> {amenity}</li>
                         ))}
-                        { recPrice.amenities.length > 3 && 
+                        { recPrice.amenities && recPrice.amenities.length && recPrice.amenities.length > 3 && 
                             <li><a className='cursor-pointer' data-bs-toggle="modal" data-bs-target={`#viewmoreamenities${recPrice.id}`}  >See All</a></li>
                         }
                     </ul>
@@ -75,7 +75,7 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
             <div className="modal fade view-all-amenities z-index-big" id={`viewmoreamenities${recPrice.id}`} aria-hidden="true" aria-labelledby="viewmoreresultLabel" tabIndex={-1}>
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        {recPrice.amenities.length > 0 &&
+                        {recPrice.amenities && recPrice.amenities.length > 0 &&
                         <>
                             <div className="modal-header">
                                 <h1 className="modal-title fs-5" id="staticBackdropLabel">{record.title}</h1>
@@ -107,7 +107,7 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
         </div>
         ))}
         
-        { record.room_prices.length > 4 &&
+        { record.room_prices  &&   record.room_prices.length > 4 &&
             <div className="load-more-btn d-flex align-items-center justify-content-center" onClick={toggleShow}>
                 <a className="btn btn-outline-primary cursor-pointer">{showAll ? 'View Less' : 'Load More'}</a>
             </div>

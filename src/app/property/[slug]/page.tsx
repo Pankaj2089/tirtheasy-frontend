@@ -13,6 +13,7 @@ async function getHotelData(slug: string) {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const hotelData = await getHotelData(resolvedParams.slug);
+  
   return {
     title: hotelData.seo_title,
     description: hotelData.seo_description,

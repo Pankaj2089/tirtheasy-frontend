@@ -151,6 +151,22 @@ const today = new Date();
       setSearchHotels(res.recHotels);
   }
 
+  const [monthsToShow, setMonthsToShow] = useState(2);
+
+  useEffect(() => {
+    const updateMonths = () => {
+      if (window.innerWidth < 768) {
+        setMonthsToShow(1); // mobile
+      } else {
+        setMonthsToShow(2); // desktop
+      }
+    };
+
+    updateMonths(); // run on mount
+    window.addEventListener("resize", updateMonths);
+    return () => window.removeEventListener("resize", updateMonths);
+  }, []);
+
   return (
     <div className="main-search-box"  >
       <div className="container">
@@ -211,7 +227,7 @@ const today = new Date();
                             }
                             }}
                             minDate={today}
-                            monthsShown={2}
+                            monthsShown={monthsToShow}
                             selectsStart
                             startDate={startDate}
                             endDate={endDate}
@@ -220,8 +236,7 @@ const today = new Date();
                             open={isOpen}
                             onClickOutside={() => setIsOpen(false)}
                             isClearable={true}
-                            
-                            //withPortal // Optional: good for mobile
+                           // withPortal
                         /> 
                         </div>              
                    </div>
@@ -240,13 +255,15 @@ const today = new Date();
                             startDate={startDate}
                             endDate={endDate}
                             placeholderText="Select end date"
-                            monthsShown={2}
+                            monthsShown={monthsToShow}
                             ref={endDatePickerRef}
                             minDate={startDate ? addDays(startDate, 1) : today}
                             disabled={!startDate}
                             open={isEndOpen}
                             onClickOutside={() => setIsEndOpen(false)}
                             isClearable={true}
+                            popperPlacement="bottom-end"
+                           // withPortal
                         /> 
                     </div>           
                    </div>

@@ -95,121 +95,125 @@ return (
                 <>
                     {/* Desktop View */}
                     {!isMobile && records.length > 0 && records.map((record, index) => ( 
-                        <div className="overview-section room-overview border rounded p-3 mb-4 wow fadeInUp d-none d-md-block" id="rooms">
-                        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between pb-3">
-                            <h5 className="">{record.title}</h5>
-                            { (record.no_of_single_rooms > 0 && record.no_of_double_rooms > 0 && record.room_prices.length > 0) &&
-                                <div className="bed-preference">
-                                    <p className="fw-normal">Bed preference (if available)</p>
-                                    <div className="d-flex">
-                                        <label className="custom-radio me-2" htmlFor={"singleBed"+index}>
-                                            <input type="radio" name={`bed-${index}`} id={"singleBed"+index} value={1} 
-                                            checked={record.bedPreference === 'single'}
-                                            onChange={() => handleBedPreferenceChange(index, 'single')} 
-                                            />
-                                            <span className="radio-mark"></span>
-                                            Single Beds
-                                        </label>
+                        <>
+                        {record.room_prices.length > 0 &&
+                            <div className="overview-section room-overview border rounded p-3 mb-4 wow fadeInUp d-none d-md-block" id="rooms">
+                            <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between pb-3">
+                                <h5 className="">{record.title}</h5>
+                                { (record.no_of_single_rooms > 0 && record.no_of_double_rooms > 0 && record.room_prices.length > 0 ) &&
+                                    <div className="bed-preference">
+                                        <p className="fw-normal">Bed preference (if available)</p>
+                                        <div className="d-flex">
+                                            <label className="custom-radio me-2" htmlFor={"singleBed"+index}>
+                                                <input type="radio" name={`bed-${index}`} id={"singleBed"+index} value={1} 
+                                                checked={record.bedPreference === 'single'}
+                                                onChange={() => handleBedPreferenceChange(index, 'single')} 
+                                                />
+                                                <span className="radio-mark"></span>
+                                                Single Beds
+                                            </label>
 
-                                        <label className="custom-radio" htmlFor={"doubleBed"+index}>
-                                            <input type="radio" name={`bed-${index}`} value={2} id={"doubleBed"+index} 
-                                            checked={record.bedPreference === 'double'}
-                                            onChange={() => handleBedPreferenceChange(index, 'double')} 
-                                            />
-                                            <span className="radio-mark"></span>
-                                            Double Bed
-                                        </label>
-                                    </div>
-                            </div>
-                            }
-                            
-                        </div>
-                        <div className="row">
-                            <div className="col-md-9">
-                                <div className="row rooms-img-section">
-                                    <div className={` mb-3 full-img position-relative ${record.additional_images.length >= 1 ? 'col-md-6' :'col-md-12'}`}>
-                                        <div className="big-img-box">
-                                            { (record.image && record.image != '') ?
-                                                <img src={record.image} alt={record.title} title={record.title} className="rounded h-100" />
-                                            :
-                                                <Skeleton.Image active={true} style={{height:'200px', width:'60rem'}}  className="rounded h-100" />
-                                            }
-                                            
-                                            { record.additional_images.length >= 1 && 
-                                                <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
-                                            }
+                                            <label className="custom-radio" htmlFor={"doubleBed"+index}>
+                                                <input type="radio" name={`bed-${index}`} value={2} id={"doubleBed"+index} 
+                                                checked={record.bedPreference === 'double'}
+                                                onChange={() => handleBedPreferenceChange(index, 'double')} 
+                                                />
+                                                <span className="radio-mark"></span>
+                                                Double Bed
+                                            </label>
                                         </div>
-                                    </div>
-                                    {record.additional_images.length > 0 && 
-                                        <div className="col-md-6">
-                                            <div className="row" >
-                                                {record.additional_images.slice(0, 4).map((imgrec: any, index: number) => (
-                                                <div className="col-3 col-md-6 mb-3 px-1 px-md-2" key={index}>
-                                                    <div className="samll-img-thumb">
-                                                    <img src={imgrec.image} alt={`thumb-${index}`} className="rounded" />
-                                                    </div>
-                                                </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    }
                                 </div>
-                            
-                            </div>
-                            <div className="col-md-3 mob-padLR">
-                                <div className="room-facilities border rounded p-2 p-lg-3">
-                                    <h6 className="fw-semibold text-dark pb-2">Room Facilities</h6>
-
-                                    <ul className="bed-pref-list">
-                                        <li><img src="/img/room_size.svg" className="me-2"/>Room Size: {record.room_size}</li>
-                                        {record.amenities_list.length > 0 &&  record.amenities_list.slice(0, 3).map((facility: any) => (
-                                            <li><img src={facility.icon} className="me-2" width={24}/> {facility.title}</li>
-                                        ))}
-                                        {record.amenities_list.length > 3 && 
-                                            <li className="mb-0"><a  className="read-more cursor-pointer" data-bs-toggle="modal" data-bs-target={`#viewAmenities${record.id}`} >View More Facilities</a></li>
-                                        }
-                                    </ul>
-                                </div>
-
-                                <div className="modal fade view-all-amenities z-index-big" id={`viewAmenities${record.id}`} aria-hidden="true" aria-labelledby="viewmoreresultLabel" tabIndex={-1}>
-                                    <div className="modal-dialog modal-lg">
-                                        <div className="modal-content">
-                                            {record.amenities_list.length > 0 &&
-                                            <>
-                                                <div className="modal-header">
-                                                    <h1 className="modal-title fs-5" >{record.title}</h1>
-                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    <h6 className='mt-2'>Amenities</h6>
-                                                    <ul className='bed-pref-list p-3 mt-0'>
-                                                        { record.amenities_list.map((amenityRow:any) => (
-                                                            <li><img src={amenityRow.icon} className="me-2" width={24}/> {amenityRow.title}</li>
-                                                        ))}
-                                                    </ul> 
-                                                    { hotelFacilities.length > 0 && 
-                                                        <>
-                                                            <h6 className='mt-4'>Facilities</h6>
-                                                            <ul className='bed-pref-list p-3 mt-0'>
-                                                                { hotelFacilities.map((facility:any) => (
-                                                                    <li><img src={facility.icon} className="me-2" width={24}/> {facility.title}</li>
-                                                                ))}
-                                                            </ul> 
-                                                        </>
-                                                    }
-                                                    
-                                                </div>
-                                            </>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                                 
                             </div>
-                        </div>
-                        
-                       <RoomPrices record={record} hotelFacilities={hotelFacilities} />
-                       </div>
+                            <div className="row">
+                                <div className="col-md-9">
+                                    <div className="row rooms-img-section">
+                                        <div className={` mb-3 full-img position-relative ${record.additional_images.length >= 1 ? 'col-md-6' :'col-md-12'}`}>
+                                            <div className="big-img-box">
+                                                { (record.image && record.image != '') ?
+                                                    <img src={record.image} alt={record.title} title={record.title} className="rounded h-100" />
+                                                :
+                                                    <Skeleton.Image active={true} style={{height:'200px', width:'60rem'}}  className="rounded h-100" />
+                                                }
+                                                
+                                                { record.additional_images.length >= 1 && 
+                                                    <a className="see-all-photos see-all-photos_absolute cursor-pointer" data-bs-toggle="modal" onClick={() => {setImagesData([record])}} data-bs-target="#staticImageBackdrop">See All Photos</a>
+                                                }
+                                            </div>
+                                        </div>
+                                        {record.additional_images.length > 0 && 
+                                            <div className="col-md-6">
+                                                <div className="row" >
+                                                    {record.additional_images.slice(0, 4).map((imgrec: any, index: number) => (
+                                                    <div className="col-3 col-md-6 mb-3 px-1 px-md-2" key={index}>
+                                                        <div className="samll-img-thumb">
+                                                        <img src={imgrec.image} alt={`thumb-${index}`} className="rounded" />
+                                                        </div>
+                                                    </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                
+                                </div>
+                                <div className="col-md-3 mob-padLR">
+                                    <div className="room-facilities border rounded p-2 p-lg-3">
+                                        <h6 className="fw-semibold text-dark pb-2">Room Facilities</h6>
+
+                                        <ul className="bed-pref-list">
+                                            {record.room_size != null && <li><img src="/img/room_size.svg" className="me-2"/>Room Size: {record.room_size}</li> }
+                                            {record.amenities_list.length > 0 &&  record.amenities_list.slice(0, 3).map((facility: any) => (
+                                                <li><img src={facility.icon} className="me-2" width={24}/> {facility.title}</li>
+                                            ))}
+                                            {record.amenities_list.length > 3 && 
+                                                <li className="mb-0"><a  className="read-more cursor-pointer" data-bs-toggle="modal" data-bs-target={`#viewAmenities${record.id}`} >View More Facilities</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+
+                                    <div className="modal fade view-all-amenities z-index-big" id={`viewAmenities${record.id}`} aria-hidden="true" aria-labelledby="viewmoreresultLabel" tabIndex={-1}>
+                                        <div className="modal-dialog modal-lg">
+                                            <div className="modal-content">
+                                                {record.amenities_list.length > 0 &&
+                                                <>
+                                                    <div className="modal-header">
+                                                        <h1 className="modal-title fs-5" >{record.title}</h1>
+                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <h6 className='mt-2'>Amenities</h6>
+                                                        <ul className='bed-pref-list p-3 mt-0'>
+                                                            { record.amenities_list.map((amenityRow:any) => (
+                                                                <li><img src={amenityRow.icon} className="me-2" width={24}/> {amenityRow.title}</li>
+                                                            ))}
+                                                        </ul> 
+                                                        { hotelFacilities.length > 0 && 
+                                                            <>
+                                                                <h6 className='mt-4'>Facilities</h6>
+                                                                <ul className='bed-pref-list p-3 mt-0'>
+                                                                    { hotelFacilities.map((facility:any) => (
+                                                                        <li><img src={facility.icon} className="me-2" width={24}/> {facility.title}</li>
+                                                                    ))}
+                                                                </ul> 
+                                                            </>
+                                                        }
+                                                        
+                                                    </div>
+                                                </>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        <RoomPrices record={record} hotelFacilities={hotelFacilities} />
+                            </div>
+                        }
+                       </>
                     ))}
                 
                     {/* Mobile View */}     
