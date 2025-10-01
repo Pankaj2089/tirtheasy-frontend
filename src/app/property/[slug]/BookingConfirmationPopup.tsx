@@ -200,6 +200,7 @@ useEffect(() => {
                                                 open={isOpen}
                                                 onClickOutside={() => setIsOpen(false)}
                                                 isClearable={false}
+                                                dateFormat="dd/MM/yyyy"
                                             /> 
                                             </div> 
                                     </div>
@@ -223,6 +224,7 @@ useEffect(() => {
                                                     open={isEndOpen}
                                                     onClickOutside={() => setIsEndOpen(false)}
                                                     isClearable={false}
+                                                    dateFormat="dd/MM/yyyy"
                                                 /> 
                                             </div> 
                                     </div>
@@ -268,7 +270,7 @@ useEffect(() => {
                                                         onChange={(val) => setExtraMattressValue(val)}
                                                         style={{ width: '50%' }}
                                                         >
-                                                        {[1, 2, 3, 4, 5].map((num) => (
+                                                        {Array.from({ length: searchData.rooms }, (_, i) => i + 1).map((num) => (
                                                             <Option key={num} value={num}>
                                                             {num}
                                                             </Option>

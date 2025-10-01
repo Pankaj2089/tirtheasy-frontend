@@ -18,9 +18,7 @@ async function getPageData() {
 
 // ✅ Dynamic metadata function
 export async function generateMetadata(): Promise<Metadata> {
-  const pageData = await getPageData();
-  console.log(pageData);
-  
+  const pageData = await getPageData();  
 
   return {
     title: pageData.seo_title,

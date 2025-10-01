@@ -672,7 +672,7 @@ useEffect(() => {
                                       onChange={(val) => handleChange('extra_mattress', val)}
                                       style={{ width: '50%' }}
                                       >
-                                      {[0, 1, 2, 3, 4, 5].map((num) => (
+                                      {Array.from({ length: searchData.rooms }, (_, i) => i + 1).map((num) => (
                                           <Option key={num} value={num}>
                                           {num}
                                           </Option>
