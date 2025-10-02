@@ -20,6 +20,7 @@ import HotelRooms from './HotelRooms';
 import HotelReviews from './HotelReviews';
 import Signin from '@/app/components/Signin';
 import InnerMobileSearch from '@/app/components/InnerMobileSearch';
+import { log } from 'console';
 
 type PropertyDetailsProps = {
   hotelData: any;
@@ -52,7 +53,7 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
     setHotelFacilities(list);
   }
 
-  const isMobile = window.innerWidth < 480;
+  const isMobile = window.innerWidth < 780;
   const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
   
   const [searchData, setSearchState] = useState({
@@ -230,11 +231,11 @@ return <>
                     <div className="col-md-6 wow fadeInUp">
                         <div className="row" >
                             {hotelData.additional_images.slice(0, 4).map((imgrec: any, index: number) => (
-                            <div className="col-3 col-md-6 pe-1 ps-md-2 pe-md-2 mb-0 mb-md-3" key={index}>
-                                <div className="samll-img-thumb">
-                                <img src={imgrec.image} alt={`thumb-${index}`} />
+                                <div className={index == 3 && isMobile ?"col-3 col-md-6 ps-1 ps-md-2 mb-0 mb-md-0": "col-3 col-md-6 pe-1 ps-md-2 pe-md-2 mb-0 mb-md-3"} key={index}>
+                                    <div className="samll-img-thumb">
+                                        <img src={imgrec.image} alt={`thumb-${index}`} />
+                                    </div>
                                 </div>
-                            </div>
                             ))}
                         </div>
                     </div>
@@ -250,7 +251,7 @@ return <>
                             <li><a href="#overview">Overview</a></li>
                         }
                         { (hotelData.amenities && hotelData.amenities.length !== '')  &&
-                            <li><a href="#highlights">Highlights</a></li>
+                            <li><a href="#highlights">Amenities</a></li>
                         }
                         { (hotelData.facilities && hotelData.facilities.length !== '')  &&
                             <li><a href="#facilites">Facilities</a></li>

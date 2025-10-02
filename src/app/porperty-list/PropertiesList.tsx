@@ -160,6 +160,7 @@ export default function propertiesList() {
     setRecords([]);
     setHasMore(true);
     fetchPosts();
+    window.location.href = '/porperty-list';
   }
   
 if (!isLoaded) return <p>Loading Map...</p>;
@@ -598,16 +599,16 @@ return <>
             
             { (!hasMore && records.length == 0)  &&
                 <div className="text-center py-4 mt-4 pt-4">
-                  Records Not found
+                  No property found
               </div>            }
             {hasMore && (
             <div ref={ref} className="text-center py-4">
               {loading ? "Loading..." : "Scroll down to load more"}
               {loading && 
                 <div style={{ width: '100%', maxWidth: '1000px' }}>
-                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
-                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
-                <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
+                  <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
+                  <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
+                  <Skeleton.Input active={true} block style={{height:200, marginTop:20}}  />
                 </div>
                }
             </div>

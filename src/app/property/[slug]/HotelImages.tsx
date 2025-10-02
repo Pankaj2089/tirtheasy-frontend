@@ -32,8 +32,8 @@ export default function HotelImages({ hotelData }: hotelDataProps) {
   
       const containerWidth = containerRef.current ? containerRef.current.offsetWidth : 0;
       const width = containerWidth / incno;
-  
-      setItemWidth(width > 0 ? width : 200);
+      const isMobile = window.innerWidth < 780;
+      setItemWidth(width > 0 ? width : isMobile ? 80 : 130);
     };
   
     const handleResize = () => {
@@ -80,7 +80,7 @@ export default function HotelImages({ hotelData }: hotelDataProps) {
                     }}>
                             <div className="item"  style={{ width: `${itemWidth}px` }}>
                             <figure className="product-img">
-                            <img src={hotelData.image} alt={`thumb-0`} className="img-fluid rounded-4"/>
+                              <img src={hotelData.image} alt={`thumb-0`} className="img-fluid rounded-4"/>
                             </figure>
                         </div>                                        
                         {hotelData.additional_images.map((imgrec: any, index: number) => (

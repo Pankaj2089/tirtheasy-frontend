@@ -334,3 +334,9 @@ body.modal-open {
 	max-height: 230px !important;
 	overflow: hidden;
 }
+.mobile-filter-view .form-select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 2rem; /* gives space for arrow */
+}

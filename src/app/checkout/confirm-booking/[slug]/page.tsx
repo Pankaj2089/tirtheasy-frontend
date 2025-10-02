@@ -282,7 +282,13 @@ return (
 
                 <div className="cancellation-policy text-red d-flex d-lg-none align-items-start gap-2 mb-4 mt-3">
                     <span className="cancel-icon"><img src="/img/cancelled_icon_2.svg"/></span> 
-                    <span><b>Cancellation Policy:</b>This hotel not refundable in cancellation.</span>
+                    <span><b>Cancellation Policy:</b>
+                        { orderData.other_details?.roomDetails?.hotel_details?.cancellation_policy == 2 ?
+                            <> This hotel is refundable in cancellation. </>
+                            :
+                            <> This hotel not refundable in cancellation. </>
+                        }
+                        </span>
                 </div>
 
                 <div className="important-notes d-block d-lg-none">

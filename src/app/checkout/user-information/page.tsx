@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { format,differenceInDays  } from 'date-fns';
+import { format,differenceInDays,parse  } from 'date-fns';
 import { getData, postData, } from '../../utils/api';
-import {Select, Button, Input, TimePicker, DatePicker   } from "antd";
+import {Select, Button, Input, TimePicker   } from "antd";
 import { toast } from 'react-toastify';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 const { Option } = Select;
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
 import CheckoutFooter from '@/app/components/CheckoutFooter';
 import Signin from '@/app/components/Signin';
@@ -329,11 +331,12 @@ const setArrivalTime = (time: Dayjs | null, timeString: any) => {
 const disabledDate = (current: dayjs.Dayjs) => {
     return current && current < dayjs().startOf("day");
 };
-const handleDateChange = (date: dayjs.Dayjs | null, dateString: any) => {
-setFormData((prev) => ({
+
+const handleDateChange = (date: Date | null) => {
+  setFormData((prev) => ({
     ...prev,
-    arrival_date: dateString, // saves date as string (e.g. "2025-08-28")
-}));
+    arrival_date: date ? dayjs(date).format("YYYY-MM-DD") : "", 
+  }));
 };
 
 const applyCouponCode = (offerData:any) => {
@@ -412,7 +415,13 @@ useEffect(() => {
                             <div className="check-hotal-tile">
                                 <h5 className="fw-semibold">{hotelData.title}</h5>
                                 <p className="small-text">From {hotelData.state}</p>
-                                <p className="cancelation-policy"><b>Cancellation Policy:</b> This hotel not refundable in cancellation.</p>
+                                <p className="cancelation-policy"><b>Cancellation Policy:</b> 
+                                    { hotelData.cancellation_policy == 2 ?
+                                        <> This hotel is refundable in cancellation. </>
+                                        :
+                                        <> This hotel not refundable in cancellation. </>
+                                    }
+                                </p>
                             </div>                                
                         </div>
                         <div className="hor-divider"></div>
@@ -521,12 +530,21 @@ useEffect(() => {
                             <div className="row">
                                 <div className="col-md-6 mb-2 mb-lg-3 d-flex flex-column">
                                     <label htmlFor="date" className="form-label">Expt. Arrival Date</label>
-                                    <DatePicker 
-                                    style={{height:40}}
-                                    format="DD/MM/YYYY" 
-                                    value={formData.arrival_date ? dayjs(formData.arrival_date, "DD/MM/YYYY") : undefined}
-                                    disabledDate={disabledDate}
-                                    onChange={handleDateChange} 
+                                    
+                                    <DatePicker
+                                    className="form-control"
+                                    selected={formData.arrival_date 
+                                    ? parse(formData.arrival_date, "dd/MM/yyyy", new Date()) 
+                                    : null}
+                                    onChange={(date) =>
+                                        setFormData((prev) => ({
+                                        ...prev,
+                                        arrival_date: date ? format(date, "dd/MM/yyyy") : "",
+                                        }))
+                                    }
+                                    dateFormat="dd/MM/yyyy"
+                                    minDate={new Date()}                                   
+                                    monthsShown={2}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-2 mb-lg-3 d-flex flex-column">
@@ -672,7 +690,10 @@ useEffect(() => {
                                       onChange={(val) => handleChange('extra_mattress', val)}
                                       style={{ width: '50%' }}
                                       >
-                                      {Array.from({ length: searchData.rooms }, (_, i) => i + 1).map((num) => (
+                                        <Option key={0} value={0}>
+                                          0
+                                          </Option>
+                                     {Array.from({ length: searchData.rooms }, (_, i) => i+1).map((num) => (
                                           <Option key={num} value={num}>
                                           {num}
                                           </Option>

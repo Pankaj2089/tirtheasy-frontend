@@ -151,9 +151,9 @@ const today = new Date();
     setSearchCities([]);
     setSearchHotels([]);
     let postRec: { keywords: String | null, property_type:String | null } = { keywords: searchData.keywords, property_type:propertyType}; 
-      const res = await postData('get-cities', postRec);        
-      setSearchCities(res.records);
-      setSearchHotels(res.recHotels);
+    const res = await postData('get-cities', postRec);        
+    setSearchCities(res.records);
+    setSearchHotels(res.recHotels);
   }
   return (
     <div className="offcanvas-body filter-accordion">

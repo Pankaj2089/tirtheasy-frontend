@@ -40,7 +40,7 @@ export default function HotelAmenities({ hotelId, hotelAmenities }: hotelDataPro
     {(records.length > 0 || showLoader) && 
      <div className="highlight-items">
       <h5 className="pb-2 d-flex justify-content-between align-items-center">
-            <span>Highlights</span>
+            <span>Amenities</span>
             { records.length > 5 &&
                 <a className="read-more cursor-pointer" onClick={() => setViewMoreAmenities(true)} >View more</a>
             }
@@ -77,7 +77,7 @@ export default function HotelAmenities({ hotelId, hotelAmenities }: hotelDataPro
             centered
             onCancel={() => setViewMoreAmenities(false)}
             width={600}
-            title="Room Highlights"
+            title="Room Amenities"
             >
             <Row gutter={[32, 32]} justify="start" align="middle" className='mt-4'>
               {records.length > 0 && records.map((record:any, index:number) => (

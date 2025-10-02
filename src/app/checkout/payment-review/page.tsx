@@ -389,7 +389,13 @@ return (
                             <div className="check-hotal-tile">
                                 <h5 className="fw-semibold">{hotelData.title}</h5>
                                 <p className="small-text">From {hotelData.state}</p>
-                                <p className="cancelation-policy"><b>Cancellation Policy:</b> This hotel not refundable in cancellation.</p>
+                                <p className="cancelation-policy"><b>Cancellation Policy:</b> 
+                                    { hotelData.cancellation_policy == 2 ?
+                                        <> This hotel is refundable in cancellation. </>
+                                        :
+                                        <> This hotel not refundable in cancellation. </>
+                                    }
+                                </p>
                             </div>                                
                         </div>
                         <div className="hor-divider"></div>

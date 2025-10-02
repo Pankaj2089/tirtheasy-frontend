@@ -77,6 +77,8 @@ const menu = (
       }
     };
 
+    
+
   return (
     <header>
       <div className="header">
@@ -195,26 +197,26 @@ const menu = (
                                         </ul>
                                       </div>
                                     </div>  
-                              </li>                            
-                                
-                               <li className="nav-item">
+                              </li> 
+                              <li className="nav-item d-none d-lg-block">
                                   <a  onClick={() => updatePage('hotel')} className={`nav-link cursor-pointer ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item d-none d-lg-block">
                                   <a  onClick={() => updatePage('dharmshala')} className={`nav-link  cursor-pointer ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
                                 </li>
 
-                                <li className="nav-item">
+                                <li className="nav-item d-none d-lg-block">
                                   <Link href="/about" className="nav-link">About Us</Link>
                                 </li>
 
-                                <li className="nav-item">
+                                <li className="nav-item d-none d-lg-block">
                                   <a className="nav-link" href="#">Blog</a>
                                 </li>
 
-                                <li className="nav-item">
+                                <li className="nav-item d-none d-lg-block">
                                   <Link className="nav-link" href="/contact-us">Contact Us</Link> 
                                 </li>
+                            
                               
                             </ul>
                             
