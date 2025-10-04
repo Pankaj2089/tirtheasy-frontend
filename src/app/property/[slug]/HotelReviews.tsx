@@ -6,7 +6,7 @@ return (
     <div className="review-rating-section wow fadeInUp">
             <h5 className="mb-3">Review of Hotels</h5>
             
-            <div className="star-rating-section rounded border">
+            {/* <div className="star-rating-section rounded border">
                 <div className="row align-items-center">
                     <div className="col-md-4">
                         <div className="reviews_hotel_rating">
@@ -113,7 +113,7 @@ return (
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="reviews-seciton mt-4 wow fadeInUp" id="reviews">
                 <div className="row">
@@ -133,7 +133,7 @@ return (
                             <h5 className="fst-italic fw-bold mb-3">“Contrary to popular belief, Lorem Ipsum is text.”</h5>
                             <p className="fw-normal">Seriously I m surprised that agoda is hosting these kind of property. Like cleanless they don't know what exactly it is their are many cockroaches in wash room dust on floor.</p>
 
-                            <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
+                            {/* <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
                                 <div className="total-review-section mt-0">
                                     <div className="overall-rating">7.3</div>
                                     <div className="rating-overview">
@@ -148,7 +148,7 @@ return (
                                     <img src="/img/star_icon.svg" />
                                     <img src="/img/star_gray.svg" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
@@ -168,7 +168,7 @@ return (
                             <h5 className="fst-italic fw-bold mb-3">“Contrary to popular belief, Lorem Ipsum is text.”</h5>
                             <p className="fw-normal">Seriously I m surprised that agoda is hosting these kind of property. Like cleanless they don't know what exactly it is their are many cockroaches in wash room dust on floor.</p>
 
-                            <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
+                            {/* <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
                                 <div className="total-review-section mt-0">
                                     <div className="overall-rating">7.3</div>
                                     <div className="rating-overview">
@@ -183,7 +183,7 @@ return (
                                     <img src="/img/star_icon.svg" />
                                     <img src="/img/star_gray.svg" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
@@ -204,7 +204,7 @@ return (
                             <h5 className="fst-italic fw-bold mb-3">“Contrary to popular belief, Lorem Ipsum is text.”</h5>
                             <p className="fw-normal">Seriously I m surprised that agoda is hosting these kind of property. Like cleanless they don't know what exactly it is their are many cockroaches in wash room dust on floor.</p>
 
-                            <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
+                            {/* <div className="rating-section bg-transparent p-0 mt-4 d-flex align-item-center justify-content-between">
                                 <div className="total-review-section mt-0">
                                     <div className="overall-rating">7.3</div>
                                     <div className="rating-overview">
@@ -219,13 +219,13 @@ return (
                                     <img src="/img/star_icon.svg" />
                                     <img src="/img/star_gray.svg" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
 
                 <div className="col-12 text-center pb-4 pb-mb-5 py-md-5">
-                    <nav aria-label="Page navigation example">
+                    {/* <nav aria-label="Page navigation example">
                         <ul className="pagination justify-content-center">
                             <li className="page-item disabled">
                                 <a className="page-link">«</a>
@@ -237,7 +237,7 @@ return (
                             <a className="page-link" href="#">»</a>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> */}
                 </div>
             </div>
         </div>

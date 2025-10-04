@@ -368,6 +368,10 @@ const applyCouponCode = (offerData:any) => {
     }
 }
 
+const handleMattressChange = (e:any) => {
+    handleChange('extra_mattress', e.target.checked ? 1 : 0)
+  };
+
 useEffect(() => {
   if (Object.keys(appliedOffer).length > 0 && appliedOffer.amount != '') {
         localStorage.setItem("appliedOffer", JSON.stringify(appliedOffer));
@@ -679,26 +683,28 @@ useEffect(() => {
                           <div className="row mt-2 align-items-center">
                               <div className="col-7">
                                   <label htmlFor="check-4" className="checkbox align-items-start">
-                                      <input type="checkbox" id="check-4" checked />
+                                      <input type="checkbox" id="check-4" 
+                                       checked={searchData.extra_mattress > 0}
+                                       onChange={handleMattressChange}  
+                                      />
                                       <span className="checkmark"></span> <span className="checkbox-text">Add Extra Mattress</span>
                                   </label>
                               </div>
                               <div className="col-5 mattress_drop">
+                                {searchData.extra_mattress > 0 && 
                                   <Select
                                       placeholder="Select Mattress"
                                       value={searchData.extra_mattress}
                                       onChange={(val) => handleChange('extra_mattress', val)}
                                       style={{ width: '50%' }}
                                       >
-                                        <Option key={0} value={0}>
-                                          0
-                                          </Option>
-                                     {Array.from({ length: searchData.rooms }, (_, i) => i+1).map((num) => (
+                                      {Array.from({ length: searchData.rooms }, (_, i) => i+1).map((num) => (
                                           <Option key={num} value={num}>
                                           {num}
                                           </Option>
                                       ))}
                                       </Select>
+                                    }
                               </div>
                           </div>
                         }

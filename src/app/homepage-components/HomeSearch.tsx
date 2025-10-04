@@ -152,11 +152,13 @@ const today = new Date();
   }
 
   const [monthsToShow, setMonthsToShow] = useState(2);
+  const [isMobile, setpopperPlacement] = useState(false);
 
   useEffect(() => {
     const updateMonths = () => {
       if (window.innerWidth < 768) {
         setMonthsToShow(1); // mobile
+        setpopperPlacement(true);
       } else {
         setMonthsToShow(2); // desktop
       }
@@ -208,10 +210,6 @@ const today = new Date();
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>
                    <div className="start-date" onClick={handleDivClick}>
                      <span className="date-picker-icon"><img src="img/date.svg"/></span>
-                     <div className="selected-date-day" >
-                          <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
-                          <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
-                     </div>
                      <div className='dateBox'>
                      <DatePicker
                             selected={startDate}
@@ -236,9 +234,15 @@ const today = new Date();
                             open={isOpen}
                             onClickOutside={() => setIsOpen(false)}
                             isClearable={true}
+                            popperPlacement={!isMobile ? "bottom-start" : "bottom-end"}
                            // withPortal
                         /> 
-                        </div>              
+                        </div>   
+                     <div className="selected-date-day" >
+                          <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
+                          <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
+                     </div>
+                                
                    </div>
 
                    <div className="start-date end-date" ref={endDateDiv}  onClick={handleEndDateClick} >
@@ -262,7 +266,7 @@ const today = new Date();
                             open={isEndOpen}
                             onClickOutside={() => setIsEndOpen(false)}
                             isClearable={true}
-                            popperPlacement="bottom-end"
+                            popperPlacement={!isMobile ? "bottom-start" : "bottom-end"}
                            // withPortal
                         /> 
                     </div>           

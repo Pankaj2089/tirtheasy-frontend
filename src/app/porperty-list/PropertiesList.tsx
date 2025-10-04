@@ -4,11 +4,13 @@ import { postData } from '../utils/api';
 import React from 'react';
 import { useInView } from "react-intersection-observer";
 import InnerSearch from '../components/InnerSearch';
-import { Slider,Skeleton } from 'antd';
+import { Slider,Skeleton , Select} from 'antd';
 import Link from 'next/link';
 
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from "@react-google-maps/api";
 import InnerMobileSearch from '../components/InnerMobileSearch';
+
+const { Option } = Select;
 
 const containerStyle = {
   width: "100%",
@@ -241,7 +243,7 @@ return <>
                         </div>
                       </div>
                     </div>
-                    <div className="accordion-item">
+                    {/* <div className="accordion-item">
                       <div className="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                           Star Rating
                       </div>
@@ -271,7 +273,7 @@ return <>
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
               </div>
           </div>
@@ -405,13 +407,21 @@ return <>
               { viewType =='list' ?
                 <div className="shotby-dropdown align-items-center d-none d-md-flex">
                   <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>
-                  <select className="form-select" aria-label="Default select example" name='sortby' value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
-                    <option selected value="">Clear</option>
-                    <option value="best_match"  >Best Match</option>
-                    <option value="top_reviewed" >Top Reviewed</option>
-                    <option value="lowest_price">Lowest Price First</option>
-                    <option value="distance" >Distance</option>
-                  </select>
+                  <Select
+                    value={searchData.sortby || ""}
+                    placeholder="Select Sort Option"
+                    onChange={(value) => handleChange("sortby", value)}
+                    className="custom-ant-select"
+                    allowClear
+                    style={{width:"150px"}}
+                  >
+                    <Option value="">Clear</Option>
+                    <Option value="best_match">Best Match</Option>
+                    <Option value="top_reviewed">Top Reviewed</Option>
+                    <Option value="lowest_price">Lowest Price First</Option>
+                    <Option value="distance">Distance</Option>
+                </Select>
+
                 </div>
               :
               null
@@ -453,7 +463,7 @@ return <>
                         { (record?.facilities_list && record?.facilities_list?.length > 0) &&
                         <div className="benefits-section">
                           <ul className='pro-facilities-list'>
-                             {record.facilities_list.map((facilityRow:any) => (
+                             {record.facilities_list.slice(0,6).map((facilityRow:any) => (
                               <li><img src="img/gray_tick.svg"/> {facilityRow.title}</li>
                              ))}
                           </ul>
@@ -462,7 +472,7 @@ return <>
                       </div>
 
                       <div className="col-md-4 d-none d-md-block">
-                        <div className="rating-section">
+                        {/* <div className="rating-section">
                           <div className="star-rating">
                               <img src="img/star_icon.svg"/>
                               <img src="img/star_icon.svg"/>
@@ -477,8 +487,8 @@ return <>
                               <p>4634 Reviews</p>
                             </div>
                           </div>
-                        </div>
-                        <div className="view-details mt-2 mt-md-5 text-end w-100%">
+                        </div> */}
+                        <div className="view-details mt-2 mt-md-3 text-end w-100%">
                           <Link href={"/property/" + record.slug}>View Details</Link>
                         </div>
                       </div>

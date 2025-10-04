@@ -155,6 +155,22 @@ const today = new Date();
     setSearchCities(res.records);
     setSearchHotels(res.recHotels);
   }
+  
+  const [monthsToShow, setMonthsToShow] = useState(2);
+  
+  useEffect(() => {
+    const updateMonths = () => {
+      if (window.innerWidth < 768) {
+        setMonthsToShow(1); // mobile
+      } else {
+        setMonthsToShow(2); // desktop
+      }
+    };
+
+    updateMonths(); // run on mount
+    window.addEventListener("resize", updateMonths);
+    return () => window.removeEventListener("resize", updateMonths);
+  }, []);
   return (
     <div className="offcanvas-body filter-accordion">
       <form className="main-search-form" action="" method="post">
@@ -191,10 +207,6 @@ const today = new Date();
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>
                 <div className="start-date" onClick={handleDivClick}>
                     <span className="date-picker-icon"><img src="/img/date.svg"/></span>
-                    <div className="selected-date-day" >
-                        <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
-                        <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
-                    </div>
                     <div className='dateBox'>
                     <DatePicker
                         selected={startDate}
@@ -210,7 +222,7 @@ const today = new Date();
                         }
                         }}
                         minDate={today}
-                        monthsShown={2}
+                        monthsShown={monthsToShow}
                         selectsStart
                         startDate={startDate}
                         endDate={endDate}
@@ -220,9 +232,16 @@ const today = new Date();
                         onClickOutside={() => setIsOpen(false)}
                         isClearable={true}
                         
+                        popperPlacement="bottom-end"
+                        
                         //withPortal // Optional: good for mobile
                     /> 
-                    </div>              
+                    </div> 
+                    <div className="selected-date-day" >
+                        <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
+                        <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
+                    </div>
+                                 
                 </div>
 
                 <div className="start-date end-date" ref={endDateDiv}  onClick={handleEndDateClick} >
@@ -239,7 +258,7 @@ const today = new Date();
                         startDate={startDate}
                         endDate={endDate}
                         placeholderText="Select end date"
-                        monthsShown={2}
+                        monthsShown={monthsToShow}
                         ref={endDatePickerRef}
                         minDate={startDate ? addDays(startDate, 1) : today}
                         disabled={!startDate}

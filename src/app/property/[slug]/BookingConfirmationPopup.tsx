@@ -126,6 +126,7 @@ useEffect(() => {
 
   const handleMattressChange = (e:any) => {
     setExtraMattress(e.target.checked);
+    setExtraMattressValue(e.target.checked ? 1 : 0);
   };
 
   const handleSubmit = async (e:any) => {
@@ -156,6 +157,21 @@ useEffect(() => {
       }
   }
   
+  const [monthsToShow, setMonthsToShow] = useState(2);
+  
+    useEffect(() => {
+      const updateMonths = () => {
+        if (window.innerWidth < 768) {
+          setMonthsToShow(1); // mobile
+        } else {
+          setMonthsToShow(2); // desktop
+        }
+      };
+  
+      updateMonths(); // run on mount
+      window.addEventListener("resize", updateMonths);
+      return () => window.removeEventListener("resize", updateMonths);
+    }, []);
   return (
     <>
     <div className="modal fade" id={"bookingConfirmPopup"+selectedRoom} aria-hidden="true" aria-labelledby={"bookingConfirmPopup"+selectedRoom}>
@@ -172,7 +188,7 @@ useEffect(() => {
                         <>
                             <form className="needs-validation mobile-section" onSubmit={handleSubmit}>
                                 <Row justify={'space-between'}>
-                                    <Col xs={18} lg={10} xl={10} xxl={10}>
+                                    <Col xs={24} lg={10} xl={10} xxl={10}>
                                     <div className="mb-3">
                                         <label htmlFor="validationCustom02" className="form-label">Check-in Time</label>
                                         <div className='' onClick={handleDivClick}>
@@ -191,7 +207,7 @@ useEffect(() => {
                                                 }
                                                 }}
                                                 minDate={today}
-                                                monthsShown={2}
+                                                monthsShown={monthsToShow}
                                                 selectsStart
                                                 startDate={startDate}
                                                 endDate={endDate}
@@ -205,7 +221,7 @@ useEffect(() => {
                                             </div> 
                                     </div>
                                     </Col>
-                                    <Col xs={18} lg={10} xl={10} xxl={10}>
+                                    <Col xs={24} lg={10} xl={10} xxl={10}>
                                     <div className="mb-3">
                                         <label htmlFor="validationCustom02" className="form-label">Check-out Time</label>
                                         <div className='' onClick={handleEndDateClick}>
@@ -217,7 +233,7 @@ useEffect(() => {
                                                     startDate={startDate}
                                                     endDate={endDate}
                                                     placeholderText="Select end date"
-                                                    monthsShown={2}
+                                                    monthsShown={monthsToShow}
                                                     ref={endDatePickerRef}
                                                     minDate={startDate ? addDays(startDate, 1) : today}
                                                     disabled={!startDate}
@@ -231,7 +247,7 @@ useEffect(() => {
                                     </Col>
                                     </Row>
                                     <Row justify={'space-between'} className='mb-4'>
-                                        <Col xs={18} lg={10} xl={10} xxl={10}>
+                                        <Col xs={12} lg={10} xl={10} xxl={10}>
                                             <label htmlFor="validationCustom02" className="form-label" style={{width:'100%'}}>Rooms</label>                             
                                            <InputNumber
                                                 min={1}
@@ -240,7 +256,7 @@ useEffect(() => {
                                                 onChange={(val) => handleChange('rooms',val)}
                                             />
                                         </Col>
-                                        <Col xs={18} lg={10} xl={10} xxl={10}>
+                                        <Col xs={12} lg={10} xl={10} xxl={10}>
                                             <label htmlFor="validationCustom02" className="form-label" style={{width:'100%'}}>Adults</label> 
                                                 <InputNumber
                                                 min={1}
@@ -252,7 +268,7 @@ useEffect(() => {
                                     </Row>
                                     {record.extra_mattress == 1 &&
                                         <Row className='mb-4 pb-4'  justify={'space-between'}>
-                                            <Col xs={18} lg={10} xl={10} xxl={10}>                          
+                                            <Col xs={12} lg={10} xl={10} xxl={10}>                          
                                                 <label htmlFor={"check-"+selectedRoom} className="checkbox">
                                                 <input type="checkbox"
                                                 checked={extraMattress}
@@ -261,7 +277,7 @@ useEffect(() => {
                                                 />
                                                 <span className="checkmark"></span> Extra Mattress</label> 
                                             </Col>
-                                            <Col xs={18} lg={10} xl={10} xxl={10}>
+                                            <Col xs={12} lg={10} xl={10} xxl={10}>
                                                 { extraMattress && 
                                                     <>
                                                         <Select
@@ -271,9 +287,14 @@ useEffect(() => {
                                                         style={{ width: '50%' }}
                                                         >
                                                         {Array.from({ length: searchData.rooms }, (_, i) => i + 1).map((num) => (
-                                                            <Option key={num} value={num}>
-                                                            {num}
-                                                            </Option>
+                                                            <>
+                                                            {num > 0 &&
+                                                              <Option key={num} value={num}>
+                                                              {num}
+                                                              </Option>
+                                                            }
+                                                            </>
+
                                                         ))}
                                                         </Select>
                                                         { (extraMattressValue > 0) && 

@@ -122,7 +122,7 @@ export default function HelpCenter() {
                               </a>
                           </div>
 
-                        <div className="col-lg-12">
+                        {/* <div className="col-lg-12">
                             <div className="contact-info-box">
                                 <span className="call-us-icon">
                                     <img src="img/map-pin.svg"/>
@@ -132,7 +132,7 @@ export default function HelpCenter() {
                                     <span className="mob-no"> 501, Ram Avenue, Vijayraj Nagar, Jaipur, India, 302018</span>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ export default function Slider() {
       
       try {
         const data = sessionStorage.getItem('sliderList');
-       setTimeout(() => { setIsModalOpen(true);}, 100);
+       setTimeout(() => { setIsModalOpen(true);}, 500);
         if (data) {
           let sliderData = JSON.parse(data);
           setShowLoader(false);
@@ -57,7 +57,7 @@ export default function Slider() {
             setShowLoader(false);
             setTimeout(() => {
               setIsModalOpen(false);
-            }, 2000);
+            }, 2500);
             
         }
       } catch (err) {
@@ -101,7 +101,6 @@ export default function Slider() {
         </div>
         <HomeSearch/>
       </div>
-      {isModalOpen ? 
        <Modal
           open={isModalOpen}
           footer={null}
@@ -110,7 +109,6 @@ export default function Slider() {
           maskClosable={false}
           width={300}
           transitionName=""
-          bodyStyle={{ textAlign: "center", padding: "20px 0"}}
         >
           <p>
             <DotLottieReact
@@ -122,12 +120,7 @@ export default function Slider() {
             />
           </p>
         </Modal>
-      // <div className='loading-image'>
-      //   <div className='image-section'>
-      //     
-      //     </div>
-      //  </div>
-       :null}
+       
     </>
   );
 }

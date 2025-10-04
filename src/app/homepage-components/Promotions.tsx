@@ -33,10 +33,10 @@ const options = {
       items: 1.1,
     },
     480: {
-      items: 1.3,
+      items: 1.1,
     },
     768: {
-       items: 1.3,
+       items: 1.1,
     },
     992: {
       items: 3,

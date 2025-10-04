@@ -83,7 +83,7 @@ export default function Hotels({ title, type }: HotelsProps) {
                 <div className="item">
                   <div className="hotal-detail-box">
                      <Link href={"/property/" + data.slug}  prefetch={false} className="hotel-thumbnail">
-                          <img src={data.image} alt={data.title} title={data.title} />
+                          <img src={data.image} alt={data.title} title={data.title} style={{height:'100%'}} />
                       </Link>
                       <div className="hotel-description">
                         <h4> <Link href={"/property/" + data.slug}   prefetch={false}>{data.title}</Link></h4>

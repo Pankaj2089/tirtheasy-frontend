@@ -23,7 +23,7 @@ const options = {
     1200: { items: 3, margin: 15 },
   },
 };
-export default function Dharamshala() {
+export default function GuestReviews() {
   return (
     <div className="guest_reviews py-50 wow fadeInUp">
       <div className="container">
@@ -36,13 +36,13 @@ export default function Dharamshala() {
           <OwlCarousel {...options} key={'guest-review1'}>
             <div className="item">
               <div className="guest-review-content-main">
-                <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
+                {/* <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
-                </div>
+                </div> */}
                 <h4 className="mb-2 mb-lg-4">Professional and Friendly</h4>
                 <p className="mb-2 mb-lg-5">Great location, easy to get in and out of the city. The hotel is well-maintained and has a safe and secure environment. The hotel spa and wellness facility will give you extra comfort. Besides  this, the rooms are spacious, and the services are excellent. They are  highly recommended</p>
                   <div className="client-info">
@@ -58,13 +58,13 @@ export default function Dharamshala() {
             </div>
             <div className="item">
               <div className="guest-review-content-main">
-                <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
+                {/* <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
-                </div>
+                </div> */}
                 <h4 className="mb-2 mb-lg-4">Professional and Friendly</h4>
                 <p className="mb-2 mb-lg-5">Great location, easy to get in and out of the city. The hotel is well-maintained and has a safe and secure environment. The hotel spa and wellness facility will give you extra comfort. Besides  this, the rooms are spacious, and the services are excellent. They are  highly recommended</p>
                   <div className="client-info">
@@ -80,13 +80,13 @@ export default function Dharamshala() {
             </div>
             <div className="item">
               <div className="guest-review-content-main">
-                <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
+                {/* <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
                   <span className="star-icon me-1"><img src="img/star_icon.svg"/></span>
-                </div>
+                </div> */}
                 <h4 className="mb-2 mb-lg-4">Professional and Friendly</h4>
                 <p className="mb-2 mb-lg-5">Great location, easy to get in and out of the city. The hotel is well-maintained and has a safe and secure environment. The hotel spa and wellness facility will give you extra comfort. Besides  this, the rooms are spacious, and the services are excellent. They are  highly recommended</p>
                   <div className="client-info">

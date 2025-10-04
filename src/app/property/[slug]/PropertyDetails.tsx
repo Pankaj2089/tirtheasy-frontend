@@ -320,7 +320,7 @@ return <>
 
             <div className="col-md-4">
                 <div className="overview-section border rounded p-3 mb-4 wow fadeInUp">
-                    <div className="rating-section bg-white p-0 d-flex align-item-center justify-content-between">
+                    {/* <div className="rating-section bg-white p-0 d-flex align-item-center justify-content-between">
                         <div className="total-review-section mt-0">
                             <div className="overall-rating">7.3</div>
                             <div className="rating-overview">
@@ -337,7 +337,7 @@ return <>
                             <img src="/img/star_gray.svg" />
                         </div>
                     </div>
-                    <hr/>
+                    <hr/> */}
                         <div className="d-flex justify-content-between">        
                             <HotelLandmark hotelId={hotelData.id} />
                             <div className="mob-map">

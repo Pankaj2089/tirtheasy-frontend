@@ -1,6 +1,9 @@
 'use client'
 import {  useState } from 'react';
 
+import BookingConfirmationPopup from './BookingConfirmationPopup';
+import {Button} from "antd";
+
 type hotelDataProps = {
   record:any;
   hotelFacilities:any;
@@ -10,12 +13,16 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
 
     const [visibleCount, setVisibleCount] = useState<number>(4);
     const [showAll, setShowAll] = useState<boolean>(false);
+    const [selectedRoom, setSelectRoom] = useState(0);
 
     const toggleShow = () => {
         setShowAll(!showAll);
         setVisibleCount(showAll ? 4 : record.room_prices.length);
     };
     
+    const bookNowConfirmation =(priceID:any ) => {
+        setSelectRoom(priceID);
+    }
       
   return (
     <>
@@ -67,10 +74,17 @@ export default function MobileRoomPrices({ record, hotelFacilities }: hotelDataP
                                 <p>No cancellation fee</p>
                                 <p className="limited-offer red-text mt-0 mb-0">Limited availability</p>
                             </div>
-                            <a className="btn btn-primary w-100 cursor-pointer">Book Now</a>
+                            { recPrice.room_available ? 
+                                <a className="btn btn-primary w-100 cursor-pointer" data-bs-target={"#bookingConfirmPopup"+recPrice.id} data-bs-toggle="modal" onClick={() => bookNowConfirmation(recPrice.id)} >Book Now</a>
+
+                            :
+                                <Button disabled={true} className="btn btn-primary w-100 cursor-pointer" >Already Booked</Button>
+
+                            }
                         </div>
                     </div>
-                </div>        
+                </div> 
+                <BookingConfirmationPopup selectedRoom={recPrice.id} record={record} key={recPrice.id} />       
             </div> 
             <div className="modal fade view-all-amenities z-index-big" id={`viewmoreamenities${recPrice.id}`} aria-hidden="true" aria-labelledby="viewmoreresultLabel" tabIndex={-1}>
                 <div className="modal-dialog modal-lg">

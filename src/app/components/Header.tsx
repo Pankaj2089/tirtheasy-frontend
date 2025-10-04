@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname , useRouter } from 'next/navigation';
 import Signin from './Signin';
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 export default function Header() {
 
 interface UserData {
@@ -29,6 +29,7 @@ const menu = (
  const action = usePathname();
  const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
  const [request_title, setRequestTitle] = useState('');
+ const [logoutOpen, setLogoutOpen] = useState(false);
 
  const router = useRouter();
 
@@ -193,7 +194,7 @@ const menu = (
                                       </div>
                                       <div className="header-links">
                                         <ul>
-                                          <li><a onClick={() => LogOut()} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li> 
+                                          <li><a onClick={() => setLogoutOpen(true)} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li> 
                                         </ul>
                                       </div>
                                     </div>  
@@ -257,7 +258,7 @@ const menu = (
                           <li><Link href="/my-bookings" className="dropdown-item"><span className="my-account-icon"><img src="/img/my_booking.svg"/></span> My Bookings</Link></li>
                           <li><Link href="/my-wishlist" className="dropdown-item"><span className="my-account-icon"><img src="/img/wishlist_icon.svg"/></span> My Wishlist</Link></li>
                           <hr/>
-                          <li><a onClick={() => LogOut()} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li>  
+                          <li><a onClick={() => setLogoutOpen(true)} className="dropdown-item cursor-pointer"><span className="my-account-icon"><img src="/img/logout.svg"/></span> Logout</a></li>  
                         </ul>
                       </div>
                     </div>                    
@@ -283,6 +284,16 @@ const menu = (
           </div>
         </nav>    
 
+      <Modal
+        open={logoutOpen}
+        onCancel={() => setLogoutOpen(false)}
+        onOk={() => LogOut()}
+        okText="Yes"
+        cancelText="No"
+        centered
+      >
+        <p>Are you sure you want to logout?</p>
+      </Modal>
     </div>
       <Signin request_title={request_title} />
     </header>

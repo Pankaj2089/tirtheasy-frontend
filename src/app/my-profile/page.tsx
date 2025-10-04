@@ -6,6 +6,7 @@ import {Select, Button, Input} from "antd";
 import { toast } from 'react-toastify';
 const { Option } = Select;
 import { useRouter } from "next/navigation"
+import { CheckCircleFilled } from '@ant-design/icons';
 
 export default function MyProfile() {
     const [states, setStates] = useState<any>([]);
@@ -220,6 +221,14 @@ export default function MyProfile() {
                                                 maxLength={10}
                                                 className='login-mobile'
                                                 name='mobile'
+                                                readOnly
+                                                style={{ height: '35px'}}
+                                                suffix={
+                                                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                                                        <CheckCircleFilled style={{ color: '#36a300' }} />
+                                                        <span style={{ color: '#36a300', fontSize: '12px' }}>Verified</span>
+                                                    </span>
+                                                }
                                                 />
                                         </div>
                                     </div>

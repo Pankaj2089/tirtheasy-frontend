@@ -26,6 +26,7 @@ interface FacilitiesData {
   title: string;
   description: string;
   icon: string;
+  icon_image: string;
   id: string;
 }
 
@@ -66,7 +67,11 @@ export default function Facilities() {
             {facilities.map((data, index) => (
               <div className="col-lg-4 col-md-6 mb-4 wow fadeInUp" key={'facilities' +index }>
                 <div className="facilites-box">
-                  <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
+                    { data.icon_image != '' && data.icon_image != null ? 
+                        <img src={data.icon_image} />
+                    :
+                      <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
+                    }
                   <h5>{data.title}</h5>
                   <p>{data.description}</p>
                 </div>
@@ -82,7 +87,12 @@ export default function Facilities() {
               {facilities.map((data, index) => (
                 <div className="item">
                     <div className="facilites-box">
+                    { data.icon_image != '' && data.icon_image != null ? 
+                        <img src={data.icon_image} />
+                    :
                       <div className={`fac-img ${data.icon !='' ? data.icon : ''}`}></div>
+                    }
+                      
                       <h5>{data.title}</h5>
                       <p>{data.description}</p>
                     </div>

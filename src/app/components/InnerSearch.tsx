@@ -155,6 +155,24 @@ const today = new Date();
       setSearchCities(res.records);
       setSearchHotels(res.recHotels);
   }
+
+  const [monthsToShow, setMonthsToShow] = useState(2);
+  const [isMobile, setpopperPlacement] = useState(false);
+  useEffect(() => {
+    const updateMonths = () => {
+      if (window.innerWidth < 768) {
+        setMonthsToShow(1); // mobile
+        setpopperPlacement(true);
+      } else {
+        setMonthsToShow(2); // desktop
+      }
+    };
+
+    updateMonths(); // run on mount
+    window.addEventListener("resize", updateMonths);
+    return () => window.removeEventListener("resize", updateMonths);
+  }, []);
+
   return (
     <div className="hero-section pb-10">
   <div className="inner-page-banner inner-page-search gray_bg">
@@ -195,11 +213,7 @@ const today = new Date();
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>
                     <div className="start-date" onClick={handleDivClick}>
                       <span className="date-picker-icon"><img src="/img/date.svg"/></span>
-                      <div className="selected-date-day" >
-                          <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
-                          <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
-                      </div>
-                      <div className='dateBox'>
+                       <div className='dateBox'>
                       <DatePicker
                             selected={startDate}
                             onChange={(date) => {
@@ -214,7 +228,7 @@ const today = new Date();
                             }
                             }}
                             minDate={today}
-                            monthsShown={2}
+                            monthsShown={monthsToShow}
                             selectsStart
                             startDate={startDate}
                             endDate={endDate}
@@ -224,9 +238,16 @@ const today = new Date();
                             onClickOutside={() => setIsOpen(false)}
                             isClearable={true}
                             
+                            popperPlacement={!isMobile ? "bottom-start" : "bottom-end"}
+                            
                             //withPortal // Optional: good for mobile
                         /> 
-                        </div>              
+                        </div>     
+                      <div className="selected-date-day" >
+                          <div className="date"> {startDate ? format(startDate, 'dd MMM yyyy') : ''}</div>
+                          <div className="day">{startDate ? format(startDate, 'EEEE') : ''}</div>
+                      </div>
+                              
                     </div>
 
                     <div className="start-date end-date" ref={endDateDiv}  onClick={handleEndDateClick} >
@@ -243,14 +264,14 @@ const today = new Date();
                             startDate={startDate}
                             endDate={endDate}
                             placeholderText="Select end date"
-                            monthsShown={2}
+                            monthsShown={monthsToShow}
                             ref={endDatePickerRef}
                             minDate={startDate ? addDays(startDate, 1) : today}
                             disabled={!startDate}
                             open={isEndOpen}
                             onClickOutside={() => setIsEndOpen(false)}
                             isClearable={true}
-                            popperPlacement="bottom-end"
+                            popperPlacement={!isMobile ? "bottom-start" : "bottom-end"}
                         /> 
                     </div>           
                     </div>
@@ -324,6 +345,7 @@ const today = new Date();
                 <option value="lowest_price">Lowest Price First</option>
                 <option value="distance" >Distance</option>
               </select>
+              
             </div>
             <a href="" className="map-view-btn">Map View</a>
         </div>

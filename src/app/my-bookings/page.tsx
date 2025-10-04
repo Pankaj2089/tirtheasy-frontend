@@ -126,7 +126,7 @@ export default function MyWishlist() {
                                         ))}
 
                                         { records.upcoming && records.upcoming.length == 0 &&
-                                            <div className="alert alert-danger mb-4 mt-4">Upcoming Bookings not found.</div>
+                                            <div className="alert alert-danger mb-4 mt-4 mb-250">Upcoming Bookings not found.</div>
                                         }
 
                                     </div>
@@ -174,7 +174,7 @@ export default function MyWishlist() {
                                         ))}
 
                                         { records.completed && records.completed.length == 0 &&
-                                            <div className="alert alert-danger mb-4 mt-4">Completed bookings not found.</div>
+                                            <div className="alert alert-danger mb-4 mt-4 mb-250">Completed bookings not found.</div>
                                         }
                                     </div>
                                 </div>
@@ -219,7 +219,7 @@ export default function MyWishlist() {
                                             </Link>
                                         ))}
                                         { records.canceled && records.canceled.length == 0 &&
-                                            <div className="alert alert-danger mb-4 mt-4">Cancelled bookings not found.</div>
+                                            <div className="alert alert-danger mb-4 mt-4 mb-250">Cancelled bookings not found.</div>
                                         }
                                     </div>
                                 </div>

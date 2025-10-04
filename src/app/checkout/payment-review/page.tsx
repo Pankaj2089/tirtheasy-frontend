@@ -197,6 +197,8 @@ const [remainingTime, setRemainingTime] = useState(initialTime);
     }
 }
 
+
+
   // Format minutes and seconds
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
@@ -313,6 +315,15 @@ const [loading, setLoading] = useState(false);
         setLoading(false);
     }
   };
+
+  const changePage = (page:any) => {
+    if(lastOrderID > 0){
+        deleteTempOrder(lastOrderID);
+    }
+     setTimeout(() => {
+        router.push(page);
+    }, 1000);
+  }
 return (
   <>
   <div className="hero-section pb-3">
@@ -376,7 +387,7 @@ return (
                                 <p>{userData.city}</p>
                             </li>
                         </ul>
-                        <Link href="/checkout/user-information" className="edit-text">Edit</Link>
+                        <Link href="javascript:void(0)" onClick={() => changePage('/checkout/user-information')} className="edit-text">Edit</Link>
                    </div>
                 </div>
 
@@ -403,7 +414,7 @@ return (
                         <div className="check-hotal-tile position-relative">
                             <p className="text-dark mb-2">Room Type</p>
                             <h5 className="fw-semibold">{record.title}</h5>
-                            <Link href="/porperty-list" className="edit-text">Change Room</Link>
+                            <Link href="javascript:void(0)" onClick={() => changePage('/property/'+hotelData.slug)} className="edit-text">Change Room</Link>
                         </div>
                     </div>
                 </div>
