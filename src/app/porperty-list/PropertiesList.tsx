@@ -516,7 +516,7 @@ return <>
                         </div>
                     </div>
 
-                    <div className="rating-section d-block d-md-none">
+                    {/* <div className="rating-section d-block d-md-none">
                          <div className="star-rating">
                             <img src="img/star_icon.svg"/>
                             <img src="img/star_icon.svg"/>
@@ -531,7 +531,7 @@ return <>
                              <p>4634 Reviews</p>
                            </div>
                          </div>
-                    </div>
+                    </div> */}
                  </div>
                </div>
 

@@ -314,12 +314,6 @@
   align-items: center;
 }
 
-
-@media (max-width: 991px) {
-  .pro-facilities-list li:nth-child(n+5) {
-    display: none;
-  }
-}
 .high-icon img{
     width: 32px;
 }
@@ -400,8 +394,6 @@ body.modal-open {
 .react-datepicker__month--selecting-range .react-datepicker__day--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__year--selecting-range .react-datepicker__day--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__month--selecting-range .react-datepicker__month-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__year--selecting-range .react-datepicker__month-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__month--selecting-range .react-datepicker__quarter-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__year--selecting-range .react-datepicker__quarter-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__month--selecting-range .react-datepicker__year-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)), .react-datepicker__year--selecting-range .react-datepicker__year-text--in-range:not(:is(.react-datepicker__day--in-selecting-range, .react-datepicker__month-text--in-selecting-range, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__year-text--in-selecting-range)){
  color: #fff !important;
 }
-
-
 .react-datepicker__day--in-selecting-range{
    background: #e67e7f !important; 
 }.react-datepicker__day--range-start, .react-datepicker__day--selecting-range-end{
@@ -413,4 +405,12 @@ select.form-select option:hover {
 }
 .ant-select-selection-item{
     text-align: left;
+}
+@media (max-width: 991px) {
+  .pro-facilities-list li:nth-child(n+5) {
+    display: none;
+  }
+  .booking-confirm-detals{
+    overflow-x: hidden;
+  }
 }

@@ -48,12 +48,13 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   
   const [sendWishlistRequest, setSendWishlistRequest] = useState(false);
   
+  const [isMobile, setIsMobile] = useState(false);
+  
   const maxLength = 800;
   const setHotelFacilitiesList = (list:any) =>{
     setHotelFacilities(list);
   }
 
-  const isMobile = window.innerWidth < 780;
   const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
   
   const [searchData, setSearchState] = useState({
@@ -66,6 +67,7 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   });
 
     useEffect(() => {
+
       if(searchData.keywords !== '' || searchData.start_date !== '' || searchData.end_date !== ''){
         localStorage.setItem("searchData", JSON.stringify(searchData));      
       }   
@@ -100,6 +102,10 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
     } 
     loadFromLocalStorage();
     localStorage.setItem("hotelData", JSON.stringify(hotelData));
+
+    if(window.innerWidth < 780){
+        setIsMobile(true);
+    }
   }, [])
 
    async function checkIsWishlist() {
@@ -233,6 +239,7 @@ return <>
                             {hotelData.additional_images.slice(0, 4).map((imgrec: any, index: number) => (
                                 <div className={index == 3 && isMobile ?"col-3 col-md-6 ps-1 ps-md-2 mb-0 mb-md-0": "col-3 col-md-6 pe-1 ps-md-2 pe-md-2 mb-0 mb-md-3"} key={index}>
                                     <div className="samll-img-thumb">
+                                        {isMobile}
                                         <img src={imgrec.image} alt={`thumb-${index}`} />
                                     </div>
                                 </div>

@@ -33,6 +33,7 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
     const [records, setRecords] = useState<ListData[]>([]);
     const [showLoader, setShowLoader] = useState(false); 
     const [imagesData, setImagesData] = useState<ListData[]>([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -59,6 +60,9 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
         }
         setTimeout(() => {
             fetchData();
+            if(window.innerWidth < 780){
+                setIsMobile(true);
+            }
         }, 500);
 
     }, [hotelId]); 
@@ -72,7 +76,6 @@ export default function HotelRooms({ hotelId, hotelFacilities }: hotelDataProps)
         });
     };
 
-    const isMobile = window.innerWidth < 480;
     const isiPad = /iPad/.test(navigator.userAgent) || (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
 
 

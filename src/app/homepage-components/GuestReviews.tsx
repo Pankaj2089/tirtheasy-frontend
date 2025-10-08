@@ -16,9 +16,9 @@ const options = {
   items: 3,
   dots: false,
   responsive: {
-    0: { items: 1, margin: 10 },
-    480: { items: 1, margin: 10 },
-    768: { items: 2, margin: 0 },
+     0: { items: 1.2 , margin: 10},
+    480: { items: 1.2, margin: 10 },
+    768: { items: 1.2 , margin: 10},
     992: { items: 2, margin: 15 },
     1200: { items: 3, margin: 15 },
   },

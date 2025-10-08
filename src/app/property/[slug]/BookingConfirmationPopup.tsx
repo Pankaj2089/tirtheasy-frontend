@@ -188,7 +188,7 @@ useEffect(() => {
                         <>
                             <form className="needs-validation mobile-section" onSubmit={handleSubmit}>
                                 <Row justify={'space-between'}>
-                                    <Col xs={24} lg={10} xl={10} xxl={10}>
+                                    <Col xs={11} lg={10} xl={10} xxl={10}>
                                     <div className="mb-3">
                                         <label htmlFor="validationCustom02" className="form-label">Check-in Time</label>
                                         <div className='' onClick={handleDivClick}>
@@ -217,11 +217,12 @@ useEffect(() => {
                                                 onClickOutside={() => setIsOpen(false)}
                                                 isClearable={false}
                                                 dateFormat="dd/MM/yyyy"
+                                                popperPlacement="bottom-start"
                                             /> 
                                             </div> 
                                     </div>
                                     </Col>
-                                    <Col xs={24} lg={10} xl={10} xxl={10}>
+                                    <Col xs={11} lg={10} xl={10} xxl={10}>
                                     <div className="mb-3">
                                         <label htmlFor="validationCustom02" className="form-label">Check-out Time</label>
                                         <div className='' onClick={handleEndDateClick}>
@@ -241,6 +242,7 @@ useEffect(() => {
                                                     onClickOutside={() => setIsEndOpen(false)}
                                                     isClearable={false}
                                                     dateFormat="dd/MM/yyyy"
+                                                    popperPlacement="bottom-end"
                                                 /> 
                                             </div> 
                                     </div>

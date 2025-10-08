@@ -439,7 +439,7 @@ useEffect(() => {
                 <div className="p-lg-3">
                     <div className="row align-items-center contant-info">
                         <div className="col-lg-12 mb-3">
-                           <a href="tel:+91 96640 40225" className="contact-info-box contact-info-link bg-white">
+                           <a href="tel:+91 96640 40225" className="contact-info-box contact-info-link ">
                                     <span className="call-us-icon">
                                         <img src="/img/call_us_red.svg"/>
                                     </span>
@@ -451,7 +451,7 @@ useEffect(() => {
                         </div>
 
                         <div className="col-lg-12 mb-2">
-                              <a href="mailto:support@tirtheasy.com" className="contact-info-box contact-info-link bg-white">
+                              <a href="mailto:support@tirtheasy.com" className="contact-info-box contact-info-link ">
                                   <span className="call-us-icon">
                                       <img src="/img/mail_red.svg"/>
                                   </span>
@@ -463,7 +463,7 @@ useEffect(() => {
                           </div>
 
                           <div className="col-lg-12 mb-3">
-                              <a href="https://wa.me/9664040225" target='_blank' className="contact-info-box contact-info-link bg-white">
+                              <a href="https://wa.me/9664040225" target='_blank' className="contact-info-box contact-info-link">
                                   <span className="call-us-icon">
                                       <img src="/img/whatsapp_red.svg"/>
                                   </span>

@@ -1424,6 +1424,10 @@ label.checkin-text {
 }
 
 
+.max-height230 {
+	height: 230px;
+	overflow: hidden;
+}
 .bed-pref-list{
     margin-top: 6px;
 }

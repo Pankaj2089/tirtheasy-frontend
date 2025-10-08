@@ -96,7 +96,7 @@ const [processing, setProcessing] = useState(false);
                               <li><Link href="/about">About us</Link></li>
                               <li><a href="#">Careers</a></li>
                               <li><a href="#">Press</a></li>
-                              <li><a href="#">Blog</a></li>
+                              <li><a href="/blogs">Blog</a></li>
                               <li><a href="#">PointsMAX</a></li>
                           </ul>
                         </div>
@@ -175,7 +175,7 @@ const [processing, setProcessing] = useState(false);
                                 <li><Link href="/about">About us</Link></li>
                                 <li><a href="#">Careers</a></li>
                                 <li><a href="#">Press</a></li>
-                                <li><a href="#">Blog</a></li>
+                                <li><a href="/blogs">Blog</a></li>
                                 <li><a href="#">PointsMAX</a></li>
                             </ul>
                         </div>

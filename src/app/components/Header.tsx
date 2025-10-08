@@ -111,7 +111,7 @@ const menu = (
                             <span className="arrow-right ms-auto" ><img src="/img/arrow_right_menu.svg"/></span></a></li>
                           <li><a className="dropdown-item" onClick={() => updatePage('dharmshala')}><span className="my-account-icon"><img src="/img/dharamshala.svg"/></span> Dharamshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>
                           <li><Link href="/about"  className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/about_us.svg"/></span> About Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
-                          <li><Link href="#" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.svg"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
+                          <li><Link href="/blogs" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.svg"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
                           <li><Link href="/contact-us" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/contact_us.svg"/></span> Contact Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>
                         </ul>
                       </div>
@@ -151,7 +151,7 @@ const menu = (
                               <Link href="/about" className="nav-link">About Us</Link>
                             </li>
                             <li className="nav-item">
-                              <Link className="nav-link" href="#">Blog</Link>
+                              <Link className="nav-link" href="/blogs">Blog</Link>
                             </li>
                             <li className="nav-item">
                               <Link className="nav-link" href="/contact-us">Contact Us</Link> 
@@ -211,7 +211,7 @@ const menu = (
                                 </li>
 
                                 <li className="nav-item d-none d-lg-block">
-                                  <a className="nav-link" href="#">Blog</a>
+                                  <a className="nav-link" href="/blogs">Blog</a>
                                 </li>
 
                                 <li className="nav-item d-none d-lg-block">
