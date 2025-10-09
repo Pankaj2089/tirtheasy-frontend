@@ -103,7 +103,7 @@ export default function MyWishlist() {
                                 ))}
 
                                 { (records.length == 0 && !loading) &&
-                                    <div className="col-12 position-relative mb-250" >
+                                    <div className="col-12 position-relative mb-320" >
                                         <div className="alert alert-danger">Data not found.</div>
                                     </div>
                                 }

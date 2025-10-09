@@ -165,7 +165,7 @@ export default function propertiesList() {
     window.location.href = '/porperty-list';
   }
   
-if (!isLoaded) return <p>Loading Map...</p>;
+//if (!isLoaded) return <p>Loading Map...</p>;
 return <> 
 <InnerSearch searchAction={searchProperties} loading = {loading}/>
 <div className="popular-destination py-50 pt-0 wow fadeInUp">
@@ -448,10 +448,6 @@ return <>
                         ))}
                       </span>
                     </Link>
-
-                    <div className="view-details mt-3 d-block d-md-none text-end w-100%">
-                      <Link href={"/property/" + record.slug}>View Details</Link>
-                    </div>
                   </div>
 
                  <div className="col-md-8 col-7">
@@ -469,6 +465,9 @@ return <>
                           </ul>
                         </div>
                         }
+                      </div>
+                      <div className="view-details mt-1 d-block d-md-none text-end w-100%">
+                        <Link href={"/property/" + record.slug}>View Details</Link>
                       </div>
 
                       <div className="col-md-4 d-none d-md-block">

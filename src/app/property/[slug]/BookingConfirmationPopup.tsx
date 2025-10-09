@@ -249,28 +249,61 @@ useEffect(() => {
                                     </Col>
                                     </Row>
                                     <Row justify={'space-between'} className='mb-4'>
-                                        <Col xs={12} lg={10} xl={10} xxl={10}>
+                                        <Col xs={11} lg={10} xl={10} xxl={10}>
                                             <label htmlFor="validationCustom02" className="form-label" style={{width:'100%'}}>Rooms</label>                             
                                            <InputNumber
-                                                min={1}
-                                                max={100}
-                                                value={searchData.rooms}
-                                                onChange={(val) => handleChange('rooms',val)}
-                                            />
+                                            min={1}
+                                            max={100}
+                                            value={searchData.rooms}
+                                            onChange={(val) => handleChange('rooms', val ?? 0)}
+                                            parser={(value) => {
+                                              const numeric = Number(String(value || '').replace(/\D/g, ''));
+                                              return isNaN(numeric) ? 0 : numeric;
+                                            }}
+                                            formatter={(value) => String(value ?? '').replace(/\D/g, '')}
+                                            onKeyDown={(e) => {
+                                              if (['e', 'E', '+', '-', '.'].includes(e.key)) e.preventDefault();
+                                            }}
+                                            onKeyPress={(e) => {
+                                              // Allow only digits
+                                              if (!/[0-9]/.test(e.key)) e.preventDefault();
+                                            }}
+                                            onPaste={(e) => {
+                                              const paste = e.clipboardData.getData('text');
+                                              if (!/^\d+$/.test(paste)) e.preventDefault(); // block non-numeric paste
+                                            }}
+                                                                                    />
                                         </Col>
-                                        <Col xs={12} lg={10} xl={10} xxl={10}>
+                                        <Col xs={11} lg={10} xl={10} xxl={10}>
                                             <label htmlFor="validationCustom02" className="form-label" style={{width:'100%'}}>Adults</label> 
-                                                <InputNumber
-                                                min={1}
-                                                max={100}
-                                                value={searchData.adult}
-                                                onChange={(val) => handleChange('adult',val)}
+                                                
+                                            <InputNumber
+                                              min={1}
+                                              max={100}
+                                              value={searchData.adult}
+                                              onChange={(val) => handleChange('adult', val ?? 0)}
+                                              parser={(value) => {
+                                              const numeric = Number(String(value || '').replace(/\D/g, ''));
+                                              return isNaN(numeric) ? 0 : numeric;
+                                            }}
+                                            formatter={(value) => String(value ?? '').replace(/\D/g, '')}
+                                            onKeyDown={(e) => {
+                                              if (['e', 'E', '+', '-', '.'].includes(e.key)) e.preventDefault();
+                                            }}
+                                            onKeyPress={(e) => {
+                                              // Allow only digits
+                                              if (!/[0-9]/.test(e.key)) e.preventDefault();
+                                            }}
+                                            onPaste={(e) => {
+                                              const paste = e.clipboardData.getData('text');
+                                              if (!/^\d+$/.test(paste)) e.preventDefault(); // block non-numeric paste
+                                            }}
                                             />
                                         </Col>
                                     </Row>
                                     {record.extra_mattress == 1 &&
                                         <Row className='mb-4 pb-4'  justify={'space-between'}>
-                                            <Col xs={12} lg={10} xl={10} xxl={10}>                          
+                                            <Col  xs={11} lg={10} xl={10} xxl={10} style={{display:'flex'}}>                          
                                                 <label htmlFor={"check-"+selectedRoom} className="checkbox">
                                                 <input type="checkbox"
                                                 checked={extraMattress}
@@ -279,7 +312,7 @@ useEffect(() => {
                                                 />
                                                 <span className="checkmark"></span> Extra Mattress</label> 
                                             </Col>
-                                            <Col xs={12} lg={10} xl={10} xxl={10}>
+                                            <Col xs={11} lg={10} xl={10} xxl={10}>
                                                 { extraMattress && 
                                                     <>
                                                         <Select
@@ -300,7 +333,7 @@ useEffect(() => {
                                                         ))}
                                                         </Select>
                                                         { (extraMattressValue > 0) && 
-                                                        <p style={{fontSize:'14px'}}>Extra Mattress  -  <strong>₹ {metressPrice}</strong> </p>
+                                                        <p style={{fontSize:'11px'}}>Extra Mattress  -  <strong>₹ {metressPrice}</strong> </p>
                                                         }
                                                     </>
                                                 }

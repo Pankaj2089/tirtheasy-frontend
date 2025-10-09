@@ -219,7 +219,7 @@ export default function MyWishlist() {
                                             </Link>
                                         ))}
                                         { records.canceled && records.canceled.length == 0 &&
-                                            <div className="alert alert-danger mb-4 mt-4 mb-250">Cancelled bookings not found.</div>
+                                            <div className="alert alert-danger mb-4 mt-4 mb-320">Cancelled bookings not found.</div>
                                         }
                                     </div>
                                 </div>

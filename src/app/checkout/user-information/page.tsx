@@ -590,7 +590,7 @@ useEffect(() => {
                             <div className="position-relative night-content">
                                 <div className="one-night">
                                     <div className="moon-icon"><img src="/img/moon.svg"/></div>
-                                    <span className="fw-bold date-time">{nights} N</span>                                    
+                                    <span className="date-time">{nights} N</span>                                    
                                 </div>
                                 <div className="after"></div>
                             </div>
@@ -618,7 +618,7 @@ useEffect(() => {
                                 <div className="label-title">
                                     <img src="/img/guest.svg"/> <span className="fs11">Guests Per Room</span>
                                 </div>
-                                <div className="date-time fw-medium">{searchData.adult} Audults{searchData.childerns > 0  && ', '+ searchData.childerns+' childs' } </div>
+                                <div className="date-time fw-medium">{searchData.adult} Adults{searchData.childerns > 0  && ', '+ searchData.childerns+' childs' } </div>
                             </div>
                         </div>
                         

@@ -68,7 +68,7 @@ export default function HotelImages({ hotelData }: hotelDataProps) {
     <div className="gallery-images-slider">
         <div className="card-body">
             <figure className="mx-auto text-center d-flex align-items-center justify-content-center">
-                <img src={hotelData.image} alt={hotelData.title} className="img-fluid rounded-4" ref={fullImgRef} id="imgbox" title={hotelData.title} />
+                <img src={hotelData.image} alt={hotelData.title} className="img-fluid rounded-4" ref={fullImgRef} id="imgbox" title={hotelData.title}  style={{width:'100%'}} />
             </figure>
             <div className="row">
                 <div className="MultiCarousel" data-items={dataItems} data-slide={dataSlide} ref={containerRef} style={{ overflow: "hidden", width: "100%" }}>

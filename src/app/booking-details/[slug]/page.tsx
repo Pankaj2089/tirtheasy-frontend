@@ -221,7 +221,7 @@ return (
                                 <div className="label-title">
                                     <img src="/img/guest.svg"/> <span className="fs11">Guests Per Room</span>
                                 </div>
-                                <div className="date-time fw-medium text-end">{orderData.adults} Audults{orderData.orderData > 0  && ', '+ orderData.orderData+' childs' }</div>
+                                <div className="date-time fw-medium text-end">{orderData.adults} Adults{orderData.orderData > 0  && ', '+ orderData.orderData+' childs' }</div>
                             </div>
                         </div>
                 </div>

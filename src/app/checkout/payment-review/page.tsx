@@ -458,7 +458,7 @@ return (
                             <div className="label-title">
                                 <img src="/img/guest.svg"/> <span className="fs11">Guests Per Room</span>
                             </div>
-                            <div className="date-time fw-medium">{searchData.adult} Audults{searchData.childerns > 0  && ', '+ searchData.childerns+' childs' }</div>
+                            <div className="date-time fw-medium">{searchData.adult} Adults{searchData.childerns > 0  && ', '+ searchData.childerns+' childs' }</div>
                         </div>
                     </div>
                     

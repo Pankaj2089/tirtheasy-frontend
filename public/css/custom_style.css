@@ -346,9 +346,12 @@ body.modal-open {
 .mb-250{
     margin-bottom: 250px !important;
 }
+.mb-320{
+    margin-bottom: 300px !important;
+}
 .form-select:focus, .ant-select-focused .ant-select-selector, .ant-select-focused:hover .ant-select-selector, .ant-select-focused .ant-select-selector:hover,
 :where(.css-dev-only-do-not-override-36gkoj).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector
-, .ant-picker:hover, .ant-picker:focus{
+, .ant-picker:hover, .ant-picker:focus, .ant-input-number:focus, input:focus, .ant-input-number input:focus, .ant-input-number:hover, input:hover, .ant-input-number input:hover{
     border-color: #cc484a !important;
 }
 
@@ -405,6 +408,19 @@ select.form-select option:hover {
 }
 .ant-select-selection-item{
     text-align: left;
+}
+.payment-list.grand-total .payment-type dt{
+    font-size: 1.1rem;
+}
+.hero-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.hero-section.slide-out {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 @media (max-width: 991px) {
   .pro-facilities-list li:nth-child(n+5) {

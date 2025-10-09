@@ -23,6 +23,7 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
 
     //console.log(resolvedParams.slug);
     const [headingCounter, setHeadingCounter] = useState(true);
+    const [headingCounter2, setHeadingCounter2] = useState(true);
 
     const invoiceRef = useRef<any>(null);
 
@@ -59,6 +60,9 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
                 setTimeout(() => {
                     setHeadingCounter(false);
                 }, 3000);
+                setTimeout(() => {
+                    setHeadingCounter2(false);
+                }, 3500);
                 //get offers
                 getOrderData(orderID);
                 
@@ -105,8 +109,8 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
 
 return (
   <>
-{headingCounter && 
-    <div className="hero-section pb-3">
+{headingCounter2 && 
+    <div className={`hero-section pb-3 ${!headingCounter ? 'slide-out' : ''}`}>
     <div className="inner-page-banner py-2 gray_bg">
         <div className="container">    
             <div className="row">
@@ -149,7 +153,7 @@ return (
 
         <div className="row" >
             <div className="col-lg-12">
-                 <div className="button-set-top d-flex align-items-center justify-content-end gap-3 mb-2 mb-lg-3">
+                 <div className="button-set-top d-flex align-items-center justify-content-between gap-3 mb-2 mb-lg-3">
                     <a href="#" className="d-flex align-items-center gap-2"><img src="/img/pro_location.svg"/> Property Location</a>
                     <a className="d-flex align-items-center gap-2 cursor-pointer" onClick={handleDownload}><img src="/img/download.svg"/> Download Invoice</a>
                 </div>
@@ -262,7 +266,7 @@ return (
                                 <div className="label-title">
                                     <img src="/img/guest.svg"/> <span className="fs11">Guests Per Room</span>
                                 </div>
-                                <div className="date-time fw-medium text-end">{orderData.adults} Audults{orderData.orderData > 0  && ', '+ orderData.orderData+' childs' }</div>
+                                <div className="date-time fw-medium text-end">{orderData.adults} Adults{orderData.orderData > 0  && ', '+ orderData.orderData+' childs' }</div>
                             </div>
                         </div>
                         
