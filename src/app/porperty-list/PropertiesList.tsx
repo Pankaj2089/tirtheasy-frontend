@@ -35,7 +35,7 @@ export default function propertiesList() {
   const { ref, inView } = useInView(); // triggers when the ref is visible
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [propertyType, setPropertyType] = useState(false);
+  const [propertyType, setPropertyType] = useState('');
   const [viewType, setViewType] = useState("list");
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
   
@@ -47,6 +47,7 @@ export default function propertiesList() {
 
   const [searchData, setSearchState] = useState({
     keywords: '',
+    keywords_type: '',
     start_date: '',
     end_date: '',
     persons: 0,
@@ -403,7 +404,11 @@ return <>
 
           <div className="col-lg-9 wow fadeInUp">
             <div className="d-flex align-items-center justify-content-between mb-3 text-center wow fadeInUp">
-              <h1 className="ucfirst">{propertyType+'s'} in {searchData.keywords}</h1>
+              <h1 className="ucfirst">
+                    {
+                      searchData?.keywords_type == 'Hotel' ? '': propertyType+'s '+ (searchData.keywords != '' ? 'in '+searchData.keywords : '')
+                    }
+                </h1>
               { viewType =='list' ?
                 <div className="shotby-dropdown align-items-center d-none d-md-flex">
                   <p className="me-2 d-flex" style={{whiteSpace:"nowrap"}}>Sort by:</p>

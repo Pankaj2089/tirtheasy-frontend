@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { addDays, format } from 'date-fns';
 import { Button } from 'antd';
 import { postData } from '../utils/api';
+import { FaHome, FaMapMarkerAlt  } from 'react-icons/fa'; 
 type InnerSearchProps = {
   searchAction: any;
   loading:any;
@@ -20,6 +21,7 @@ const [endDate, setEndDate] = useState<Date | null>(null);
  const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
 const [searchData, setSearchState] = useState({
     keywords: '',
+    keywords_type: '',
     start_date: '',
     end_date: '',
     adult: 1,
@@ -85,6 +87,7 @@ const inputRef = useRef<any>(null);
       setStartDate(serData.start_date);
       setEndDate(serData.end_date);
     }
+    getCitieisList();
   };
 
  useEffect(() => {
@@ -149,11 +152,16 @@ const today = new Date();
 
   const getCitieisList = async () =>  {
     setSearchCities([]);
-    setSearchHotels([]);
+    //setSearchHotels([]);
     let postRec: { keywords: String | null, property_type:String | null } = { keywords: searchData.keywords, property_type:propertyType}; 
       const res = await postData('get-cities', postRec);        
       setSearchCities(res.records);
       setSearchHotels(res.recHotels);
+      // if(res.records.length == 0 && res.recHotels.length == 0){
+      //   setSearchKeywords(false);
+      // }else{
+      //    setSearchKeywords(true);
+      // }
   }
 
   const [monthsToShow, setMonthsToShow] = useState(2);
@@ -173,41 +181,90 @@ const today = new Date();
     return () => window.removeEventListener("resize", updateMonths);
   }, []);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+          setSearchKeywords(false);
+        }
+      };
+  
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
   return (
     <div className="hero-section pb-10">
   <div className="inner-page-banner inner-page-search gray_bg">
      <div className="container">    
         <form className="main-search-form d-none d-md-flex" action="" method="post">
-               <div className="input-group search-main-box">
+               <div className="input-group search-main-box" ref={searchRef}>
                   <input onClickCapture={toggleSearchKeywords} 
                   type="search" 
                   className="form-control search-box" 
                   placeholder="Search" 
                   value={searchData.keywords}  
-                  onChange={(e) => handleChange('keywords', e.target.value)} 
-                  onClick={() => setRoomPerson(false)} 
-                  onKeyUp={getCitieisList}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    handleChange('keywords', value);
+                    if (value.trim().length > 0) {
+                      setSearchKeywords(true);
+                      getCitieisList();
+                    } 
+                  }}
+                  onClick={() => {
+                    setSearchKeywords(true); // ✅ Open popup when clicking
+                    setRoomPerson(false);
+                  }}
                   />
 
-                  <div className={`search-popup multi-collapse member-addon collapse ${(isSearchKeywords && (citiesList.length > 0 || hotelsList.length > 0)) ? 'show' : 'multi-collapse'}`} 
-                     style={{ maxHeight: '200px', minHeight: 'auto', overflow: 'auto' }}
-                    >
-                      {hotelsList.map((hotelRow:any, index) => (
-                        <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', hotelRow.title)}>
-                          <span className="left-label">
-                           <i className=''></i> {hotelRow.title}
+                 <div
+                    className={`search-popup member-addon collapse ${
+                      isSearchKeywords ? 'show'
+                        : ''
+                    }`}
+                    style={{
+                      maxHeight: '200px',
+                      overflowY: 'auto',
+                      transition: 'max-height 0.3s ease-in-out',
+                    }}
+                  >
+                    {hotelsList.map((hotelRow: any, index: number) => (
+                      <div
+                        className="select-city-row"
+                        key={index}
+                        onClick={() => {
+                          handleCitySlect('keywords', hotelRow.title);
+                          handleCitySlect('keywords_type', 'Hotel');
+                          setSearchKeywords(false); // ✅ Close after selecting
+                        }}
+                      >
+                        <span className="left-label">
+                          <FaHome /> {hotelRow.title}
+                        </span>
+                      </div>
+                    ))}
+  
+                    {citiesList.map((citiRow: any, index: number) => (
+                      <div
+                        className="select-city-row"
+                        key={index}
+                        onClick={() => {
+                          handleCitySlect('keywords', citiRow.title);
+                          handleCitySlect('keywords_type', 'City');
+                          setSearchKeywords(false); // ✅ Close after selecting
+                        }}
+                      >
+                        <span className="left-label">
+                          <FaMapMarkerAlt /> {citiRow.title},{' '}
+                          <span className="country_name">India</span>
+                          <span className="city-lable" style={{ marginLeft: '18px' }}>
+                            city
                           </span>
-                        </div>
-                      ))}
-                      {citiesList.map((citiRow:any, index) => (
-                        <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', citiRow.title)}>
-                          <span className="left-label">
-                           <i className=''></i> {citiRow.title}, <span className='country_name'>India</span>
-                           <span className='city-lable'>city</span>
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>

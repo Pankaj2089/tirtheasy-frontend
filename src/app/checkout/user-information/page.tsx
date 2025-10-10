@@ -33,6 +33,7 @@ export default function UserInformationPage() {
 
   const [request_title, setRequestTitle] = useState('');
   const buttonLoginRef = useRef<any>(null);
+  const [nights, setNights] = useState(1);
 
   const router = useRouter();
 
@@ -77,7 +78,8 @@ export default function UserInformationPage() {
             
 
             //extra mattress price
-            const totalNights:number = serData.start_date && serData.end_date ? differenceInDays(serData.end_date, serData.start_date) : 0;             
+            const totalNights:number = serData.start_date && serData.end_date ? differenceInDays(serData.end_date, serData.start_date) : 0;    
+            setNights(totalNights);         
             let mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
             mattressTotalPriceVal = parseFloat(mattressTotalPriceVal)*totalNights;
             setMattressTotalPrice(mattressTotalPriceVal);
@@ -140,7 +142,10 @@ export default function UserInformationPage() {
     useEffect(() => {
     //extra mattress price
       if(record && record.room_price){
-        const totalNights = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+        const totalNights:number = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+        setNights(totalNights);
+       
+
         const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress*totalNights;         
         setMattressTotalPrice(mattressTotalPriceVal); 
 
@@ -236,7 +241,7 @@ const handleChange = (name:any,value:any) => {
     }
 };
 
-const nights = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+
 const numberFormat = (amt:any) => {
     return new Intl.NumberFormat("en-IN", {
         style: "currency",

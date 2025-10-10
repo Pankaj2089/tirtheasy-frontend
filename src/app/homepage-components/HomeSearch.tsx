@@ -18,6 +18,7 @@ const [endDate, setEndDate] = useState<Date | null>(defaultEndDate);
 
 const [searchData, setSearchState] = useState({
     keywords: '',
+    keywords_type: '',
     start_date: '',
     end_date: '',
     adult: 1,
@@ -36,12 +37,8 @@ const [searchData, setSearchState] = useState({
   const [citiesList, setSearchCities] = useState([]);
   const [hotelsList, setSearchHotels] = useState([]);
   
-
   const toggleRoomPerson = () => {
     setRoomPerson(prev => !prev); // toggles between true/false
-  };
-  const toggleSearchKeywords = () => {
-    setSearchKeywords(prev => !prev); // toggles between true/false
   };
 
   const handleDivClick = () => {
@@ -79,6 +76,7 @@ const [searchData, setSearchState] = useState({
       // setStartDate(serData.start_date);
       // setEndDate(serData.end_date);
     }
+    getCitieisList();
   };
 
   useEffect(() => {
@@ -149,6 +147,11 @@ const today = new Date();
       const res = await postData('get-cities', postRec);        
       setSearchCities(res.records);
       setSearchHotels(res.recHotels);
+      // if(res.records.length == 0 && res.recHotels.length == 0){
+      //   setSearchKeywords(false);
+      // }else{
+      //    setSearchKeywords(true);
+      // }
   }
 
   const [monthsToShow, setMonthsToShow] = useState(2);
@@ -169,43 +172,91 @@ const today = new Date();
     return () => window.removeEventListener("resize", updateMonths);
   }, []);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setSearchKeywords(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   return (
     <div className="main-search-box"  >
       <div className="container">
         <h1 className="text-white mb-3 mb-lg-4">Find Your Next Stay</h1>
         <div className="find-next-stay">           
             <form className="main-search-form pb-6" action="porperty-list" method="post">
-               <div className="input-group search-main-box">
-                  <input onClickCapture={toggleSearchKeywords} 
-                  type="search" 
-                  className="form-control search-box" 
-                  placeholder="Search" 
-                  value={searchData.keywords}  
-                  onChange={(e) => handleChange('keywords', e.target.value)} 
-                  onClick={() => setRoomPerson(false)} 
-                  onKeyUp={getCitieisList}
-                  />
+              <div className="input-group search-main-box" ref={searchRef}>
+                <input
+                  type="search"
+                  className="form-control search-box"
+                  placeholder="Search"
+                  value={searchData.keywords}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    handleChange('keywords', value);
+                    if (value.trim().length > 0) {
+                      setSearchKeywords(true);
+                      getCitieisList();
+                    } 
+                  }}
+                  onClick={() => {
+                    setSearchKeywords(true); // ✅ Open popup when clicking
+                    setRoomPerson(false);
+                  }}
+                />
 
-                  <div className={`search-popup multi-collapse member-addon collapse ${(isSearchKeywords && (citiesList.length > 0 || hotelsList.length > 0)) ? 'show' : 'multi-collapse'}`} 
-                     style={{ maxHeight: '200px', minHeight: 'auto', overflow: 'auto' }}
+                <div
+                  className={`search-popup member-addon collapse ${
+                    isSearchKeywords ? 'show'
+                      : ''
+                  }`}
+                  style={{
+                    maxHeight: '200px',
+                    overflowY: 'auto',
+                    transition: 'max-height 0.3s ease-in-out',
+                  }}
+                >
+                  {hotelsList.map((hotelRow: any, index: number) => (
+                    <div
+                      className="select-city-row"
+                      key={index}
+                      onClick={() => {
+                        handleCitySlect('keywords', hotelRow.title);
+                        handleCitySlect('keywords_type', 'Hotel');
+                        setSearchKeywords(false); // ✅ Close after selecting
+                      }}
                     >
-                      {hotelsList.map((hotelRow:any, index) => (
-                        <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', hotelRow.title)}>
-                          <span className="left-label">
-                           <FaHome /> {hotelRow.title}
-                          </span>
-                        </div>
-                      ))}
-                      {citiesList.map((citiRow:any, index) => (
-                        <div className="select-city-row" key={index} onClick={(e) => handleCitySlect('keywords', citiRow.title)}>
-                          <span className="left-label">
-                           <FaMapMarkerAlt  /> {citiRow.title}, <span className='country_name'>India</span>
-                           <span className='city-lable' style={{marginLeft:'18px'}}>city</span>
-                          </span>
-                        </div>
-                      ))}
+                      <span className="left-label">
+                        <FaHome /> {hotelRow.title}
+                      </span>
                     </div>
+                  ))}
+
+                  {citiesList.map((citiRow: any, index: number) => (
+                    <div
+                      className="select-city-row"
+                      key={index}
+                      onClick={() => {
+                        handleCitySlect('keywords', citiRow.title);
+                        handleCitySlect('keywords_type', 'City');
+                        setSearchKeywords(false); // ✅ Close after selecting
+                      }}
+                    >
+                      <span className="left-label">
+                        <FaMapMarkerAlt /> {citiRow.title},{' '}
+                        <span className="country_name">India</span>
+                        <span className="city-lable" style={{ marginLeft: '18px' }}>
+                          city
+                        </span>
+                      </span>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
                 <div className="start-end-date" onClick={() => {setRoomPerson(false); setSearchKeywords(false);}}>
                    <div className="start-date" onClick={handleDivClick}>
