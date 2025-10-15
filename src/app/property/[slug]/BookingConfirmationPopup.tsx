@@ -113,6 +113,9 @@ useEffect(() => {
 
     const handleChange = (name:any,value:any) => {
       setSearchState((prev) => ({ ...prev, [name]: value }));
+      if(name == "rooms" && extraMattressValue > 1){
+        setExtraMattressValue(1);
+      }
     };
 
     const handleDivClick = () => {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { format,differenceInDays,parse  } from 'date-fns';
+import { format,differenceInDays,parse, parseISO, differenceInCalendarDays   } from 'date-fns';
 import { getData, postData, } from '../../utils/api';
 import {Select, Button, Input, TimePicker   } from "antd";
 import { toast } from 'react-toastify';
@@ -33,7 +33,7 @@ export default function UserInformationPage() {
 
   const [request_title, setRequestTitle] = useState('');
   const buttonLoginRef = useRef<any>(null);
-  const [nights, setNights] = useState(1);
+  const [nights, setNights] = useState(0);
 
   const router = useRouter();
 
@@ -78,7 +78,8 @@ export default function UserInformationPage() {
             
 
             //extra mattress price
-            const totalNights:number = serData.start_date && serData.end_date ? differenceInDays(serData.end_date, serData.start_date) : 0;    
+            const totalNights:number = serData.start_date && serData.end_date ? differenceInCalendarDays(parseISO(serData.end_date), parseISO(serData.start_date)) : 0;  
+            
             setNights(totalNights);         
             let mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
             mattressTotalPriceVal = parseFloat(mattressTotalPriceVal)*totalNights;
@@ -142,7 +143,7 @@ export default function UserInformationPage() {
     useEffect(() => {
     //extra mattress price
       if(record && record.room_price){
-        const totalNights:number = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+        const totalNights:number = searchData.start_date && searchData.end_date ? differenceInCalendarDays(parseISO(searchData.end_date), parseISO(searchData.start_date)) : 0; 
         setNights(totalNights);
        
 
@@ -174,6 +175,9 @@ const loadFromLocalStorage = () => {
       setStartDate(serData.start_date);
       setEndDate(serData.end_date);        
       setTimeout(() => {
+        const totalNights:number = serData.start_date && serData.end_date ? differenceInCalendarDays(parseISO(serData.end_date), parseISO(serData.start_date)) : 0;             
+         setNights(totalNights); 
+         
           fetchData(serData);
           fetchStates(serData);
       }, 1000);

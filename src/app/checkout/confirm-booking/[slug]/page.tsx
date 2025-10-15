@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
 
-import { format,differenceInDays  } from 'date-fns';
+import { format,differenceInDays, parseISO, differenceInCalendarDays  } from 'date-fns';
 import { postData } from '../../../utils/api';
 
 import { useRouter } from "next/navigation";
@@ -85,7 +85,7 @@ export  default function BookingConfirmPage({ params }: { params: { slug: string
                 const checkOutTime:any = o_data.check_in_date+'T'+o_data.other_details?.roomDetails?.hotel_details?.check_out_time;
                 setCheckOutTime(new Date(checkOutTime));
 
-                const nights = o_data.check_in_date && o_data.check_out_date ? differenceInDays(o_data.check_out_date, o_data.check_in_date) : 0;            
+                const nights = o_data.check_in_date && o_data.check_out_date ? differenceInCalendarDays(parseISO(o_data.check_out_date), parseISO(o_data.check_in_date)) : 0;            
                 setNumberOfNights(nights);
 
             }else{

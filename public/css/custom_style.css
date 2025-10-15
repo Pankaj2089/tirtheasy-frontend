@@ -402,6 +402,9 @@ body.modal-open {
 }.react-datepicker__day--range-start, .react-datepicker__day--selecting-range-end{
 background: #cc484a !important;
 }
+.ant-input-number-outlined:focus-within{
+     border-color: #cc484a!important;
+}
 select.form-select option:hover {
   background-color: #ffccc7 !important; /* light red */
   color: #000 !important;

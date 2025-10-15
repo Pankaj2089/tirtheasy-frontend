@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { format,differenceInDays  } from 'date-fns';
+import { format,differenceInDays, parseISO, differenceInCalendarDays   } from 'date-fns';
 import {  postData, } from '../../utils/api';
 import { Button} from "antd";
 import { toast } from 'react-toastify';
@@ -16,7 +16,6 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
   const [roomTotalPrice, setRoomTotalPrice] = useState<any>('0.00');
   const [mattressTotalPrice, setMattressTotalPrice] = useState<any>('0.00');
   const [grandTotal, setGrandTotal] = useState<any>('0.00');
-  const [processing, setProcessing] = useState(false);
   
   const [lastOrderID, setLastOrderID] = useState(0);
   
@@ -24,6 +23,8 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
   const [showLoader, setShowLoader] = useState(false);
   const [userData, setUserData] = useState<any>([]);
   const [appliedOffer, setApliedOffer] = useState<any>({});
+ const [nights, setNights] = useState(0);
+ const [oID, setOID] = useState(0);
 
   const router = useRouter();
 
@@ -49,7 +50,8 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
             setRecords(res.records);
             
             //extra mattress price
-            const totalNights:number = serData.start_date && serData.end_date ? differenceInDays(serData.end_date, serData.start_date) : 0;             
+            const totalNights:number = serData.start_date && serData.end_date ? differenceInCalendarDays(parseISO(serData.end_date), parseISO(serData.start_date)) : 0;             
+            setNights(totalNights); 
             let mattressTotalPriceVal:any = parseFloat(res.records.extra_mattress_price)*serData.extra_mattress;
             mattressTotalPriceVal = parseFloat(mattressTotalPriceVal)*totalNights;
             setMattressTotalPrice(mattressTotalPriceVal);
@@ -80,7 +82,8 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
     useEffect(() => {
     //extra mattress price
       if(record && record.room_price){
-         const totalNights = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+         const totalNights = startDate && endDate ? differenceInCalendarDays(parseISO(searchData.end_date), parseISO(searchData.end_date)) : 0;
+         setNights(totalNights); 
         const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress*totalNights;
         setMattressTotalPrice(mattressTotalPriceVal); 
         const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms*totalNights;
@@ -110,6 +113,8 @@ const loadFromLocalStorage = () => {
       setStartDate(serData.start_date);
       setEndDate(serData.end_date);        
       setTimeout(() => {
+         const totalNights:number = serData.start_date && serData.end_date ? differenceInCalendarDays(parseISO(serData.end_date), parseISO(serData.start_date)) : 0;             
+         setNights(totalNights); 
           fetchData(serData);
       }, 1000);
 
@@ -148,7 +153,6 @@ useEffect(() => {
     loadFromLocalStorage();  
 }, []);
 
-const nights = startDate && endDate ? differenceInDays(endDate, startDate) : 0;
 const numberFormat = (amt:any) => {
     return new Intl.NumberFormat("en-IN", {
         style: "currency",
@@ -190,12 +194,36 @@ const [remainingTime, setRemainingTime] = useState(initialTime);
   async function deleteTempOrder(lastOrderID:any) {
     try {
          const postRec = {o_id:lastOrderID};
-         const orderRes = await postData('delete-temp-order', postRec);  
+         await postData('delete-temp-order', postRec);  
         
     } catch (err) {
         console.error(err);
     }
 }
+
+const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    // Standard browser confirmation message
+    e.preventDefault();
+    e.returnValue = ""; // Required for Chrome to show the dialog
+  };
+
+  const handleUnload = async () => {
+    // 🧹 Cleanup or API call before leaving
+    await deleteTempOrder(lastOrderID); // your method to cancel booking / delete temp order
+  };
+
+  useEffect(() => {
+    // 1️⃣ Trigger confirm alert when user tries to leave/close
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // 2️⃣ Perform cleanup when confirmed or tab actually closes
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("unload", handleUnload);
+    };
+  }, []);
 
 
 
@@ -285,8 +313,8 @@ const [loading, setLoading] = useState(false);
                 router.push("/checkout/confirm-booking/"+orderNo);
                 setLoading(false);
             } else {
-               if(orderData.id > 0){
-                deleteTempOrder(orderData.id);
+               if(orderData.o_id > 0){
+                deleteTempOrder(orderData.o_id);
                 setTimeout(() => {
                     router.push("/checkout/booking-cancel");
                 }, 1000);
@@ -303,6 +331,17 @@ const [loading, setLoading] = useState(false);
             contact: '+91 '+userData.mobile,
         },
         theme: { color: "#CC484A" },
+
+         modal: {
+            ondismiss: async function () {
+            console.log("Payment popup closed by user");            
+            if (orderData.o_id > 0) {
+                await deleteTempOrder(orderData.o_id);
+            }
+             router.push("/checkout/booking-cancel");
+            },
+        },
+
         };
 
         // @ts-ignore
