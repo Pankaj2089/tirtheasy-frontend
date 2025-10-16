@@ -254,12 +254,12 @@ const [otpSent, setOTPSent] = useState(false);
                          <form className="needs-validation otp-section" onSubmit={handleOTPSubmit}>
                             <div className="mb-3">
                                 <div className="form-phone text-center">
-                                    { otpSent && 
-                                      <p className='alert alert-success' style={{padding:'10px'}}>OTP send successfully.</p>
-                                    }
+                                   
+                                      <p className='alert alert-success otp-alert-success'>OTP send successfully.</p>
+                                    
                                     
 
-                                    <a href="javascript:void(0)" className="edit_mobile text-white fw-bold" onClick={() => setActiveStep(1)}>+91 {mobile} <img src="/img/edit.svg" alt="" />
+                                    <a href="javascript:void(0)"  className="edit_mobile text-white fw-bold" onClick={() => setActiveStep(1)}>+91 {mobile} <img src="/img/edit.svg" alt="" />
                                     </a>
                                 </div>
                                     

@@ -202,7 +202,7 @@ const today = new Date();
                   <input onClickCapture={toggleSearchKeywords} 
                   type="search" 
                   className="form-control search-box" 
-                  placeholder="Search" 
+                  placeholder="Search your dharamshala" 
                   value={searchData.keywords}  
                   onChange={(e) => {
                     const value = e.target.value;
@@ -368,7 +368,7 @@ const today = new Date();
                   <Button
                   onClick={searchAction}
                   className="btn btn-primary search-btn"
-                  loading={loading}
+                  // loading={loading}
                   disabled={loading}
                 >
                   Search

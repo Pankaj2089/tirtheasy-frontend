@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
     // (optional) also ignore ESLint errors
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/about-us',
+        destination: '/about',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

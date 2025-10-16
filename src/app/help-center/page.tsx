@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getData } from '../utils/api';
 import { Skeleton } from 'antd';
 
@@ -27,6 +27,20 @@ export default function HelpCenter() {
             console.error(err);
         }
     }
+ const accordionRefs = useRef<(HTMLDivElement | null)[]>([]);
+   useEffect(() => {
+  if (activeCategory !== null && accordionRefs.current[activeCategory]) {
+    // delay to wait for accordion animation to open
+    const timer = setTimeout(() => {
+      accordionRefs.current[activeCategory]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 350); // Bootstrap default collapse duration ≈ 300ms
+
+    return () => clearTimeout(timer);
+  }
+}, [activeCategory]);
 
   return <>
   <div className="hero-section pb-3">
@@ -58,7 +72,9 @@ export default function HelpCenter() {
         
                                     <div className="accordion" id="accordionExample">
                                         {records.length > 0 && records.map((record2:any, index:number) => (
-                                        <div className="accordion-item">
+                                        <div className="accordion-item" ref={(el) => {
+                                                accordionRefs.current[index] = el;
+                                            }}>
                                             <h6 className={"accordion-header "+(activeCategory == index ? ' ':'collapsed')} data-bs-toggle="collapse" data-bs-target={"#collapse"+index} aria-expanded="true" aria-controls="collapseOne">
                                                 {record2[0]}
                                             </h6>

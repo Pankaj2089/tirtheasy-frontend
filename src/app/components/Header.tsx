@@ -106,9 +106,9 @@ const menu = (
                       <div className="header-links px-2">
                         <h6 className="mb-2">Menu</h6>
                         <ul>
-                          <li><a href="#" className="dropdown-item" onClick={() => updatePage('hotel')} >
+                          {/* <li><a href="#" className="dropdown-item" onClick={() => updatePage('hotel')} >
                             <span className="my-account-icon"><img src="/img/hotel.svg"/></span> Hotels 
-                            <span className="arrow-right ms-auto" ><img src="/img/arrow_right_menu.svg"/></span></a></li>
+                            <span className="arrow-right ms-auto" ><img src="/img/arrow_right_menu.svg"/></span></a></li> */}
                           <li><a className="dropdown-item" onClick={() => updatePage('dharmshala')}><span className="my-account-icon"><img src="/img/dharamshala.svg"/></span> Dharamshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>
                           <li><Link href="/about"  className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/about_us.svg"/></span> About Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
                           <li><Link href="/blogs" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.svg"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
@@ -199,9 +199,9 @@ const menu = (
                                       </div>
                                     </div>  
                               </li> 
-                              <li className="nav-item d-none d-lg-block">
+                              {/* <li className="nav-item d-none d-lg-block">
                                   <a  onClick={() => updatePage('hotel')} className={`nav-link cursor-pointer ` +(propertyType =='hotel' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Hotels</a>
-                                </li>
+                                </li> */}
                                 <li className="nav-item d-none d-lg-block">
                                   <a  onClick={() => updatePage('dharmshala')} className={`nav-link  cursor-pointer ` +(propertyType =='dharmshala' && (action == null || action == '/' || action == '/porperty-list') ? 'active':'')}>Dharamshala</a>
                                 </li>

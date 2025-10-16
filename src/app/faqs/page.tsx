@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getData } from '../utils/api';
 import { Skeleton } from 'antd';
 
@@ -28,7 +28,23 @@ export default function MyProfile() {
         }
     }
     
-    
+   // Create refs for each right-side accordion section
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+  const el = sectionRefs.current[activeCategory];
+  if (el) {
+    // small delay to wait for collapse animation
+    const timer = setTimeout(() => {
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 300); // 300–400ms works well with Bootstrap’s collapse speed
+
+    return () => clearTimeout(timer);
+  }
+}, [activeCategory]); 
 
   return <>
 <div className="hero-section pb-3">
@@ -46,7 +62,7 @@ export default function MyProfile() {
     <div className="container">
         <div className="row">
             <div className="col-lg-3">
-                <div className="my-account-links-left d-none d-lg-block">
+                <div className="my-account-links-left d-none d-lg-block sticky-top" style={{ top: '100px' }}>
             <div className="my-account-links">
                 {loading ?
                     <div style={{ width: "100%" }}>
@@ -59,7 +75,7 @@ export default function MyProfile() {
 
                 <ul>
                     {categories && categories.length > 0 && categories.map((record:any, index:number) => (
-                        <li className={activeCategory==index?"active cursor-pointer":"cursor-pointer"} onClick={()=> setActiveCategory(index)}><a className="dropdown-item">{record}</a></li>
+                        <li className={activeCategory==index?"active cursor-pointer":"cursor-pointer"} onClick={()=> setActiveCategory(index)}  ><a className="dropdown-item">{record}</a></li>
                     ))}
                                                      
                 </ul>
@@ -86,11 +102,13 @@ export default function MyProfile() {
         
                                     <div className="accordion" id="accordionExample">
                                         {records.length > 0 && records.map((record2:any, index:number) => (
-                                        <div className="accordion-item">
-                                            <h6 className={"accordion-header "+(activeCategory == index ? ' ':'collapsed')} data-bs-toggle="collapse" data-bs-target={"#collapse"+index} aria-expanded="true" aria-controls="collapseOne">
+                                        <div className="accordion-item"  ref={(el) => {
+                                                sectionRefs.current[index] = el;
+                                            }}>
+                                            <h6  className={"accordion-header "+(activeCategory == index ? ' ':'collapsed')} data-bs-toggle="collapse" data-bs-target={"#collapse"+index} aria-expanded="true" aria-controls="collapseOne">
                                                 {record2[0]} FAQ
                                             </h6>
-                                            <div id={"collapse"+index} className={"accordion-collapse collapse "+(activeCategory == index ? ' show':'')} data-bs-parent="#accordionExample">
+                                            <div  id={"collapse"+index} className={"accordion-collapse collapse "+(activeCategory == index ? ' show':'')} data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
                                                     {record2[1] && record2[1].length > 0 && record2[1].map((record_data:any, index_2:number) => (
                                                         <div className="question-answer mb-3">

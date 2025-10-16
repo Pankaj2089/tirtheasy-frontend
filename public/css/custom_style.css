@@ -402,12 +402,16 @@ body.modal-open {
 }.react-datepicker__day--range-start, .react-datepicker__day--selecting-range-end{
 background: #cc484a !important;
 }
-.ant-input-number-outlined:focus-within{
+.ant-input-number-outlined:focus-within, .ant-select-selection-search-input:focus, .ant-select-selection-search-input:hover
+.ant-select-selector:focus, .ant-select-selector:hover{
      border-color: #cc484a!important;
 }
 select.form-select option:hover {
   background-color: #ffccc7 !important; /* light red */
   color: #000 !important;
+}
+.ant-select {
+  box-shadow: none !important;
 }
 .ant-select-selection-item{
     text-align: left;
@@ -425,6 +429,16 @@ select.form-select option:hover {
 .hero-section.slide-out {
   opacity: 0;
   transform: translateY(-30px);
+}
+.otp-alert-success{
+    font-size: 12px;
+    width: 180px;
+    margin: 10px auto;
+    padding: 5px 10px;
+}
+.my-account-links-left, .sticky-top-left {
+    position: sticky;
+    top: 100px; /* adjust based on your header height */
 }
 @media (max-width: 991px) {
   .pro-facilities-list li:nth-child(n+5) {

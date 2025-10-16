@@ -65,7 +65,7 @@ return (
                     <h2 className="mb-3">Your Payment Has Been Cancelled</h2>
                     <p className="mb-4">It looks like you cancelled your payment. No problem! Your order is secure and ready. complete your payment anytime, or contact us it you need our assistance!</p>
                     <div className="btn-set-links mt-4 mb-2">
-                        <a href="#" className="red-text fw-bold">Find your perfect stay in ayodhya!</a>
+                        <Link href={"/property/"+hotelData.slug} className="red-text fw-bold">Find your perfect stay in {hotelData.state}!</Link>
                     </div>
                     <div className="btn-set-link text-center">
                         <Link href="/porperty-list" className="btn btn-primary">Book Again</Link>

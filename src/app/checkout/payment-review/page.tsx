@@ -453,7 +453,6 @@ return (
                         <div className="check-hotal-tile position-relative">
                             <p className="text-dark mb-2">Room Type</p>
                             <h5 className="fw-semibold">{record.title}</h5>
-                            <Link href="javascript:void(0)" onClick={() => changePage('/property/'+hotelData.slug)} className="edit-text">Change Room</Link>
                         </div>
                     </div>
                 </div>

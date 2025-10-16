@@ -387,6 +387,47 @@ useEffect(() => {
   }
 }, [appliedOffer]);
 
+
+  const checkinTime = hotelData.check_in_time
+    ? dayjs(hotelData.check_in_time, "HH:mm a")
+    : null;
+
+  const handleArrivalChange = (time:any) => {
+    setFormData({
+      ...formData,
+      arrival_time: time ? time.format("HH:mm a") : null,
+    });
+  };
+
+  // disable times before checkinTime
+  const disabledTime = () => {
+    if (!checkinTime) return {};
+    const disabledHours:any = [];
+    const disabledMinutes = [];
+
+    const checkinHour = checkinTime.hour();
+    const checkinMinute = checkinTime.minute();
+
+    // Disable all hours before check-in hour
+    for (let i = 0; i < checkinHour; i++) disabledHours.push(i);
+
+    // If same hour, disable minutes before check-in minute
+    return {
+      disabledHours: () => disabledHours,
+      disabledMinutes: (selectedHour:any) => {
+        if (selectedHour === checkinHour) {
+          const minutes = [];
+          for (let i = 0; i < checkinMinute; i += 1) minutes.push(i);
+          return minutes;
+        }
+        return [];
+      },
+    };
+  };
+
+
+
+
   return (
   <>
   <div className="hero-section pb-3">
@@ -442,7 +483,7 @@ useEffect(() => {
                         <div className="check-hotal-tile position-relative">
                             <p className="text-dark mb-2">Room Type</p>
                             <h5 className="fw-semibold">{record.title}</h5>
-                            <Link href="/porperty-list" className="edit-text">Change Room</Link>
+                            <Link href={"/property/"+hotelData.slug} className="edit-text">Change Room</Link>
                         </div>
                     </div>
                 </div>
@@ -569,6 +610,7 @@ useEffect(() => {
                                     value={formData.arrival_time ? dayjs(formData.arrival_time, "HH:mm a") : undefined}
                                     minuteStep={15}  // interval (e.g., every 15 minutes)
                                     style={{height:40}}
+                                    disabledTime={disabledTime}
                                     />
                                 </div>
                             </div>
