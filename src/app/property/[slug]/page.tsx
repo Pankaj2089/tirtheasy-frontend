@@ -15,15 +15,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const hotelData = await getHotelData(resolvedParams.slug);
   
   return {
-    title: hotelData.seo_title,
-    description: hotelData.seo_description,
-    keywords: hotelData.seo_keyword,
+    title: hotelData?.seo_title,
+    description: hotelData?.seo_description,
+    keywords: hotelData?.seo_keyword,
   };
 }
 
 // ✅ Page Component
 export default async function HotelPage({ params }: { params: { slug: string } }) {
-  const hotelData = await getHotelData(params.slug); // same fetch used above
+  const hotelData = await getHotelData(params?.slug); // same fetch used above
 
 return <> 
  <PropertyDetails hotelData={hotelData}  />

@@ -90,6 +90,12 @@ const inputRef = useRef<any>(null);
     getCitieisList();
   };
 
+useEffect(() => {
+  setTimeout(() => {
+    getCitieisList();
+  }, 300);
+},[searchData.keywords])
+
  useEffect(() => {
     loadFromLocalStorage();
 
@@ -151,7 +157,7 @@ const today = new Date();
   };
 
   const getCitieisList = async () =>  {
-    setSearchCities([]);
+   // setSearchCities([]);
     //setSearchHotels([]);
     let postRec: { keywords: String | null, property_type:String | null } = { keywords: searchData.keywords, property_type:propertyType}; 
       const res = await postData('get-cities', postRec);        
@@ -209,7 +215,6 @@ const today = new Date();
                     handleChange('keywords', value);
                     if (value.trim().length > 0) {
                       setSearchKeywords(true);
-                      getCitieisList();
                     } 
                   }}
                   onClick={() => {
@@ -256,7 +261,7 @@ const today = new Date();
                         }}
                       >
                         <span className="left-label">
-                          <FaMapMarkerAlt /> {citiRow.title},{' '}
+                          <FaMapMarkerAlt /> {citiRow.title},{citiRow.state_name}, 
                           <span className="country_name">India</span>
                           <span className="city-lable" style={{ marginLeft: '18px' }}>
                             city

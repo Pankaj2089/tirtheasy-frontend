@@ -313,7 +313,7 @@ return <>
                     <div className="high-demand-section d-flex align-items-center justify-content-between rounded py-2 py-md-3 px-2 mb-3">
                     <div className="left-btns-section me-end">
                         {
-                            hotelDetails.slice(0,(isMobile ? 2:3)).map((hotelDetail:any, index:number) =>(
+                            hotelDetails.slice(0,3).map((hotelDetail:any, index:number) =>(
                                 <a onClick={() => OpneDetailsModal('tab-'+index)} className="me-2 white-bg-btn cursor-pointer">{hotelDetail.heading}</a>
                             ))
                         }

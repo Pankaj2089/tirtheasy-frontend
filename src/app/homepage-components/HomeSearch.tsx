@@ -247,7 +247,7 @@ const today = new Date();
                       }}
                     >
                       <span className="left-label">
-                        <FaMapMarkerAlt /> {citiRow.title},{' '}
+                        <FaMapMarkerAlt /> {citiRow.title},{citiRow.state_name}, 
                         <span className="country_name">India</span>
                         <span className="city-lable" style={{ marginLeft: '18px' }}>
                           city
