@@ -111,7 +111,6 @@ export default function MyProfile() {
         }
     }
 
-   
     const isValidEmail = (email:any) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);

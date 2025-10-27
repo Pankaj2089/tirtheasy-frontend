@@ -440,6 +440,9 @@ select.form-select option:hover {
     position: sticky;
     top: 100px; /* adjust based on your header height */
 }
+.selectBox .ant-select{
+    width: 100%;
+}
 @media (max-width: 991px) {
   .pro-facilities-list li:nth-child(n+5) {
     display: none;
