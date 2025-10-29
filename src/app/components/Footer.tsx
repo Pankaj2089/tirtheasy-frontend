@@ -74,17 +74,14 @@ const [processing, setProcessing] = useState(false);
                 <div className="row">
                   <div className="col-lg-4 col-md-6 ">
                         <div className="footer-links">
-                          <h4 className="mb-4">Help</h4>
+                          <h4 className="mb-4">Help Center</h4>
                           <ul className="foot-link">
-                              <li><Link href="/help-center">Help center</Link></li>
                               <li><Link href="/faqs">FAQs</Link></li>
                               <li><Link href="/privacy-policy">Privacy policy</Link></li>
                               <li><a href="#">Cookie policy</a></li>
                               <li><Link href="/terms-of-use">Terms of use</Link></li>
-                              <li><a href="#">Manage cookie settings</a></li>
-                              <li><a href="#">Digital services Act (EU)</a></li>
-                              <li><a href="#">Content guidelines & reporting</a></li>
-                              <li><a href="#">Modern slavery statement</a></li>
+                              <li><a href="#">User Agreement</a></li>
+                              <li><Link href="/help-center">Help center</Link></li>
                           </ul>
                         </div>
                   </div>
@@ -96,18 +93,16 @@ const [processing, setProcessing] = useState(false);
                               <li><Link href="/about">About us</Link></li>
                               <li><a href="#">Careers</a></li>
                               <li><a href="#">Press</a></li>
-                              <li><a href="/blogs">Blog</a></li>
-                              <li><a href="#">PointsMAX</a></li>
+                              <li><a href="/blogs">Blogs</a></li>
                           </ul>
                         </div>
                   </div>
 
                   <div className="col-lg-4 ">
                         <div className="footer-links">
-                          <h4 className="mb-4">Destinations</h4>
+                          <h4 className="mb-4">Partner with us</h4>
                           <ul className="foot-link">
-                              <li><a href="#">Countries/Territories</a></li>
-                              <li><a href="#">All Flight Routes</a></li>
+                              <li><a className="cursor-pointer" data-bs-target="#addDharmshalaModal" data-bs-toggle="modal">Add Your Dharmshala</a></li>
                           </ul>
                         </div>
                   </div>
@@ -118,12 +113,10 @@ const [processing, setProcessing] = useState(false);
               <div className="row">
                  <div className="col-md-6 col-lg-12">
                       <div className="footer-links mb-5">
-                        <h4 className="mb-4">Partner with us</h4>
+                        <h4 className="mb-4">Get the App</h4>
                         <ul className="foot-link">
-                            <li><a href="#">YCS partner portal</a></li>
-                            <li><a href="#">Partner Hub</a></li>
-                            <li><a href="#">Advertise on Tirtheasy</a></li>
-                            <li><a href="#">Affiliates</a></li>
+                            <li><a href="#">IOS App</a></li>
+                            <li><a href="#">Android App</a></li>
                         </ul>
                       </div> 
                  </div>
@@ -152,15 +145,12 @@ const [processing, setProcessing] = useState(false);
                         <div className="accordion-body">
                           <div className="footer-links">
                             <ul className="foot-link">
-                                <li><a href="#">Help center</a></li>
+                              <li><Link href="/help-center">Help center</Link></li>
                                 <li><Link href="/faqs">FAQs</Link></li>
-                                <li><a href="#">Privacy police</a></li>
-                                <li><a href="#">Cookie policy</a></li>
-                                <li><a href="#">Terms of use</a></li>
-                                <li><a href="#">Manage cookie settings</a></li>
-                                <li><a href="#">Digital services Act (EU)</a></li>
-                                <li><a href="#">Content guidelines & reporting</a></li>
-                                <li><a href="#">Modern slavery statement</a></li>
+                              <li><Link href="/privacy-policy">Privacy policy</Link></li>
+                              <li><a href="#">Cookie policy</a></li>
+                              <li><Link href="/terms-of-use">Terms of use</Link></li>
+                              <li><a href="#">User Agreement</a></li>
                             </ul>
                           </div>
                         </div>
@@ -176,7 +166,6 @@ const [processing, setProcessing] = useState(false);
                                 <li><a href="#">Careers</a></li>
                                 <li><a href="#">Press</a></li>
                                 <li><a href="/blogs">Blog</a></li>
-                                <li><a href="#">PointsMAX</a></li>
                             </ul>
                         </div>
                       </div>
@@ -186,8 +175,7 @@ const [processing, setProcessing] = useState(false);
                       <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                         <div className="accordion-body">
                             <ul className="foot-link">
-                                <li><a href="#">Countries/Territories</a></li>
-                                <li><a href="#">All Flight Routes</a></li>
+                                <li><a className="cursor-pointer" data-bs-target="#addDharmshalaModal" data-bs-toggle="modal">Add Your Dharmshala</a></li>
                             </ul>
                         </div>
                       </div>

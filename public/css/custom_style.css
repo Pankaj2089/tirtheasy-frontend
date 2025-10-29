@@ -410,7 +410,7 @@ select.form-select option:hover {
   background-color: #ffccc7 !important; /* light red */
   color: #000 !important;
 }
-.ant-select {
+.ant-select, .ant-input-outlined:focus-within, .ant-select-focused, .ant-select-selector {
   box-shadow: none !important;
 }
 .ant-select-selection-item{
@@ -449,5 +449,16 @@ select.form-select option:hover {
   }
   .booking-confirm-detals{
     overflow-x: hidden;
+  }
+  .booking_room_type_2{
+    margin:10px 0px;
+  }
+}
+@media (min-width: 890px) {
+  .w-800{
+    min-width: 800px !important;
+  }
+  .booking_room_type_2{
+    padding:0px;
   }
 }

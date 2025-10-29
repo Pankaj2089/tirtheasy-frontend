@@ -381,6 +381,7 @@ useEffect(() => {
                                                 type="button"
                                                 className="btn btn-primary"
                                                 onClick={addDestination}
+                                                style={{ padding: '5px 10px', height: 'auto', lineHeight: 'normal', fontSize:'12px'}}
                                                 >
                                                 + Add Another Destination
                                                 </button>
@@ -411,7 +412,7 @@ useEffect(() => {
 
                                         <div className="row">                                            
                                             <div className="col-md-12 mb-2 mb-lg-3">
-                                                <label htmlFor="booking_message" className="form-label">Tour Description <em>*</em></label>
+                                                <label htmlFor="booking_message" className="form-label">Your Description <em>*</em></label>
                                                 <textarea className="form-control" placeholder="" id="booking_message" style={{height: "100px", resize:"none"}}
                                                 onChange={handleBookingFieldChange} name='booking_message'  value={bookingFormData.booking_message} />
                                             </div>

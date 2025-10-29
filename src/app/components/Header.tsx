@@ -6,6 +6,7 @@ import { usePathname , useRouter } from 'next/navigation';
 import Signin from './Signin';
 import { Menu, Modal } from "antd";
 import AddDharmshala from './AddDharmshala';
+import GroupInquiry from './GroupInquiry';
 export default function Header() {
 
 interface UserData {
@@ -110,11 +111,13 @@ const menu = (
                           {/* <li><a href="#" className="dropdown-item" onClick={() => updatePage('hotel')} >
                             <span className="my-account-icon"><img src="/img/hotel.svg"/></span> Hotels 
                             <span className="arrow-right ms-auto" ><img src="/img/arrow_right_menu.svg"/></span></a></li> */}
-                          <li><a className="dropdown-item" onClick={() => updatePage('dharmshala')}><span className="my-account-icon"><img src="/img/apartment.png"/></span> Dharamshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>
-                          <li><Link href="/about"  className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/about-us.png"/></span> About Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
-                          <li><a className="dropdown-item cursor-pointer" data-bs-target="#addDharmshalaModal" data-bs-toggle="modal"><span className="my-account-icon"><img src="/img/house.png"/></span> Add Dharmshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>     
-                          <li><Link href="/blogs" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.png"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>  
+                          <li><a className="dropdown-item" onClick={() => updatePage('dharmshala')}><span className="my-account-icon"><img src="/img/apartment_1.png"/></span> Dharamshala <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>
+                          <li><a className="dropdown-item cursor-pointer" data-bs-target="#groupInquiryModal" data-bs-toggle="modal"><span className="my-account-icon"><img src="/img/question.png"/></span> Group Inquiry <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></a></li>     
                           <li><Link href="/contact-us" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/contact-us.png"/></span> Contact Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>
+                          <li><Link href="/about"  className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/about-us.png"/></span> About Us <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>   
+                          
+                          <li><Link href="/blogs" className="dropdown-item" onClick={() => {  document.getElementById("offcanvasCloseBtn")?.click(); }}><span className="my-account-icon"><img src="/img/blog.png"/></span> Blog <span className="arrow-right ms-auto"><img src="/img/arrow_right_menu.svg"/></span></Link></li>  
+                          
                         </ul>
                       </div>
                     </div> 
@@ -209,20 +212,24 @@ const menu = (
                                 </li>
 
                                 <li className="nav-item d-none d-lg-block">
-                                  <Link href="/about" className="nav-link">About Us</Link>
+                                  <a className="nav-link cursor-pointer" data-bs-target="#groupInquiryModal" data-bs-toggle="modal">Group Inquiry</a> 
                                 </li>
 
                                 <li className="nav-item d-none d-lg-block">
-                                  <a className="nav-link cursor-pointer" data-bs-target="#addDharmshalaModal" data-bs-toggle="modal">Add Dharmshala</a> 
+                                  <Link className="nav-link" href="/contact-us">Contact Us</Link> 
+                                </li>  
+
+                                <li className="nav-item d-none d-lg-block">
+                                  <Link href="/about" className="nav-link">About Us</Link>
                                 </li>
+
+                                
 
                                 <li className="nav-item d-none d-lg-block">
                                   <a className="nav-link" href="/blogs">Blog</a>
                                 </li>
 
-                                <li className="nav-item d-none d-lg-block">
-                                  <Link className="nav-link" href="/contact-us">Contact Us</Link> 
-                                </li>                              
+                                                            
                             </ul>
                           </div> 
                 </div> 
@@ -300,6 +307,7 @@ const menu = (
     </div>
       <Signin request_title={request_title} />
       <AddDharmshala />
+      <GroupInquiry />
     </header>
   );
 }
