@@ -98,7 +98,7 @@ export default function Blogs() {
                 <div className="d-flex align-items-center">
                     <div className="title-teg fw-bold">Trending Now</div>
                     <div className="trending-news">
-                            <OwlCarousel {...options}>
+                            <OwlCarousel {...options} className='most_popular_post'>
                             {most_popular_posts.map((most_popular_post: any, index: number) => (
                                 <div>
                                     <p>{most_popular_post.title}</p>

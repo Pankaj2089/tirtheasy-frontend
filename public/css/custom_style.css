@@ -423,7 +423,7 @@ select.form-select option:hover {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  z-index: 1;
+  z-index: 1001;
 }
 
 .hero-section.slide-out {
@@ -443,6 +443,68 @@ select.form-select option:hover {
 .selectBox .ant-select{
     width: 100%;
 }
+.LoadingPopup .ant-modal-content{
+  padding: 0px;
+}
+.search-box-radius{
+  border-radius: 4px !important ;
+}
+.blog-listing-section  ul{
+    
+    padding-left: 2em !important;
+}
+.blog-listing-section  ul li , .blog-listing-section  ol li {
+    font-size: 0.875rem;
+    color: #696969;
+    margin-top: 10px;
+}
+.blog-listing-section ul li {
+  list-style-type: disc !important; /* or circle, square */
+}
+.blog-listing-section ol li {
+  list-style-type: decimal !important; /* or lower-alpha, etc. */
+}
+.most_popular_post .owl-item{
+  overflow: hidden;
+}
+.most_popular_post div p {
+  white-space: normal;
+}
+.ant-input-number-outlined:focus-within{
+  box-shadow: none !important;
+}
+.react-datepicker__day--today{
+  font-weight: normal !important;
+}
+.login-mobile input, .ant-select{
+  height: 40px !important;
+  border-color: #C2C9CF !important;
+}
+.ant-select-selection-item, .ant-picker-input input, .login-mobile input{
+  font-size: 0.875rem  !important;
+}
+.ant-select-selector, .ant-picker-outlined{
+  border-color: #C2C9CF !important;
+}
+.ant-picker-input input::placeholder,
+.login-mobile input::placeholder {
+  color: #666 !important; /* your desired color */
+  opacity: 1;  /* ensure color is visible */
+  font-size: 15px !important;
+}
+.map-view-btn {
+  color: #696969 !important;
+}
+.map-view-btn.active {
+  border-color: #CC484A;
+  color: #696969;
+}
+.sticky-top{
+  z-index: 100 !important;
+}
+.afterlogin-user{
+  border-radius: 100%;
+}
 @media (max-width: 991px) {
   .pro-facilities-list li:nth-child(n+5) {
     display: none;
@@ -453,6 +515,37 @@ select.form-select option:hover {
   .booking_room_type_2{
     margin:10px 0px;
   }
+  .ant-select-selection-item, .ant-picker-input input, .login-mobile input{
+    font-size: 0.75rem  !important;
+  }
+  .property-card .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch; /* makes all columns same height */
+}
+    .user-thumb, .author-thumb {
+        height: auto;
+        width: auto;
+       
+    }
+
+.property-card .col-md-4,
+.property-card .col-md-8 {
+  display: flex;
+  flex-direction: column;
+}
+.hotel-list-box .col-md-8 {
+  position: relative;
+}
+
+.hotel-list-box .view-details{
+  
+    position: absolute;
+    border: 0;
+    bottom: -5px;
+
+
+}
 }
 @media (min-width: 890px) {
   .w-800{

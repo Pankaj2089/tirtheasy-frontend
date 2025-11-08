@@ -89,7 +89,10 @@ export default function UserInformationPage() {
             const roomTotalPriceVal:any = parseFloat(res.records.room_price.price)*serData.rooms*totalNights;
             setRoomTotalPrice(roomTotalPriceVal);
 
-            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal);
+            if(parseFloat(mattressTotalPriceVal) > 0){
+                setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            }
             
             const offerData = localStorage.getItem('appliedOffer');
             if(offerData){
@@ -98,7 +101,6 @@ export default function UserInformationPage() {
                     setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
                 }
             }
-           
             setGrandTotal(setGrandTotalVal);
 
             //get offers
@@ -152,7 +154,10 @@ export default function UserInformationPage() {
 
         const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms*totalNights;
 
-        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal);
+        if(parseFloat(mattressTotalPriceVal) > 0){
+            setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+        }
 
         const offerData = localStorage.getItem('appliedOffer');
         if(offerData){
@@ -161,6 +166,8 @@ export default function UserInformationPage() {
                 setGrandTotalVal = parseFloat(setGrandTotalVal)-parseFloat(oData.amount);
             }
         }
+        
+        
 
         setGrandTotal(setGrandTotalVal);
       }
@@ -426,6 +433,21 @@ useEffect(() => {
   };
 
 
+  const [monthsToShow, setMonthsToShow] = useState(2);
+  
+    useEffect(() => {
+      const updateMonths = () => {
+        if (window.innerWidth < 768) {
+          setMonthsToShow(1); // mobile
+        } else {
+          setMonthsToShow(2); // desktop
+        }
+      };
+  
+      updateMonths(); // run on mount
+      window.addEventListener("resize", updateMonths);
+      return () => window.removeEventListener("resize", updateMonths);
+    }, []);
 
 
   return (
@@ -598,7 +620,8 @@ useEffect(() => {
                                     }
                                     dateFormat="dd/MM/yyyy"
                                     minDate={new Date()}                                   
-                                    monthsShown={2}
+                                    monthsShown={monthsToShow}
+                                    placeholderText='Select Expt. Arrival Date'
                                     />
                                 </div>
                                 <div className="col-md-6 mb-2 mb-lg-3 d-flex flex-column">
@@ -614,7 +637,7 @@ useEffect(() => {
                                     />
                                 </div>
                             </div>
-                            <div className="mb-3 mt-3">
+                            <div className="mb-3 mt-1">
                                 <h5 className="checkout-tile mb-2">User Permission</h5>
                                 <label htmlFor="check-1" className="checkbox align-items-start">
                                     <input type="checkbox" id="check-1" checked />

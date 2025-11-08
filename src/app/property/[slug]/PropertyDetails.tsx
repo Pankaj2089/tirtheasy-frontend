@@ -184,9 +184,9 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
   
   
 return <> 
-<InnerSearch searchAction={searchProperties} loading = {loading}/>
+<InnerSearch searchAction={searchProperties} loading = {loading} pageType="details" onViewTypeChange=""/>
 
-<div className="container">
+{/* <div className="container">
     <div className="breadcrumb-main">
        <nav
         style={
@@ -204,7 +204,7 @@ return <>
         </nav>
     </div>
     <hr className="mb-2"/>
-</div>
+</div> */}
 
 <div className="hotel-detail-main wow fadInUp">
     <div className="container">
@@ -299,13 +299,13 @@ return <>
 
                 { (hotelData.amenities && hotelData.amenities != '')  &&
                     <div className="highlights-section border rounded p-2 pb-0 pb-md-3 p-md-3 mb-2 wow fadeInUp" id="highlights">
-                        <HotelAmenities hotelAmenities={hotelData.amenities} hotelId={hotelData.id}   />
+                        <HotelAmenities hotelAmenities={hotelData.amenities} hotelId={hotelData.id} isMobile={isMobile}   />
                     </div>
                 }
 
                 { (hotelData.facilities && hotelData.facilities != '')  &&
                     <div className="highlights-section border rounded p-2 pb-0 pb-md-3 p-md-3 p-md-3 mb-2 wow fadeInUp" id="facilites">
-                        <HotelFacilities hotelFacilities={hotelData.facilities} hotelId={hotelData.id} hotelFacilitiesList={setHotelFacilitiesList}   />
+                        <HotelFacilities hotelFacilities={hotelData.facilities} hotelId={hotelData.id} hotelFacilitiesList={setHotelFacilitiesList}   isMobile={isMobile}  />
                     </div>
                 }
 
@@ -313,12 +313,12 @@ return <>
                     <div className="high-demand-section d-flex align-items-center justify-content-between rounded py-2 py-md-3 px-2 mb-3">
                     <div className="left-btns-section me-end">
                         {
-                            hotelDetails.slice(0,3).map((hotelDetail:any, index:number) =>(
+                            hotelDetails.slice(0,isMobile ? 3 : 4).map((hotelDetail:any, index:number) =>(
                                 <a onClick={() => OpneDetailsModal('tab-'+index)} className="me-2 white-bg-btn cursor-pointer">{hotelDetail.heading}</a>
                             ))
                         }
                     </div>
-                    <a onClick={() => OpneDetailsModal('tab-0')} className="white-bg-btn view-result cursor-pointer">View More Results</a>
+                    <a onClick={() => OpneDetailsModal('tab-0')} className="white-bg-btn view-result cursor-pointer">See All Roles</a>
                 </div>
                 }
                 

@@ -28,6 +28,6 @@ export default async function BlogPage({ params }: { params: { slug: string } })
  const hotelData = await getBlogData(params.slug); // same fetch used above
   
 return <> 
-    <BlogData hotelData={hotelData} />
+    <BlogData hotelData={hotelData} slug={params.slug} />
 </>;
 }

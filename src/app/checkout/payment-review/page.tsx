@@ -60,7 +60,10 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
             const roomTotalPriceVal:any = parseFloat(res.records.room_price.price)*serData.rooms*totalNights;
             setRoomTotalPrice(roomTotalPriceVal);
             
-            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            let setGrandTotalVal:any = parseFloat(roomTotalPriceVal);
+            if(parseFloat(mattressTotalPriceVal) > 0){
+                setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            }
 
             const offerData = localStorage.getItem('appliedOffer');
             if(offerData){
@@ -87,7 +90,11 @@ export default function PaymentReviewPage({ initialTime = 600 }) {
         const mattressTotalPriceVal:any = parseFloat(record.extra_mattress_price)*searchData.extra_mattress*totalNights;
         setMattressTotalPrice(mattressTotalPriceVal); 
         const roomTotalPriceVal:any = parseFloat(record.room_price.price)*searchData.rooms*totalNights;
-        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+        
+        let setGrandTotalVal:any = parseFloat(roomTotalPriceVal);
+            if(parseFloat(mattressTotalPriceVal) > 0){
+                setGrandTotalVal = parseFloat(roomTotalPriceVal)+parseFloat(mattressTotalPriceVal);
+            }
 
         const offerData = localStorage.getItem('appliedOffer');
         if(offerData){

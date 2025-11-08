@@ -25,6 +25,7 @@ const [otp, setOtp] = useState(Array(6).fill(""));
 const inputRefs = useRef<(InputRef | null)[]>([]);
 const router = useRouter();
 const [otpSent, setOTPSent] = useState(false);
+const [otpSentMessage, setOTPSentMessage] = useState("");
 
 // wait until client side render
   useEffect(() => {
@@ -54,10 +55,12 @@ const [otpSent, setOTPSent] = useState(false);
           if(res.success){
             //toast.success("OTP send successfully.");
             setOTPSent(true);
+            setOTPSentMessage("OTP Send Successfully.");
             setActiveStep(2);
             setTimeout(() => {
               setOTPSent(false);
-            }, 2000);
+              setOTPSentMessage("");
+            }, 3000);
           }else{
             toast.error(res.msg);
           }
@@ -120,10 +123,6 @@ const [otpSent, setOTPSent] = useState(false);
       e.preventDefault();
       if(name == ""){
         toast.error('Please enter your full name');
-      }else if(email == ""){
-        toast.error('Please enter your email address');
-      }else if (!isValidEmail(email)) {
-        toast.error('please enter valid email address');
       }else{
         setVerifyOTPProcessing(true);
         try {
@@ -164,7 +163,12 @@ const [otpSent, setOTPSent] = useState(false);
                 let data = {mobile};
                 const res = await postData('sign-in', data);
                 if(res.success){
-                    toast.success("OTP resend successfully.");
+                    setOTPSent(true);
+                    setOTPSentMessage("OTP Resend Successfully.");
+                    setTimeout(() => {
+                      setOTPSent(false);
+                      setOTPSentMessage("");
+                    }, 3000);
                 }else{
                     toast.error(res.msg);
                 }
@@ -255,7 +259,9 @@ const [otpSent, setOTPSent] = useState(false);
                             <div className="mb-3">
                                 <div className="form-phone text-center">
                                    
-                                      <p className='alert alert-success otp-alert-success'>OTP send successfully.</p>
+                                    { otpSent && 
+                                      <p className='alert alert-success otp-alert-success'>{otpSentMessage}</p>
+                                    }
                                     
                                     
 
@@ -266,24 +272,35 @@ const [otpSent, setOTPSent] = useState(false);
                                <Row gutter={32} justify="center">
                                 {otp.map((ref:any, index) => (
                                         <Col key={index}>
-                                        <Input
+                                          <Input
                                             ref={(el) => {
-                                                if (el) inputRefs.current[index] = el;
+                                              if (el) inputRefs.current[index] = el;
                                             }}
+                                            type="text"
+                                            inputMode="numeric" // opens number pad on mobile
                                             maxLength={1}
-                                            onChange={(e) => handleOTPChange(e, index)}
-                                            style={{
-                                            width: "50px",
-                                            height: "50px",
-                                            textAlign: "center",
-                                            fontSize: "20px",
+                                            onChange={(e) => {
+                                              const value = e.target.value.replace(/[^0-9]/g, ""); // allow only digits
+                                              e.target.value = value;
+                                              handleOTPChange(e, index);
                                             }}
-                                        />
-                                        </Col>
+                                            onKeyPress={(e) => {
+                                              if (!/[0-9]/.test(e.key)) {
+                                                e.preventDefault();
+                                              }
+                                            }}
+                                            style={{
+                                              width: "50px",
+                                              height: "50px",
+                                              textAlign: "center",
+                                              fontSize: "20px",
+                                            }}
+                                          />
+                                      </Col>
                                     ))}
                                     </Row>
                                     <div className="mt-4">
-                                        <span className="read-title">Don’t receive the OTP? <a href="javascript:void(0)" id="ResendOTPBtn" className="prcy-title" onClick={() => otpResend()}>{resendProcessing ? 'Process':'Resend OTP'}</a></span>
+                                        <span className="read-title">Didn’t receive the OTP? <a href="javascript:void(0)" id="ResendOTPBtn" className="prcy-title" onClick={() => otpResend()}>{resendProcessing ? 'Process':'Resend OTP'}</a></span>
                                     </div>
                                  </div>
                                 <div className="mb-3 d-flex align-items-center justify-content-center">

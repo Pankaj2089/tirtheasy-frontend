@@ -237,7 +237,7 @@ const menu = (
 
               <div className="header-end d-flex align-items-center">
 
-                <a className=" cursor-pointer me-3 me-lg-4 cart-icon"><img src="/img/cart.svg"/></a>
+                {/* <a className=" cursor-pointer me-3 me-lg-4 cart-icon"><img src="/img/cart.svg"/></a> */}
 
                 { (userDetails) ?
                 //   <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">

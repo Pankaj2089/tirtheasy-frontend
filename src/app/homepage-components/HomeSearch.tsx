@@ -192,8 +192,8 @@ const today = new Date();
               <div className="input-group search-main-box" ref={searchRef}>
                 <input
                   type="search"
-                  className="form-control search-box"
-                  placeholder="Search"
+                  className="form-control search-box form-control search-box-radius"
+                  placeholder="Search your dharamshala"
                   value={searchData.keywords}
                   onChange={(e) => {
                     const value = e.target.value;

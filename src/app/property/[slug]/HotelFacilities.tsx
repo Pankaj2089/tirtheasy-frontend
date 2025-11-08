@@ -6,7 +6,8 @@ import { Skeleton, Modal, Row, Col  } from 'antd';
 type hotelDataProps = {
   hotelId:any;
   hotelFacilities:any;
-  hotelFacilitiesList:any
+  hotelFacilitiesList:any;
+  isMobile:any
 };
 
 interface HotelFacilityData {
@@ -14,7 +15,7 @@ interface HotelFacilityData {
   icon: string;
 }
 
-export default function HotelFacilities({ hotelId, hotelFacilities, hotelFacilitiesList }: hotelDataProps) {
+export default function HotelFacilities({ hotelId, hotelFacilities, hotelFacilitiesList, isMobile }: hotelDataProps) {
 
     const [records, setData] = useState<HotelFacilityData[]>([]);
     const [showLoader, setShowLoader] = useState(false);  
@@ -43,7 +44,7 @@ export default function HotelFacilities({ hotelId, hotelFacilities, hotelFacilit
       <h5 className="pb-2 d-flex justify-content-between align-items-center">
             <span>Facilities</span>
             { records.length > 5 &&
-                <a className="read-more cursor-pointer" onClick={() => setViewMoreFacilities(true)} >View more</a>
+                <a className="read-more cursor-pointer" onClick={() => setViewMoreFacilities(true)} style={{fontWeight:"400"}}>See all</a>
             }
         </h5>
         <ul>
@@ -63,7 +64,7 @@ export default function HotelFacilities({ hotelId, hotelFacilities, hotelFacilit
               </li>
             </>                    
             }
-            {records.length > 0 && records.slice(0,5).map((record:any, index:number) => (
+            {records.length > 0 && records.slice(0,isMobile ? 6 : 5).map((record:any, index:number) => (
                 <li>
                     <span className="high-icon">
                         <img src={record.icon}/>

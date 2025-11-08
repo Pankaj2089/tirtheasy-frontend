@@ -62,7 +62,7 @@ export default function Home() {
       <Hotels title="Browse Top Hotels" type="hotel"/>
       <Promotions title="Accommodation Promotions" type={2}/>
       <Hotels title="Browse Top Dharmshalas" type="dharmshala"/>
-      <GuestReviews />    
+      {/* <GuestReviews />     */}
     </>
   );
 }

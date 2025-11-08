@@ -109,13 +109,14 @@ export default function Slider() {
           maskClosable={false}
           width={300}
           transitionName=""
+          className="LoadingPopup"
         >
           <p>
             <DotLottieReact
             src="https://lottie.host/70e7865e-43b7-49ba-9616-19b69f5731d4/XTnkhFxdp0.lottie"
             loop
             autoplay
-            style={{ width: "250px" }}
+            style={{ width: "300px" }}
             className='text-center'
             />
           </p>

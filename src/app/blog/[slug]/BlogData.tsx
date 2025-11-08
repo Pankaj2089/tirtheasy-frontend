@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { postData } from '../../utils/api';
+import { getData } from '../../utils/api';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import {toast } from 'react-toastify';
@@ -10,13 +10,46 @@ import Comments from './Comments';
 
 type blogDataProps = {
   hotelData:any;
+  slug:any
 };
 
 
 
-export default function BlogData({ hotelData }: blogDataProps) {
+export default function BlogData({ hotelData, slug }: blogDataProps) {
 
  const [totalBlogComment, setTotalBlogComment] = useState(0);
+
+ useEffect(() => {
+         if (slug) {
+            blogView(slug);
+        }
+    }, [slug]);
+
+    async function blogView(slug: string) {
+  if (!slug) return; // skip if no slug
+
+  try {
+    // 1️⃣ Get existing viewed slugs from localStorage
+    let viewedSlugs = JSON.parse(localStorage.getItem("viewedBlogs") || "[]");
+
+    // 2️⃣ Check if current slug already viewed
+    if (viewedSlugs.includes(slug)) {
+      console.log("Already viewed:", slug);
+      return; // prevent API call
+    }
+
+    // 3️⃣ Call API if not viewed before
+    const res = await getData(`view-blog/${slug}`);
+    console.log("API called for:", slug);
+
+    // 4️⃣ Add slug to localStorage array
+    viewedSlugs.push(slug);
+    localStorage.setItem("viewedBlogs", JSON.stringify(viewedSlugs));
+
+  } catch (err) {
+    console.error("Error viewing blog:", err);
+  }
+}
    
   return (
     <>

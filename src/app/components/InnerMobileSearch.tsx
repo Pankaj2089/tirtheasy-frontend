@@ -198,7 +198,7 @@ const today = new Date();
                <div className="input-group search-main-box" ref={searchRef}>
                   <input onClickCapture={toggleSearchKeywords} 
                   type="search" 
-                  className="form-control search-box" 
+                  className="form-control search-box form-control search-box-radius" 
                   placeholder="Search" 
                   value={searchData.keywords}  
                  onChange={(e) => {

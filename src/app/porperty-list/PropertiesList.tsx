@@ -198,7 +198,7 @@ export default function propertiesList() {
   
 //if (!isLoaded) return <p>Loading Map...</p>;
 return <> 
-<InnerSearch searchAction={searchProperties} loading = {loading}/>
+<InnerSearch searchAction={searchProperties} loading = {loading} pageType={'list'} onViewTypeChange={setViewType}/>
 <div className="popular-destination py-50 pt-0 wow fadeInUp">
   <div className="container">
     <div className="hotel-listing-main">
@@ -292,7 +292,7 @@ return <>
               </div>
           </div>
           <div className="filter-mobile d-block d-lg-none">
-              <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div className="modal fade" id="exampleModal2" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <div className="modal-header">
@@ -438,16 +438,16 @@ return <>
                       <div className="col-md-8">
                         <h5 className="mb-1"><Link href={"/property/" + record.slug}>{record.title}</Link></h5>
                         <p className="location-box d-flex align-items-center"><img src="img/location_pin.svg" className="me-1"/> {record.city}, {record.state}</p>
-
-                        { (record?.facilities_list && record?.facilities_list?.length > 0) &&
                         <div className="benefits-section">
+                        { (record?.facilities_list && record?.facilities_list?.length > 0) &&
+                        
                           <ul className='pro-facilities-list'>
                              {record.facilities_list.slice(0,6).map((facilityRow:any) => (
                               <li><img src="img/gray_tick.svg"/> {facilityRow.title}</li>
                              ))}
                           </ul>
-                        </div>
-                        }
+                        
+                        }</div>
                       </div>
                       <div className="view-details mt-1 d-block d-md-none text-end w-100%">
                         <Link href={"/property/" + record.slug}>View Details</Link>
@@ -479,12 +479,12 @@ return <>
                    
                     <hr className="d-none d-md-block"/>
                     <div className="row align-items-center d-none d-md-flex">
-                       <div className="col-md-7 mb-2 mb-md-0">
-                        {record.price > 0 &&
+                       <div className="col-md-7 mb-2  mt-4 mb-md-0">
+                        {/* {record.price > 0 &&
                           <div className="price-del text-end">
                             <del>Rs.{record.price}</del>
                           </div>
-                        }
+                        } */}
                           <div className="new-price d-flex text-end align-items-center justify-content-end">
                             <p className="me-2">Avg price per night</p>
                             <p className="new-price-big red-text fw-bold">Rs. {record.lowest_price}</p>
@@ -493,7 +493,7 @@ return <>
                           <span className="free-cancel justify-content-end w-100 d-flex">+ {record.cancellation_policy == 2 ?'FREE CANCELLATION' :'NO CANCELLATION'}</span>
                           }
                         </div>
-                        <div className="col-md-5 d-flex flex-column text-end">
+                        <div className="col-md-5  mt-3 d-flex flex-column text-end">
                            <Link href={"/property/" + record.slug} className="btn btn-primary">Check Availability</Link>
                         </div>
                     </div>
@@ -520,9 +520,9 @@ return <>
                <hr className="my-2 d-flex d-md-none"/>
                <div className="row d-flex d-md-none">                
                   <div className="col-6">
-                    <div className="price-del text-end">
+                    {/* <div className="price-del text-end">
                       <del>Rs.{record.price}</del>
-                    </div>
+                    </div> */}
                     <div className="new-price d-flex text-end align-items-center justify-content-end">
                       <p className="new-price-big red-text fw-bold">Rs. {record.lowest_price}</p>
                     </div>

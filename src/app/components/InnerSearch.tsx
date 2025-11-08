@@ -9,8 +9,10 @@ import { FaHome, FaMapMarkerAlt  } from 'react-icons/fa';
 type InnerSearchProps = {
   searchAction: any;
   loading:any;
+  pageType:any;
+  onViewTypeChange:any
 };
-export default function InnerSearch({ searchAction, loading }: InnerSearchProps) {
+export default function InnerSearch({ searchAction, loading , pageType, onViewTypeChange}: InnerSearchProps) {
 
 const defaultStartDate = new Date(); // Today
 const defaultEndDate = new Date();
@@ -19,6 +21,7 @@ defaultEndDate.setDate(defaultEndDate.getDate() + 1); // 7 days from today
 const [startDate, setStartDate] = useState<Date | null>(null);
 const [endDate, setEndDate] = useState<Date | null>(null);
  const [propertyType, setPropertyType] = useState<String | null>('dharmshala');
+const [isMapActive, setIsMapActive] = useState(false);
 const [searchData, setSearchState] = useState({
     keywords: '',
     keywords_type: '',
@@ -36,6 +39,16 @@ const [searchData, setSearchState] = useState({
     }
     
 }, [searchData]);
+
+useEffect(() => {
+  if (isMapActive) {
+    const timer = setTimeout(() => {
+      setIsMapActive(false);
+    }, 3000);
+
+    return () => clearTimeout(timer); // cleanup
+  }
+}, [isMapActive]);
 
 const inputRef = useRef<any>(null);
   const endDateDiv = useRef<any>(null);
@@ -207,7 +220,7 @@ const today = new Date();
                <div className="input-group search-main-box" ref={searchRef}>
                   <input onClickCapture={toggleSearchKeywords} 
                   type="search" 
-                  className="form-control search-box" 
+                  className="form-control search-box form-control search-box-radius" 
                   placeholder="Search your dharamshala" 
                   value={searchData.keywords}  
                   onChange={(e) => {
@@ -385,32 +398,39 @@ const today = new Date();
             <span className="search-title">{searchData.keywords}</span>
             <span className="search-member-date">{startDate ? format(startDate, 'dd MMM') : ''} - {endDate ? format(endDate, 'dd MMM') : ''} <span className="dot"></span> {searchData.adult} Guests</span>
           </div>
-        </div>        
-        <div className="mobile-filter-view d-md-none pb-2">
-            <a href="#" className="map-view-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_871_52)">
-                  <path d="M13.3333 24H18.6667V21.3333H13.3333V24ZM4 8V10.6667H28V8H4ZM8 17.3333H24V14.6667H8V17.3333Z" fill="#696969"/>
-                </g>
-                <defs>
-                  <clipPath id="clip0_871_52">
-                    <rect width="32" height="32" fill="white"/>
-                  </clipPath>
-                </defs>
-              </svg> Filters
-            </a>
-             <div className="select-box-mob">
-              <select className="form-select" aria-label="Default select example" value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
-                <option selected value="">Sort by</option>
-                <option value="best_match"  >Best Match</option>
-                <option value="top_reviewed" >Top Reviewed</option>
-                <option value="lowest_price">Lowest Price First</option>
-                <option value="distance" >Distance</option>
-              </select>
-              
-            </div>
-            <a href="" className="map-view-btn">Map View</a>
-        </div>
+        </div> 
+        {pageType == 'list' &&     
+          <div className="mobile-filter-view d-md-none pb-2">
+              <a href="#" className="map-view-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_871_52)">
+                    <path d="M13.3333 24H18.6667V21.3333H13.3333V24ZM4 8V10.6667H28V8H4ZM8 17.3333H24V14.6667H8V17.3333Z" fill="#696969"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_871_52">
+                      <rect width="32" height="32" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg> Filters
+              </a>
+              <div className="select-box-mob">
+                <select className="form-select" aria-label="Default select example" value={searchData.sortby} onChange={(e) => handleChange('sortby', e.target.value)}>
+                  <option selected value="">Sort by</option>
+                  <option value="best_match"  >Best Match</option>
+                  <option value="top_reviewed" >Top Reviewed</option>
+                  <option value="lowest_price">Lowest Price First</option>
+                  <option value="distance" >Distance</option>
+                </select>
+                
+              </div>
+              <a href="" className={`map-view-btn ${isMapActive ? "active" : ""}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMapActive(!isMapActive);
+                onViewTypeChange("map");
+              }} >Map View</a>
+          </div>
+        }
         
       </div>
   </div>
