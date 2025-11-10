@@ -4,9 +4,19 @@ import { getData } from '../../utils/api';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import {toast } from 'react-toastify';
-import {Button} from "antd";
+import {Button, Space, Tooltip} from "antd";
 import { formatDistanceToNow } from "date-fns";
 import Comments from './Comments';
+import { useMemo } from "react";
+
+import {
+  AiFillYoutube,
+  AiOutlineInstagram,
+  AiFillFacebook,
+  AiOutlineWhatsApp,
+} from "react-icons/ai";
+import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 type blogDataProps = {
   hotelData:any;
@@ -16,6 +26,11 @@ type blogDataProps = {
 
 
 export default function BlogData({ hotelData, slug }: blogDataProps) {
+
+    const blogUrl = typeof window !== "undefined"
+    ? window.location.href
+    : `https://tirtheasy.com/blog/${slug}`;
+  const blogTitle = hotelData?.title || "Blog Post";
 
  const [totalBlogComment, setTotalBlogComment] = useState(0);
 
@@ -50,6 +65,55 @@ export default function BlogData({ hotelData, slug }: blogDataProps) {
     console.error("Error viewing blog:", err);
   }
 }
+
+  const [encodedUrl, setEncodedUrl] = useState("");
+  const [encodedTitle, setEncodedTitle] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Wait for actual client-side URL
+    const timeout = setTimeout(() => {
+      const currentUrl = blogUrl || window.location.href;
+      const title = blogTitle || document.title;
+      setEncodedUrl(encodeURIComponent(currentUrl));
+      setEncodedTitle(encodeURIComponent(title));
+    }, 100); // small delay ensures href is resolved
+
+    return () => clearTimeout(timeout);
+  }, [blogUrl, blogTitle]);
+
+  // ✅ Don’t render icons until URL is ready
+  if (!encodedUrl || !encodedTitle) {
+    return (
+      <Space>
+        <Button
+          icon={<ShareAltOutlined />}
+          shape="round"
+          size="middle"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          Share
+        </Button>
+        <span style={{ opacity: 0.6 }}>Loading share options...</span>
+      </Space>
+    );
+  }
+
+  const shareLinks = {
+    linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedTitle}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+    x: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+  };
+
+  const openLink = (url: string) => {
+    if (!url) return;
+    const popup = window.open(url, "_blank", "noopener,noreferrer,width=600,height=600");
+    if (!popup) {
+      //alert("Please allow pop-ups for this site to share content.");
+    }
+  };
    
   return (
     <>
@@ -98,9 +162,53 @@ export default function BlogData({ hotelData, slug }: blogDataProps) {
                 </div>    
             </div>
 
-            <div className="col-lg-4">
+            <div className="col-lg-4" style={{textAlign:'right'}}>
                 <div className="social-share">
-                    <img src="/img/social_share_icons.svg"/>
+                     <Space size="middle" align="center">
+                        <Button
+                            icon={<ShareAltOutlined />}
+                            shape="round"
+                            size="middle"
+                            style={{ display: "flex", alignItems: "center" }}
+                        >
+                            Share
+                        </Button>
+                        <Tooltip title="LinkedIn">
+                            <FaLinkedinIn
+                            size={28}
+                            color="#0077B5"
+                            onClick={() => encodedUrl && openLink(shareLinks.linkedin)}
+                            style={{ cursor: encodedUrl ? "pointer" : "not-allowed", opacity: encodedUrl ? 1 : 0.5 }}
+                            />
+                        </Tooltip>
+
+                        <Tooltip title="Facebook">
+                            <AiFillFacebook
+                            size={28}
+                            color="#1877F2"
+                            onClick={() => encodedUrl && openLink(shareLinks.facebook)}
+                            style={{ cursor: encodedUrl ? "pointer" : "not-allowed", opacity: encodedUrl ? 1 : 0.5 }}
+                            />
+                        </Tooltip>
+
+                        <Tooltip title="WhatsApp">
+                            <AiOutlineWhatsApp
+                            size={28}
+                            color="#25D366"
+                            onClick={() => encodedUrl && openLink(shareLinks.whatsapp)}
+                            style={{ cursor: encodedUrl ? "pointer" : "not-allowed", opacity: encodedUrl ? 1 : 0.5 }}
+                            />
+                        </Tooltip>
+
+                        <Tooltip title="X (Twitter)">
+                            <FaXTwitter
+                            size={28}
+                            color="#000000"
+                            onClick={() => encodedUrl && openLink(shareLinks.x)}
+                            style={{ cursor: encodedUrl ? "pointer" : "not-allowed", opacity: encodedUrl ? 1 : 0.5 }}
+                            />
+                        </Tooltip>
+                    </Space>
                 </div>
             </div>
         </div>
