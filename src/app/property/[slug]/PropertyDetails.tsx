@@ -22,6 +22,8 @@ import Signin from '@/app/components/Signin';
 import InnerMobileSearch from '@/app/components/InnerMobileSearch';
 import { log } from 'console';
 
+import {Tooltip} from "antd";
+
 type PropertyDetailsProps = {
   hotelData: any;
 };
@@ -168,10 +170,26 @@ export default function PropertyDetails({ hotelData }: PropertyDetailsProps) {
             let postRec: { hotel_id: number} = { hotel_id: hotelData.id}; 
             const res = await postData('manage-my-wishlist', postRec); 
             if(res.success){
-                toast.success(res.message, {
-                    position: "bottom-center",
-                    toastId: "unique_toast", // ✅ same id prevents duplicates
-                });
+                if(res.type == "added"){
+                        toast.success(
+                            <div>
+                                {res.message}
+                                <a href="/my-wishlist" style={{ float: "right", paddingLeft: "50px", color: "#fff", fontSize:"12px", textDecoration: "underline"}} >
+                                    View List
+                                </a>
+                            </div>,
+                            {
+                                position: "bottom-center",
+                                toastId: "unique_toast",
+                            }
+                            );
+                }else{
+                    toast.success(res.message, {
+                        position: "bottom-center",
+                        toastId: "unique_toast", // ✅ same id prevents duplicates
+                    });
+                }
+
                 setIsWishlist(res.record);
             } else{
                 toast.error(res.message);
@@ -220,9 +238,9 @@ return <>
                         {userloggedin ? 
                             <a className="heat-btn cursor-pointer" onClick={unWishlist}>
                                 { is_wishlist ?
-                                    <img src="/img/heart_select.svg"/>
+                                    <Tooltip title="Added to saved list"><img src="/img/heart_select.svg"/></Tooltip>
                                 :
-                                    <img src="/img/heart_liner.svg"/>
+                                    <Tooltip title="Add to your saved list"><img src="/img/heart_liner.svg"/></Tooltip>
                                 }
                             </a>
                         :

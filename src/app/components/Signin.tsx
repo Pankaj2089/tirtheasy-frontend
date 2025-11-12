@@ -26,6 +26,8 @@ const inputRefs = useRef<(InputRef | null)[]>([]);
 const router = useRouter();
 const [otpSent, setOTPSent] = useState(false);
 const [otpSentMessage, setOTPSentMessage] = useState("");
+const [otpSentErrorMessage, setOTPSentErrorMessage] = useState("");
+const [counter, setCounter] = useState(30); // 30 seconds timer
 
 // wait until client side render
   useEffect(() => {
@@ -56,18 +58,27 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
             //toast.success("OTP send successfully.");
             setOTPSent(true);
             setOTPSentMessage("OTP Send Successfully.");
+             setCounter(30);
             setActiveStep(2);
             setTimeout(() => {
               setOTPSent(false);
               setOTPSentMessage("");
             }, 3000);
           }else{
-            toast.error(res.msg);
+            //toast.error(res.msg);
+            setOTPSentErrorMessage(res.msg);
+             setTimeout(() => {
+              setOTPSentErrorMessage("");
+            }, 3000);
           }
           setProcessing(false);
         } catch (err:any) {
-          toast.error(err);
+          //toast.error(err);
           setProcessing(false);
+          setOTPSentErrorMessage(err);
+          setTimeout(() => {
+              setOTPSentErrorMessage("");
+            }, 3000);
         }
       }
     };
@@ -109,12 +120,20 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
                 }
             }
           }else{
-            toast.error(res.msg);
+            //toast.error(res.msg);
+            setOTPSentErrorMessage(res.msg);
+          setTimeout(() => {
+              setOTPSentErrorMessage("");
+            }, 3000);
           }
           setVerifyOTPProcessing(false);
         } catch (err:any) {
-          toast.error(err);
+          //toast.error(err);
           setVerifyOTPProcessing(false);
+          setOTPSentErrorMessage(err);
+          setTimeout(() => {
+              setOTPSentErrorMessage("");
+            }, 3000);
         }
       }
     };
@@ -151,13 +170,28 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
       }
     };
     
+     useEffect(() => {
+    if (counter > 0) {
+      const timer = setTimeout(() => setCounter(counter - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [counter]);
+
+
     const otpResend = async () => {
         if(!resendProcessing){
             if(mobile == ""){
-                toast.error('Please enter your mobile number');
+              setOTPSentErrorMessage('Please enter your mobile number');
+              setTimeout(() => {
+                  setOTPSentErrorMessage("");
+                }, 3000);
             }else if(!isValidMobile(mobile)){
-                toast.error('Please enter valid mobile number');
+                setOTPSentErrorMessage('Please enter valid mobile number');
+              setTimeout(() => {
+                  setOTPSentErrorMessage("");
+                }, 3000);
             }else{
+                setCounter(30);
                 setResendProcessing(true);
                 try {
                 let data = {mobile};
@@ -204,9 +238,22 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
 
     };
 
+    const clearPopup = () => {
+      setActiveStep(1);
+      setMobile("");
+      setOtp(Array(6).fill(""));
+      setName("");
+      setEmail("");
+    }
+
   return (
     <>
-    <div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel">
+    <div className="modal fade" id="exampleModalToggle" 
+    aria-hidden="true" 
+    aria-labelledby="exampleModalToggleLabel"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header align-items-start">
@@ -214,7 +261,7 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
                 <h1 className="modal-title fs-5">Sign in or create an account</h1>
                 <p className="fs-6">Sign up or log in to access amazing deals and benefits!</p>
                 </div>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" onClick={clearPopup} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 
@@ -262,9 +309,9 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
                                     { otpSent && 
                                       <p className='alert alert-success otp-alert-success'>{otpSentMessage}</p>
                                     }
-                                    
-                                    
-
+                                    { otpSentErrorMessage && 
+                                      <p className='alert alert-danger otp-alert-success'>{otpSentErrorMessage}</p>
+                                    }
                                     <a href="javascript:void(0)"  className="edit_mobile text-white fw-bold" onClick={() => setActiveStep(1)}>+91 {mobile} <img src="/img/edit.svg" alt="" />
                                     </a>
                                 </div>
@@ -300,7 +347,21 @@ const [otpSentMessage, setOTPSentMessage] = useState("");
                                     ))}
                                     </Row>
                                     <div className="mt-4">
-                                        <span className="read-title">Didn’t receive the OTP? <a href="javascript:void(0)" id="ResendOTPBtn" className="prcy-title" onClick={() => otpResend()}>{resendProcessing ? 'Process':'Resend OTP'}</a></span>
+                                        <span className="read-title">
+                                      Didn’t receive the OTP?{" "}
+                                      {counter > 0 ? (
+                                        <span className="prcy-title" style={{color:"#156e00"}}>Resend OTP in {counter}s</span>
+                                      ) : (
+                                        <a
+                                          href="javascript:void(0)"
+                                          id="ResendOTPBtn"
+                                          className="prcy-title"
+                                          onClick={otpResend}
+                                        >
+                                          {resendProcessing ? "Processing..." : "Resend OTP"}
+                                        </a>
+                                      )}
+                                    </span>
                                     </div>
                                  </div>
                                 <div className="mb-3 d-flex align-items-center justify-content-center">
