@@ -5,10 +5,7 @@ import { Skeleton } from 'antd';
 import Link from 'next/link';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import dynamic from 'next/dynamic';
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 const options = {
     loop:true,
@@ -98,13 +95,13 @@ export default function Blogs() {
                 <div className="d-flex align-items-center">
                     <div className="title-teg fw-bold">Trending Now</div>
                     <div className="trending-news">
-                            <OwlCarousel {...options} className='most_popular_post'>
+                            <SafeOwlCarousel {...options} className='most_popular_post'>
                             {most_popular_posts.map((most_popular_post: any, index: number) => (
-                                <div>
+                                <div key={index}>
                                     <p>{most_popular_post.title}</p>
                                 </div>
                             ))}
-                        </OwlCarousel>
+                        </SafeOwlCarousel>
                     </div>
                 </div>
             </div>

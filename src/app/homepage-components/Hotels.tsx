@@ -3,12 +3,8 @@ import { useEffect, useState } from 'react';
 import { getData } from '../utils/api';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import dynamic from 'next/dynamic';
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 import Link from 'next/link';
-
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
 
 interface HotelData {
   title: string;
@@ -78,9 +74,9 @@ export default function Hotels({ title, type }: HotelsProps) {
               <h2 className="mb-0">{title}</h2>
             </div>
             <div className="top-hotels-sldier show-nav">
-              <OwlCarousel {...options} key={'hotal'+hotels.length}> 
+              <SafeOwlCarousel {...options} key={'hotal'+hotels.length}> 
               {hotels.map((data, index) => (
-                <div className="item">
+                <div className="item" key={index}>
                   <div className="hotal-detail-box">
                      <Link href={"/property/" + data.slug}  prefetch={false} className="hotel-thumbnail">
                           <img src={data.image} alt={data.title} title={data.title} style={{height:'100%'}} />
@@ -95,7 +91,7 @@ export default function Hotels({ title, type }: HotelsProps) {
                 </div>
                 )
               )}
-            </OwlCarousel>
+            </SafeOwlCarousel>
             </div>
           </div>
         </div>

@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import dynamic from 'next/dynamic';
-
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 
 const options = {
@@ -83,9 +79,9 @@ export default function Facilities() {
           </div>
 
           <div className="facilites-slider-mob  d-block d-lg-none">
-            <OwlCarousel {...options}>
+            <SafeOwlCarousel {...options}>
               {facilities.map((data, index) => (
-                <div className="item">
+                <div className="item" key={index}>
                     <div className="facilites-box">
                     { data.icon_image != '' && data.icon_image != null ? 
                         <img src={data.icon_image} />
@@ -99,7 +95,7 @@ export default function Facilities() {
                 </div>
               )
               )}
-            </OwlCarousel>
+            </SafeOwlCarousel>
           </div>
         </div>
       </div>

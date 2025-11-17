@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-
-import dynamic from 'next/dynamic';
-
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 interface BannerData {
   title: string;
@@ -83,7 +78,7 @@ export default function Promotions({ title, type }: PromotionsProps) {
               <h2 className="mb-0">{title}</h2>
             </div>
             <div className="promotions-sldier show-nav">
-              <OwlCarousel {...options} key={'promotion'+promotions.length}>
+              <SafeOwlCarousel {...options} key={'promotion'+promotions.length}>
                 {promotions.map((data) => (
                     <div className="item" key={data.id}>
                       <a className="promotion-img" href="#">
@@ -92,7 +87,7 @@ export default function Promotions({ title, type }: PromotionsProps) {
                     </div>
                   )
                 )}
-              </OwlCarousel>
+              </SafeOwlCarousel>
             </div>
           </div>
         </div>

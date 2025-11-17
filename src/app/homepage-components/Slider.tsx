@@ -4,15 +4,11 @@ import { getData } from '../utils/api';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import HomeSearch from './HomeSearch';
-import dynamic from 'next/dynamic';
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import '../page.module.css' 
 import { Skeleton, Modal, Spin } from "antd";
-
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
 const options = {
     loop: true,
     margin: 0,
@@ -21,6 +17,19 @@ const options = {
     autoplay: true,
     dots: false,
     autoplayTimeout: 5000,
+    autoplaySpeed: 1000,
+    smartSpeed: 1000,
+    autoplayHoverPause: true,
+    responsive: {
+      0: {
+        autoplaySpeed: 1000,
+        smartSpeed: 1000,
+      },
+      768: {
+        autoplaySpeed: 1000,
+        smartSpeed: 1000,
+      },
+    },
   };
 
   interface BannerData {
@@ -83,7 +92,7 @@ export default function Slider() {
                     <Skeleton.Image active={true} style={{height:'558px', width:'1920px'}}  />
                 </div>
                 :
-                <OwlCarousel {...options}>
+                <SafeOwlCarousel {...options}>
                     {banners.length > 0 &&  banners.map(data => (
                       <>
                         {(data.id > 0) &&
@@ -94,7 +103,7 @@ export default function Slider() {
                       }
                       </>
                     ))}
-                </OwlCarousel>
+                </SafeOwlCarousel>
             }
 
             

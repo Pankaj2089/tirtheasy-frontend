@@ -3,14 +3,8 @@ import { useEffect, useState } from 'react';
 import { postData } from '../utils/api';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
-
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 interface BannerData {
   heading: string;
@@ -92,7 +86,7 @@ export default function Destinations({ title, type }: DestinationsProps) {
           <div className="container-fluid">
             <div className="outside-india-sldier">
               {mounted && (
-                <OwlCarousel {...options} key={'promotionsp'+promotions.length}>
+                <SafeOwlCarousel {...options} key={'promotionsp'+promotions.length}>
                   {promotions.map((data, index) => (
                     <div className="item" key={data.id || index}>
                       <a
@@ -116,7 +110,7 @@ export default function Destinations({ title, type }: DestinationsProps) {
                       </a>
                     </div>
                   ))}
-                </OwlCarousel>
+                </SafeOwlCarousel>
               )}
             </div>
           </div>

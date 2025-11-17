@@ -1,12 +1,9 @@
 
 'use client'
-import dynamic from 'next/dynamic';
+import SafeOwlCarousel from '../components/SafeOwlCarousel';
 
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
 
 const options = {
   loop: true,
@@ -33,7 +30,7 @@ export default function GuestReviews() {
         </div>
 
         <div className="guest_reviews-sldier show-nav">
-          <OwlCarousel {...options} key={'guest-review1'}>
+          <SafeOwlCarousel {...options} key={'guest-review1'}>
             <div className="item">
               <div className="guest-review-content-main">
                 {/* <div className="rating-star d-flex align-items-center mb-2 mb-lg-4">
@@ -100,7 +97,7 @@ export default function GuestReviews() {
                   </div>
               </div>
             </div>
-          </OwlCarousel>
+          </SafeOwlCarousel>
         </div>
       </div>
     </div>
