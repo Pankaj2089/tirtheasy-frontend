@@ -43,6 +43,20 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
 
       }, [promotions.length == 0]); 
 
+       const [isMobile, setpopperPlacement] = useState(false);
+      
+        useEffect(() => {
+           const updateScreen = () => {
+             if (window.innerWidth < 768) {
+               setpopperPlacement(true);
+             } else {
+               setpopperPlacement(false);
+             }
+           };
+           updateScreen(); // run on mount
+           window.addEventListener("resize", updateScreen);
+           return () => window.removeEventListener("resize", updateScreen);
+         }, []);
   return (
     <>
     {(promotions.length > 0 || showLoader)  && 
@@ -57,21 +71,23 @@ export default function PopularDestinations({ title, type }: DestinationsProps) 
             <div className="row">
                {showLoader &&
                   <>
-                    <div className= {` mb-4 col-6`} >
-                     <Skeleton.Image active={true} style={{height:'250px', width:'640px'}}  />
+                    <div className= {`mb-4 col-6`} >
+                     <Skeleton.Input active block style={{ height: isMobile ? "140px" : "250px" }} />
                   </div>
                   <div className= {` mb-4 col-6`} >
-                     <Skeleton.Image active={true} style={{height:'250px', width:'640px'}}  />
+                     <Skeleton.Input active block style={{ height: isMobile ? "140px" : "250px" }} />
                   </div>
-                  <div className= {` mb-4 col-4`} >
-                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  <div className= {!isMobile ? `mb-4 col-4` : 'mb-4 col-6'} >
+                     <Skeleton.Input active block style={{ height: isMobile ? "140px" : "200px" }} />
                   </div>
-                  <div className= {` mb-4 col-4`} >
-                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  <div className= {!isMobile ? `mb-4 col-4` : 'mb-4 col-6'} >
+                     <Skeleton.Input active block style={{ height: isMobile ? "140px" : "200px" }} />
                   </div>
-                  <div className= {` mb-4 col-4`} >
-                     <Skeleton.Image active={true} style={{height:'200px', width:'416px'}}  />
+                  {!isMobile &&
+                  <div className= {!isMobile ? `mb-4 col-4` : 'mb-4 col-6'} >
+                     <Skeleton.Input active block style={{ height: isMobile ? "140px" : "200px" }} />
                   </div>
+                  }
                 </>                    
             }
             {promotions.map((data, index) => (

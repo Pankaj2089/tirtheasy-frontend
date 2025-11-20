@@ -5,7 +5,7 @@ import Promotions from './homepage-components/Promotions';
 import PopularDestinationsOutsideIndia from './homepage-components/PopularDestinationsOutsideIndia';
 import Facilities from './homepage-components/Facilities';
 import Hotels from './homepage-components/Hotels';
-import GuestReviews from './homepage-components/GuestReviews';
+// import GuestReviews from './homepage-components/GuestReviews';
 import { Metadata } from 'next';
 import { getData } from './utils/api';
 import Head from "next/head";
